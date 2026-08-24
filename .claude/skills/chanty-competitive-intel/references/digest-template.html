@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<!--
+  CHANTY COMPETITIVE BRIEFING — digest template.
+
+  HOW TO USE THIS FILE
+  - Copy it, then replace every element marked data-sample with this run's real
+    content. The sample content is there so the structure is unambiguous; none of
+    it is real and none of it may survive into a sent digest.
+  - Delete whole blocks that have no content this run (a competitor with nothing
+    to report, the watchlist note in a non-discovery month). Never ship an empty
+    section with a "nothing here" placeholder inside it — drop the section.
+  - Tokens in {{DOUBLE_BRACES}} are single values to substitute.
+  - This file must stay self-contained: no external CSS, fonts, images or scripts.
+    It is opened from a mail attachment, often offline.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{RUN_TYPE}} Competitive Briefing — {{DATE_RANGE}}</title>
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #f2ebdd;
+    --paper-edge: #e6dcc7;
+    --ink: #23201a;
+    --ink-soft: #5c5648;
+    --ink-faint: #8a8272;
+    --rule: #cec2a8;
+    --stamp: #9b2c2c;
+    --stamp-soft: rgba(155, 44, 44, 0.13);
+    --sticky: #f5e06a;
+    --sticky-edge: #e3cc4e;
+    --accent: #2f5d50;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: "SF Mono", ui-monospace, Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 16px 64px;
+    background: #ddd4c0;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(255,255,255,0.5), transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(120,105,80,0.18), transparent 55%);
+    font-family: var(--sans);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+  }
+  .sheet {
+    max-width: 880px;
+    margin: 0 auto;
+    background: var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(140,125,95,0.035) 0 1px, transparent 1px 3px),
+      radial-gradient(circle at 12% 8%, rgba(255,255,255,0.6), transparent 45%);
+    border: 1px solid var(--paper-edge);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset, 0 18px 44px rgba(60,50,30,0.22);
+    padding: 44px 48px 52px;
+  }
+
+  /* ---------- masthead ---------- */
+  .masthead { border-bottom: 3px double var(--rule); padding-bottom: 18px; margin-bottom: 28px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-faint); margin: 0 0 10px;
+  }
+  .masthead h1 {
+    font-family: var(--serif); font-weight: 600; font-size: 34px; line-height: 1.1;
+    margin: 0 0 12px; letter-spacing: -0.01em;
+  }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 8px 22px;
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft);
+  }
+  .meta span { white-space: nowrap; }
+  .meta b { font-weight: 600; color: var(--ink); }
+
+  /* ---------- section furniture ---------- */
+  section { margin: 34px 0 0; }
+  .section-head {
+    display: flex; align-items: baseline; gap: 12px; clear: both;
+    border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin-bottom: 18px;
+  }
+  .section-head h2 {
+    font-family: var(--serif); font-size: 19px; font-weight: 600; margin: 0;
+    letter-spacing: 0.01em;
+  }
+  .section-head .count {
+    font-family: var(--mono); font-size: 11px; color: var(--ink-faint);
+    margin-left: auto; white-space: nowrap;
+  }
+
+  /* ---------- flagged (big stuff) ---------- */
+  .flag {
+    position: relative; border: 1px solid var(--rule); border-left: 4px solid var(--stamp);
+    background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0.14));
+    padding: 16px 130px 16px 18px; margin-bottom: 14px;
+  }
+  .flag h3 {
+    font-family: var(--serif); font-size: 17px; margin: 0 0 6px; font-weight: 600;
+  }
+  .flag p { margin: 0 0 6px; font-size: 14.5px; }
+  .flag .why { color: var(--ink-soft); }
+  .stamp {
+    position: absolute; top: 14px; right: 14px;
+    transform: rotate(-11deg);
+    border: 2.5px solid var(--stamp); color: var(--stamp); background: var(--stamp-soft);
+    border-radius: 3px; padding: 3px 9px;
+    font-family: var(--mono); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    opacity: 0.86;
+  }
+  .stamp.unconfirmed { --stamp: #8a6d1f; border-color: #8a6d1f; color: #8a6d1f; background: rgba(138,109,31,0.12); }
+  .flag.is-unconfirmed { border-left-color: #8a6d1f; }
+  .src {
+    font-family: var(--mono); font-size: 11px; color: var(--ink-faint);
+    display: block; margin-top: 8px; word-break: break-word;
+  }
+  .src a { color: var(--accent); text-decoration: none; border-bottom: 1px dotted var(--accent); }
+
+  /* ---------- competitor tabs ---------- */
+  .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .tab {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em;
+    padding: 6px 12px; border: 1px solid var(--rule); border-bottom-color: transparent;
+    background: rgba(255,255,255,0.34); color: var(--ink-soft);
+    cursor: pointer; border-radius: 3px 3px 0 0;
+  }
+  .tab[aria-selected="true"] { background: var(--paper); color: var(--ink); font-weight: 700; box-shadow: 0 -2px 0 var(--accent) inset; }
+  /* No-JS / print: every competitor block stays visible. JS adds .tabbed to enable filtering. */
+  .tabs { display: none; }
+  .tabbed .tabs { display: flex; }
+  .tabbed .comp[hidden] { display: none; }
+
+  .comp { margin-bottom: 22px; }
+  .comp h3 {
+    font-family: var(--serif); font-size: 16px; margin: 0 0 4px;
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .comp h3 .tier {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+    color: var(--ink-faint); text-transform: uppercase; border: 1px solid var(--rule);
+    padding: 1px 6px; border-radius: 2px;
+  }
+  .comp ul { margin: 8px 0 0; padding-left: 18px; }
+  .comp li { margin-bottom: 10px; font-size: 14.5px; }
+  .kind {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--stamp); margin-right: 6px;
+  }
+  .kind.feature { color: var(--accent); }
+
+  /* ---------- chanty house note ---------- */
+  .house {
+    clear: both;
+    border: 1px solid var(--accent); border-left: 4px solid var(--accent);
+    background: rgba(47,93,80,0.06); padding: 14px 18px;
+  }
+  .house h2 { font-family: var(--serif); font-size: 17px; margin: 0 0 8px; }
+  .house p { margin: 0 0 8px; font-size: 14.5px; }
+
+  /* ---------- sticky watchlist ---------- */
+  .sticky {
+    position: relative; float: right; width: 260px; margin: 6px 0 18px 26px;
+    background: var(--sticky); border: 1px solid var(--sticky-edge);
+    padding: 16px 18px 18px; transform: rotate(1.6deg);
+    box-shadow: 3px 6px 14px rgba(60,50,30,0.26);
+  }
+  .sticky::before {
+    content: ""; position: absolute; top: -9px; left: 50%; margin-left: -32px;
+    width: 64px; height: 18px; background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(140,125,95,0.25); transform: rotate(-2deg);
+  }
+  .sticky h4 {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    margin: 0 0 8px; color: #6b5a12;
+  }
+  .sticky ul { margin: 0; padding-left: 16px; }
+  .sticky li { font-size: 13px; margin-bottom: 7px; line-height: 1.4; }
+
+  /* ---------- footer ---------- */
+  .colophon {
+    clear: both; margin-top: 40px; border-top: 1px solid var(--rule); padding-top: 14px;
+    font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.6;
+  }
+  .caveat { color: #8a6d1f; }
+
+  @media (max-width: 640px) {
+    .sheet { padding: 28px 22px 34px; }
+    .masthead h1 { font-size: 26px; }
+    .flag { padding: 14px 16px 14px; }
+    .stamp { position: static; display: inline-block; margin: 0 0 8px; transform: rotate(-3deg); }
+    .sticky { float: none; width: auto; margin: 18px 0; transform: none; }
+  }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; border: none; max-width: none; padding: 0; }
+    .tabs { display: none !important; }
+    .comp[hidden] { display: block !important; }
+    .stamp { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="masthead">
+    <p class="eyebrow">Chanty · Competitive Intelligence</p>
+    <h1>{{RUN_TYPE}} Competitive Briefing</h1>
+    <div class="meta">
+      <span><b>Window</b> {{DATE_RANGE}}</span>
+      <span><b>Compiled</b> {{COMPILED_DATE}}</span>
+      <span><b>Flags</b> {{FLAG_COUNT}}</span>
+      <span><b>Competitors moving</b> {{COMPETITOR_COUNT}}</span>
+    </div>
+  </header>
+
+  <!-- ============ BIG STUFF. Omit this whole <section> when nothing scored 4+. ============ -->
+  <section id="flagged">
+    <div class="section-head">
+      <h2>Big Stuff</h2>
+      <span class="count">scored 4+ on the signal rubric</span>
+    </div>
+
+    <!-- REPEAT: one .flag per flagged item -->
+    <article class="flag" data-sample>
+      <span class="stamp">Flagged</span>
+      <h3>Sample Competitor — pricing change</h3>
+      <p>One sentence on what actually happened, with the numbers in it.</p>
+      <p class="why">One sentence on why it changes a Chanty sales conversation.</p>
+      <span class="src">Primary source · <a href="#">vendor.com/pricing</a> · Aug 12, 2026</span>
+    </article>
+
+    <!-- Unconfirmed variant: use when the item is worth knowing but fails the two-source rule. -->
+    <article class="flag is-unconfirmed" data-sample>
+      <span class="stamp unconfirmed">Unconfirmed</span>
+      <h3>Sample Competitor — reported layoffs</h3>
+      <p>What is being claimed, attributed to who is claiming it.</p>
+      <p class="why">Single source. Do not use in a sales conversation until corroborated.</p>
+      <span class="src">Single secondary source · <a href="#">example.com/post</a> · Aug 14, 2026</span>
+    </article>
+  </section>
+
+  <!-- ============ COMPLAINTS, grouped by competitor ============ -->
+  <section id="complaints">
+    <div class="section-head">
+      <h2>Where they're weak</h2>
+      <span class="count">reviews and threads inside the window</span>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <!-- REPEAT: one .tab per competitor block below, plus the All tab. -->
+      <button class="tab" role="tab" aria-selected="true" data-target="all">All</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="sample-competitor" data-sample>Sample Competitor</button>
+    </div>
+
+  <!-- ============ WATCHLIST STICKY. Discovery-month runs only — otherwise delete. ============ -->
+  <aside class="sticky" data-sample>
+    <h4>New to watchlist</h4>
+    <ul>
+      <li><b>Sample Tool</b> — surfaced in G2 alternatives and r/projectmanagement. Chat plus tasks, undercuts on price.</li>
+      <li><b>Another Tool</b> — surfaced in Capterra and web search. Self-hosted Slack alternative.</li>
+      <li><i>Dormant:</i> Old Tool — three passes, no appearances.</li>
+    </ul>
+  </aside>
+
+    <!-- REPEAT: one .comp per competitor with something to report. Drop competitors with nothing. -->
+    <div class="comp" id="sample-competitor" data-sample>
+      <h3>Sample Competitor <span class="tier">Tier 1</span></h3>
+      <ul>
+        <li>
+          <span class="kind">Pricing</span>
+          The complaint in one or two sentences, leading with the substance rather than the source.
+          <span class="src">G2 · Aug 15, 2026 · <a href="#">g2.com/products/sample/reviews</a></span>
+        </li>
+        <li>
+          <span class="kind feature">Feature</span>
+          What is missing, broken, or works differently than people expect.
+          <span class="src">r/projectmanagement · Aug 17, 2026 · <a href="#">reddit.com/…</a></span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ CHANTY. Keep even when empty — say so in one line. ============ -->
+  <section class="house" id="chanty">
+    <h2>Chanty mentions</h2>
+    <p data-sample>What was said, where, in one or two sentences.</p>
+    <span class="src" data-sample>Capterra · Aug 18, 2026 · <a href="#">capterra.com/…</a></span>
+  </section>
+
+  <footer class="colophon">
+    <div>Window {{DATE_RANGE}} · Sources: {{SOURCES_USED}}</div>
+    <div>{{PRICING_SNAPSHOT}}</div>
+    <div class="caveat">{{CAVEATS}}</div>
+  </footer>
+
+</div>
+
+<script>
+// Tabs are progressive enhancement: without JS every competitor block stays visible.
+(function () {
+  var root = document.querySelector('.sheet');
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var comps = Array.prototype.slice.call(document.querySelectorAll('.comp'));
+  if (!tabs.length || !comps.length) return;
+  root.classList.add('tabbed');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var target = tab.getAttribute('data-target');
+      tabs.forEach(function (t) { t.setAttribute('aria-selected', String(t === tab)); });
+      comps.forEach(function (c) { c.hidden = !(target === 'all' || c.id === target); });
+    });
+  });
+})();
+</script>
+</body>
+</html>

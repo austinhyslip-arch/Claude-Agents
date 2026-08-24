@@ -3,33 +3,36 @@
 ## How the agent gets invoked
 
 - **On-demand:** ask for a competitive check in any session where this repo is checked out
-  ("run a competitive check on the last 24 hours"). The skill loads from
-  `.claude/skills/chanty-competitive-intel/`.
-- **Weekly:** a scheduled Routine fires every Monday and runs the same skill in a fresh
-  session. The Routine prompt has to be standalone — a fresh session starts with no
-  context — so it should read roughly:
+  ("run a competitive check on the last 24 hours"). Daily is fine.
+- **Weekly:** a Routine fires Monday mornings and runs the same skill in a fresh session.
 
-  > Run the Chanty competitive intelligence weekly digest. Read
-  > `.claude/skills/chanty-competitive-intel/SKILL.md` in the corgi-comms repo and follow
-  > it end to end for the prior 7 days. Include the monthly discovery pass if this run is
-  > the digest closest to the 1st. Email the result to austinhyslip@gmail.com and commit
-  > the updated state files.
+### The Routine
 
-  Suggested schedule: Mondays 13:00 UTC (`0 13 * * 1`), which is 9am ET / 6am PT.
+- Trigger id: `trig_01Dk5VV4fWtEDQ2A2thm2Erc` ("Chanty Weekly Competitive Digest")
+- Schedule: `0 13 * * 1` UTC = **08:00 Monday, America/Chicago**, correct while Central is
+  on CDT.
+- **Must change to `0 14 * * 1` on Nov 1, 2026**, when Central returns to CST, and back to
+  `0 13 * * 1` on Mar 14, 2027. Claude Code Routines take UTC cron only, so this cannot be
+  set once and forgotten. Each weekly run checks its own firing time against 08:00 Central
+  and reports drift rather than silently running an hour off.
+- Fires a fresh session each week, so its prompt is standalone: it attaches this repo,
+  reads `SKILL.md`, and follows it end to end.
 
-## Dependencies this agent needs at run time
+## Dependencies at run time
 
-| Dependency | Status as of this commit | Notes |
+| Dependency | Status | Notes |
 |---|---|---|
-| Gmail send | **Connector installed but not enabled in-session** | Must be enabled for the session (or Routine) that runs the digest, or step 7 falls back to writing the digest to a file. |
+| Gmail send | Verified working (test send Aug 21, 2026) | The connector must be enabled for the session or Routine that runs the digest. |
+| Gmail **attachments** | **Unverified** | The whole digest design assumes the HTML goes out as an attachment. If the Gmail tool in the session has no attachment parameter, `references/digest-format.md` defines the fallback chain: Google Drive link, then inline plain text. Worth confirming once before relying on a Monday send. |
+| Google Drive | Connector available | Fallback host for the HTML file when attachments are unavailable. |
 | Web search | Available | Primary gathering tool. |
-| Direct page fetch | **Blocked by network egress policy in the current remote environment** | `slack.com`, `clickup.com`, `notion.com`, `basecamp.com` and others were refused. Where direct fetch is blocked, pricing and changelog checks fall back to search results, which is weaker for exact price diffs — run the digest in an environment with open egress if pricing accuracy matters. |
-| `research` skill | Not installed here | The workflow in SKILL.md is self-contained; if `research` is installed it can do the source gathering in step 2-4. |
-| `outbound-triggers-6`, `outreach-4-categories` | Not installed here | `references/signal-rubric.md` carries a standalone version of the scoring. |
+| Direct page fetch | **Blocked in the remote environment used so far** | `slack.com`, `clickup.com`, `notion.com`, `basecamp.com`, `g2.com` and `capterra.com` were all refused by the network egress policy. That guts two things the spec asks for: pricing verified against the live page, and G2/Capterra review harvesting. Run the weekly somewhere with open egress, or expect the pricing section to stay secondary-sourced and the feature-complaint section to stay thin. |
+| `research` skill | Not installed | The workflow is self-contained; the skill is used for gathering when present. |
+| `outbound-triggers-6`, `outreach-4-categories` | Not installed | `references/signal-rubric.md` carries a standalone version of the scoring. |
 | Attio | Not used | By design. This agent writes no CRM records. |
 
 ## State and git
 
-`state/run-log.md` and `state/tier3-candidates.md` are the agent's memory. They only work
-if each run commits its updates — a run that emails the digest but leaves state uncommitted
-will re-report the same items next week.
+`state/run-log.md`, `state/tier3-candidates.md` and `state/digests/` are the agent's memory
+and archive. They only work if each run commits its updates — a run that sends the digest
+but leaves state uncommitted will re-report the same items next week.
