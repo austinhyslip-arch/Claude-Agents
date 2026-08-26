@@ -23,9 +23,9 @@ preserves the design when Austin opens it in a browser.
 | `{{COMPILED_DATE}}` | The run date |
 | `{{FLAG_COUNT}}` | Number of Big Stuff items, or `none` |
 | `{{COMPETITOR_COUNT}}` | How many competitors have anything this run |
-| `{{SOURCES_USED}}` | The sources actually worked this run — not the aspirational list |
+| `{{SOURCES_USED}}` | The sources actually worked this run — not the aspirational list. Add `Google Trends` and `Custom Search` only when they returned data. |
 | `{{PRICING_SNAPSHOT}}` | Tier 1 + Tier 2 per-seat prices, for diffing next week |
-| `{{CAVEATS}}` | Anything unreachable, unverified, or thin. Empty string if genuinely clean. |
+| `{{CAVEATS}}` | Anything unreachable, unverified, or thin — including a search-demand source that failed for the whole run. Empty string if genuinely clean. |
 
 Block-level rules:
 
@@ -43,6 +43,12 @@ Block-level rules:
   `.comp` id. Tabs are progressive enhancement: with JS off, every block stays visible.
 - **`.sticky`** — the watchlist note. Discovery-month runs only; delete it otherwise.
   New Tier 3 promotions, and any names moved to dormant.
+- **`#search-demand`** — Search Demand Signals, weekly runs only. Do not hand-write it:
+  run `scripts/search_demand.py` and paste `state/search-demand/<week>.section.html` in
+  whole, after `#complaints` and before `#chanty`. One `.sd-row` per term, coloured by
+  tier (`sd-t1`…`sd-t4`), capped at 12 rows so the section stays one screen. Terms with
+  nothing to report are already dropped by the script — do not add them back. Omit the
+  whole section when the fragment comes back empty. Rules in `search-demand.md`.
 - **`.house`** — Chanty mentions. Keep this section even when empty; one line saying no
   mentions turned up is a real finding.
 

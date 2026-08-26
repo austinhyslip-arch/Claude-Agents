@@ -1,0 +1,75 @@
+{
+  "_comment": [
+    "Search term taxonomy for the Search Demand Signals section of the weekly digest.",
+    "Terms are generated from templates so a new competitor set is a config edit, not a code edit.",
+    "Placeholders: {target} full product name, {short} the way people actually type it,",
+    "{vs} expands once per entry in the set's `vs` list, {year} the current year.",
+    "scope: 'set' = rendered once per enabled set. 'global' = rendered once total.",
+    "Set `enabled: false` to keep a set defined but out of the weekly pull."
+  ],
+  "chanty_domains": ["chanty.com", "www.chanty.com"],
+  "geo": "US",
+  "timeframe": "today 3-m",
+  "serp_depth": 10,
+  "sets": [
+    {
+      "id": "slack",
+      "label": "Slack",
+      "target": "slack",
+      "short": "slack",
+      "enabled": true,
+      "vs": ["chanty", "microsoft teams", "discord", "google chat"]
+    },
+    {
+      "id": "teams",
+      "label": "Microsoft Teams",
+      "target": "microsoft teams",
+      "short": "teams",
+      "enabled": true,
+      "vs": ["chanty", "slack", "google chat", "zoom"]
+    },
+    {
+      "id": "google_chat",
+      "label": "Google Chat",
+      "target": "google chat",
+      "short": "google chat",
+      "enabled": false,
+      "vs": ["chanty", "slack", "microsoft teams"]
+    }
+  ],
+  "tiers": {
+    "1": {
+      "name": "Active switching intent",
+      "templates": [
+        { "scope": "set", "pattern": "{target} alternatives" },
+        { "scope": "set", "pattern": "alternative to {short}" },
+        { "scope": "set", "pattern": "{short} vs {vs}" }
+      ]
+    },
+    "2": {
+      "name": "Price sensitivity",
+      "templates": [
+        { "scope": "set", "pattern": "cheaper than {short}" },
+        { "scope": "set", "pattern": "{short} pricing too expensive" },
+        { "scope": "set", "pattern": "free alternative to {short}" },
+        { "scope": "set", "pattern": "{short} alternative small business" }
+      ]
+    },
+    "3": {
+      "name": "Comparison and evaluation",
+      "templates": [
+        { "scope": "set", "pattern": "what's better than {short}" },
+        { "scope": "set", "pattern": "best {short} alternative for small teams" },
+        { "scope": "global", "pattern": "best team chat app {year}" }
+      ]
+    },
+    "4": {
+      "name": "Brand tracking",
+      "templates": [
+        { "scope": "set", "pattern": "chanty vs {short}" },
+        { "scope": "global", "pattern": "chanty reviews" },
+        { "scope": "global", "pattern": "is chanty good" }
+      ]
+    }
+  }
+}

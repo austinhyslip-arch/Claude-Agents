@@ -1,6 +1,6 @@
 ---
 name: chanty-competitive-intel
-description: Competitive monitoring for Chanty across team chat, task management, and combined-workspace tools. Use for the Monday weekly competitive digest, an on-demand competitive check ("run a competitive check", "what has Slack shipped this week", "anything new from Monday.com"), or the monthly Tier 3 discovery pass. Gathers pricing changes, launches, funding, acquisitions, outages, leadership changes and layoffs, plus recurring pricing and feature complaints from G2, Capterra, Reddit, Hacker News, changelogs and pricing pages, builds the briefing as a styled HTML file, and emails it to austinhyslip@gmail.com as an attachment. Does not write to Attio.
+description: Competitive monitoring for Chanty across team chat, task management, and combined-workspace tools. Use for the Monday weekly competitive digest, an on-demand competitive check ("run a competitive check", "what has Slack shipped this week", "anything new from Monday.com"), or the monthly Tier 3 discovery pass. Gathers pricing changes, launches, funding, acquisitions, outages, leadership changes and layoffs, plus recurring pricing and feature complaints from G2, Capterra, Reddit, Hacker News, changelogs and pricing pages, tracks weekly search demand for switching-intent terms (Slack/Teams alternatives, pricing complaints) with Google Trends and the Custom Search API, builds the briefing as a styled HTML file, and emails it to austinhyslip@gmail.com as an attachment. Does not write to Attio.
 ---
 
 # Chanty Competitive Intelligence
@@ -67,24 +67,38 @@ hard seat minimum, a removed feature).
 Search for Chanty across the same sources. Report praise, criticism, and any head-to-head
 comparison. If nothing turns up, say so in one line — do not pad it.
 
-### 5. Discovery pass (monthly)
+### 5. Search demand signals — weekly runs
+Run the switching-intent pull, per `references/search-demand.md`:
+
+```bash
+python3 scripts/search_demand.py
+```
+
+It writes `state/search-demand/<week>.section.html` — paste that fragment whole into the
+digest at `#search-demand` — plus a full snapshot, the SERP history, and gap findings in
+`.claude/shared/content-gaps.json` for the content idea agent. It never raises into the
+build: a dead source becomes a visible gap in a row. Read its stderr and carry any
+whole-source failure into `{{CAVEATS}}`. Skip this step on on-demand runs; the data does
+not move fast enough to be worth a second pull inside a week.
+
+### 6. Discovery pass (monthly)
 Run the four discovery queries in `references/sources.md` across G2, Capterra and general
 web search. Any product name appearing in **two or more distinct sources** is added to Tier
 3 in `state/tier3-candidates.md` with its first-seen date and the sources that surfaced it.
 Names already tracked get their last-seen date refreshed. A tracked name with no appearances
 across three consecutive passes moves to `dormant` — keep the row, stop searching it.
 
-### 6. Score
+### 7. Score
 Apply `references/signal-rubric.md` to separate Big Stuff from noise. Report at 4+.
 
-### 7. Build the briefing
+### 8. Build the briefing
 Build the HTML file from `references/digest-template.html` following
 `references/digest-format.md`. Save it to `state/digests/chanty-competitive-briefing-YYYY-MM-DD.html`.
 
 Before sending, verify the file: no `{{TOKENS}}` left unsubstituted, no `data-sample`
 elements surviving, no empty sections, every item carrying a source link and date.
 
-### 8. Send
+### 9. Send
 Email **austinhyslip@gmail.com** with the HTML file **attached** and a short body — one
 line on what is attached, plus the Big Stuff headlines as bullets when there are any.
 Subject line per `references/digest-format.md`.
@@ -94,10 +108,12 @@ this design depends on. If the session's Gmail tool cannot attach a file, follow
 fallback chain in `digest-format.md` — Drive link first, inline plain text second — and say
 in the body which path was used and why.
 
-### 9. Update state
+### 10. Update state
 Append this run to `state/run-log.md`: window, every Big Stuff item with its URL, the
-pricing snapshot, the send path used, and the digest filename. Commit the run log, the
-digest file, and any Tier 3 changes. The run log is what stops the next run from
+pricing snapshot, the search-demand line (terms pulled, terms shown, any source that
+failed), the send path used, and the digest filename. Commit the run log, the
+digest file, the search-demand snapshot and cache, the SERP history, the shared content-gap
+file, and any Tier 3 changes. The run log is what stops the next run from
 re-reporting the same acquisition three weeks running.
 
 ## Rules that keep the digest trustworthy
@@ -115,6 +131,9 @@ re-reporting the same acquisition three weeks running.
   escalated (rumor → confirmed, price floated → price live).
 - **Quote fragments, don't paste reviews.** Twenty words max from any single review.
 - **"Users report" and "Slack announced" are different claims.** Keep them different.
+- **A missing search-demand source is stated, never hidden.** "Trends data unavailable
+  this week" in a row is a working digest; a row quietly dropped because the pull failed
+  is not.
 - **Never contact a competitor, sign up under false pretenses, or scrape behind a login.**
 
 ## Adapting the outbound scoring logic
@@ -132,7 +151,14 @@ inventing a parallel one. `references/signal-rubric.md` is the standalone fallba
 - `references/signal-rubric.md` — Big Stuff vs. noise scoring
 - `references/digest-format.md` — how the HTML file is filled, subject lines, email body,
   and the send fallback chain
+- `references/search-demand.md` — the Search Demand Signals section: taxonomy, sources,
+  what earns a row, failure behaviour, and the content-gap handoff
+- `references/search-terms.json` — the search term taxonomy, tiered and templated
 - `references/digest-template.html` — the briefing template itself
 - `state/tier3-candidates.md` — live Tier 3 list, maintained by the discovery pass
 - `state/run-log.md` — what has already been reported
 - `state/digests/` — every briefing this agent has produced
+- `state/search-demand/` — weekly search-demand snapshots and HTML fragments
+- `state/serp-history.jsonl` — SERP results by term and week, for the long view
+- `scripts/` — the search-demand pipeline and its offline self-test
+- `../../shared/content-gaps.json` — gap findings handed to the content idea agent

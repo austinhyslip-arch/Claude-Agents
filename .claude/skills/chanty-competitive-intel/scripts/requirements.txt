@@ -1,0 +1,11 @@
+# Search Demand Signals — install before the first weekly run.
+#   python3 -m pip install -r scripts/requirements.txt
+#
+# pytrends is unofficial and pinned loosely on purpose: when Google changes the trends
+# backend, the fix arrives as a pytrends release, and upgrading is the first thing to try
+# when every term starts returning nothing.
+pytrends>=4.9.2
+requests>=2.31
+# pandas arrives as a pytrends dependency; named here because trends_client reads the
+# DataFrame it returns.
+pandas>=2.0

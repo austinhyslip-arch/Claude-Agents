@@ -18,6 +18,20 @@
 - Fires a fresh session each week, so its prompt is standalone: it attaches this repo,
   reads `SKILL.md`, and follows it end to end.
 
+## Search demand signals
+
+`references/search-demand.md` is the sub-spec: taxonomy, sources, what earns a row, and the
+handoff to the content idea agent. Two things to know before the first run:
+
+- The Google Chat keyword set ships **defined but disabled** in `references/search-terms.json`.
+  Flip `"enabled": true` once a weekly run has come back clean.
+- The content idea agent reads `.claude/shared/content-gaps.json`. That agent does not exist
+  in this repo yet; the file and its contract (`.claude/shared/README.md`) are written
+  regardless, so the data is already accumulating when it arrives.
+
+Run `python3 scripts/selftest.py` after touching anything in `scripts/` — it exercises the
+whole pipeline against fixtures, offline, in about a second.
+
 ## Dependencies at run time
 
 | Dependency | Status | Notes |
@@ -27,12 +41,17 @@
 | Google Drive | Connector available | Fallback host for the HTML file when attachments are unavailable. |
 | Web search | Available | Primary gathering tool. |
 | Direct page fetch | **Blocked in the remote environment used so far** | `slack.com`, `clickup.com`, `notion.com`, `basecamp.com`, `g2.com` and `capterra.com` were all refused by the network egress policy. That guts two things the spec asks for: pricing verified against the live page, and G2/Capterra review harvesting. Run the weekly somewhere with open egress, or expect the pricing section to stay secondary-sourced and the feature-complaint section to stay thin. |
+| `pytrends` | **Install before the first weekly run** | `python3 -m pip install -r scripts/requirements.txt`. Unofficial library; expect it to break when Google changes the trends backend. Upgrading pytrends is the first fix to try. Its failures degrade one digest row, never the build. |
+| Google Custom Search API | Key required | `GOOGLE_CSE_API_KEY` and `GOOGLE_CSE_CX` in the environment — the same credentials social listening uses. Without them every search-demand row ships as a visible gap. Free tier is 100 queries/day; a weekly run is 29. |
 | `research` skill | Not installed | The workflow is self-contained; the skill is used for gathering when present. |
 | `outbound-triggers-6`, `outreach-4-categories` | Not installed | `references/signal-rubric.md` carries a standalone version of the scoring. |
 | Attio | Not used | By design. This agent writes no CRM records. |
 
 ## State and git
 
-`state/run-log.md`, `state/tier3-candidates.md` and `state/digests/` are the agent's memory
-and archive. They only work if each run commits its updates — a run that sends the digest
+`state/run-log.md`, `state/tier3-candidates.md`, `state/digests/`, `state/search-demand/`,
+`state/search-demand-cache.json` and `state/serp-history.jsonl` are the agent's memory and
+archive. The cache is what gives the trend arrows something to compare against — a run that
+doesn't commit it starts cold the following week and falls back to the in-series
+comparison. They only work if each run commits its updates — a run that sends the digest
 but leaves state uncommitted will re-report the same items next week.
