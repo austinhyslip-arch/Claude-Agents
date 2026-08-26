@@ -23,6 +23,7 @@ ENDPOINT = "https://www.googleapis.com/customsearch/v1"
 DEFAULT_DELAY = 1.0
 DEFAULT_MAX_RETRIES = 3
 DEFAULT_BACKOFF = 4.0
+DEFAULT_FAILURE_LIMIT = 3    # consecutive dead terms before the source is given up on
 
 
 @dataclass
@@ -62,6 +63,7 @@ class SerpClient:
         delay: float = DEFAULT_DELAY,
         max_retries: int = DEFAULT_MAX_RETRIES,
         backoff: float = DEFAULT_BACKOFF,
+        failure_limit: int = DEFAULT_FAILURE_LIMIT,
         geo: str = "US",
     ) -> None:
         self.api_key = api_key or os.environ.get("GOOGLE_CSE_API_KEY", "")
@@ -70,11 +72,32 @@ class SerpClient:
         self.delay = delay
         self.max_retries = max_retries
         self.backoff = backoff
+        self.failure_limit = failure_limit
         self.geo = geo
+        self._dead = ""
+        self._consecutive_failures = 0
 
     @property
     def configured(self) -> bool:
         return bool(self.api_key and self.cx)
+
+    @property
+    def dead(self) -> str:
+        """Non-empty once the source has been given up on for this run.
+
+        A quota wall or a revoked key fails every remaining term identically; burning the
+        retry budget on all of them just makes the run slower.
+        """
+        if not self.configured:
+            return "GOOGLE_CSE_API_KEY / GOOGLE_CSE_CX not set"
+        return self._dead
+
+    def _failed(self, reason: str) -> str:
+        self._consecutive_failures += 1
+        if self._consecutive_failures >= self.failure_limit:
+            self._dead = (f"Custom Search unreachable for this run "
+                          f"({self._consecutive_failures} terms failed): {reason}")
+        return reason
 
     def fetch(self, query: str) -> list[dict]:
         """Raw API call. Overridden in the self-test to run the pipeline offline."""
@@ -99,8 +122,8 @@ class SerpClient:
     def search(self, query: str) -> SerpResult:
         """One term's SERP, never raising."""
         result = SerpResult(query=query)
-        if not self.configured:
-            result.reason = "GOOGLE_CSE_API_KEY / GOOGLE_CSE_CX not set"
+        if self.dead:
+            result.reason = self.dead
             return result
 
         last_error = ""
@@ -112,9 +135,10 @@ class SerpClient:
                 if attempt < self.max_retries:
                     time.sleep(self.backoff * (2 ** (attempt - 1)) + random.uniform(0, 1))
                     continue
-                result.reason = last_error
+                result.reason = self._failed(last_error)
                 return result
 
+            self._consecutive_failures = 0
             result.ok = True
             result.results = [
                 {
@@ -130,7 +154,7 @@ class SerpClient:
                 result.reason = "no results returned"
             return result
 
-        result.reason = last_error or "unknown failure"
+        result.reason = self._failed(last_error or "unknown failure")
         return result
 
     def sleep_between(self) -> None:

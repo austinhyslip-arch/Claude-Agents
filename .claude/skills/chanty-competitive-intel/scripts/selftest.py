@@ -84,6 +84,18 @@ def fixture_terms(config):
     ]
 
 
+class BlockedTrends(FakeTrends):
+    """Every term fails identically — a blocked host or a rate-limit wall."""
+
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.attempts = 0
+
+    def fetch_series(self, query):
+        self.attempts += 1
+        raise RuntimeError("HTTP 403: policy denial")
+
+
 def check(label, condition, detail=""):
     status = "ok  " if condition else "FAIL"
     print(f"  [{status}] {label}" + (f" — {detail}" if detail and not condition else ""))
@@ -181,6 +193,33 @@ def main() -> int:
                         "Search Demand Signals" in section3 and "sd-ranks" in section3)
         passed &= check("no arrows claimed when trends is off",
                         'class="sd-arrow up"' not in section3)
+
+        print("circuit breaker — a source that is down for everything")
+        args.week, args.no_trends, args.max_rows = "2026-09-14", False, 12
+        blocked = BlockedTrends()
+        blocked_summary = sd.run(args, blocked, FakeSerp(), config)
+        section4 = (sd.RUN_DIR / "2026-09-14.section.html").read_text(encoding="utf-8")
+
+        passed &= check("the source is given up on after 3 terms, not retried 5 times",
+                        blocked.attempts == 3, f"attempts={blocked.attempts}")
+        rows_shown = section4.count('<li class="sd-row')
+        passed &= check("every row that ships says the trend data is missing",
+                        rows_shown >= 1
+                        and section4.count("Trends data unavailable this week") == rows_shown,
+                        f"rows={rows_shown}, "
+                        f'notices={section4.count("Trends data unavailable this week")}')
+        passed &= check("the run records why, for the digest caveats",
+                        "403" in blocked_summary["trends_dead"],
+                        blocked_summary["trends_dead"])
+        passed &= check("the header stops naming a source that returned nothing",
+                        "Trends unavailable" in section4)
+        passed &= check("the working source still carries the section",
+                        "sd-ranks" in section4 and "Custom Search" in section4)
+
+        cached = json.loads(sd.CACHE_PATH.read_text(encoding="utf-8"))["terms"]
+        passed &= check("a term whose every source failed is left out of the cache",
+                        "boom" not in cached and "slack alternatives" in cached,
+                        f"cached={sorted(cached)}")
 
         print("row cap")
         args.max_rows = 2

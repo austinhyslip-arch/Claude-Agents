@@ -271,6 +271,10 @@ def save_cache(rows: list[dict], week: str, path: Path, previous: dict) -> None:
     """Carry a term's last good values forward when this week's pull failed."""
     terms = dict(previous)
     for row in rows:
+        if not row["trend"]["ok"] and not row["serp"]["ok"]:
+            # Nothing was learned about this term. Writing an entry anyway would make next
+            # week treat a genuine first sighting as already-seen and drop its baseline row.
+            continue
         entry = dict(terms.get(row["term"], {}))
         entry["week"] = week
         if row["trend"]["ok"]:
@@ -312,14 +316,15 @@ def run(args, trends: TrendsClient | None, serp: SerpClient, config: dict) -> di
             if not trend.ok:
                 trend_failures += 1
                 print(f"  trends failed: {term.query} — {trend.reason}", file=sys.stderr)
-            if index < len(terms) - 1:
+            # No point pacing requests to a source that has already been given up on.
+            if index < len(terms) - 1 and not trends.dead:
                 trends.sleep_between()
 
         result = serp.search(term.query)
         if not result.ok:
             serp_failures += 1
             print(f"  serp failed: {term.query} — {result.reason}", file=sys.stderr)
-        if index < len(terms) - 1:
+        if index < len(terms) - 1 and not serp.dead:
             serp.sleep_between()
 
         rows.append(build_row(term, trend, result, chanty_domains, cached))
@@ -327,10 +332,12 @@ def run(args, trends: TrendsClient | None, serp: SerpClient, config: dict) -> di
     notable = [r for r in rows if is_notable(r)]
     shown = rank_rows(notable, args.max_rows)
 
+    trends_dead = trends.dead if trends is not None else "trends disabled for this run"
+    serp_dead = serp.dead
     sources = []
     if trends is not None:
-        sources.append("Google Trends" if trend_failures < len(terms) else "Trends unavailable")
-    sources.append("Custom Search" if serp_failures < len(terms) else "SERP unavailable")
+        sources.append("Trends unavailable" if trends_dead else "Google Trends")
+    sources.append("SERP unavailable" if serp_dead else "Custom Search")
 
     section = render_section(shown, len(terms), len(notable), " + ".join(sources))
     summary = {
@@ -340,6 +347,8 @@ def run(args, trends: TrendsClient | None, serp: SerpClient, config: dict) -> di
         "shown": len(shown),
         "trend_failures": trend_failures,
         "serp_failures": serp_failures,
+        "trends_dead": trends_dead,
+        "serp_dead": serp_dead,
         "rows": rows,
         "shown_terms": [r["term"] for r in shown],
     }
@@ -362,6 +371,9 @@ def run(args, trends: TrendsClient | None, serp: SerpClient, config: dict) -> di
     print(f"{len(terms)} terms pulled · {len(notable)} notable · {len(shown)} in the digest")
     print(f"trends failures {trend_failures} · serp failures {serp_failures} · "
           f"{gaps} content-gap entries")
+    for dead in (trends_dead, serp_dead):
+        if dead:
+            print(f"CAVEAT: {dead}")
     print(f"section  -> {section_path}")
     print(f"snapshot -> {RUN_DIR / (week + '.json')}")
     return summary

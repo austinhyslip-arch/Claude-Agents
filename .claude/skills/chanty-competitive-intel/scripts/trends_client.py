@@ -6,6 +6,11 @@ if you query too fast. Two consequences are baked into this module:
 
   * Every call is wrapped. A failure returns a `TrendResult` with `ok=False` and a reason
     string — it never raises into the digest build. One dead row beats a dead digest.
+  * Consecutive failures trip a circuit breaker. When the endpoint is rate-limited or the
+    host is blocked outright, every term fails the same way, and retrying 29 of them with
+    exponential backoff turns a three-minute run into a half-hour one for no new
+    information. After three in a row the source is given up on for the run and the
+    remaining rows say so immediately.
   * Calls are serialised with a delay between them, one term per request. Batching five
     keywords per payload would cut the request count, but pytrends normalises a batch's
     index against the batch's own peak, so a batch whose composition changes between weeks
@@ -22,6 +27,7 @@ from dataclasses import dataclass, field
 DEFAULT_DELAY = 4.0          # seconds between successful requests
 DEFAULT_MAX_RETRIES = 3      # attempts per term, including the first
 DEFAULT_BACKOFF = 8.0        # seconds; doubles per retry, plus jitter
+DEFAULT_FAILURE_LIMIT = 3    # consecutive dead terms before the source is given up on
 UP_THRESHOLD = 10.0          # percent change that counts as a real move
 DOWN_THRESHOLD = -10.0
 
@@ -72,6 +78,7 @@ class TrendsClient:
         delay: float = DEFAULT_DELAY,
         max_retries: int = DEFAULT_MAX_RETRIES,
         backoff: float = DEFAULT_BACKOFF,
+        failure_limit: int = DEFAULT_FAILURE_LIMIT,
     ) -> None:
         self.geo = geo
         self.timeframe = timeframe
@@ -80,8 +87,23 @@ class TrendsClient:
         self.delay = delay
         self.max_retries = max_retries
         self.backoff = backoff
+        self.failure_limit = failure_limit
         self._pytrends = None
-        self._dead = ""  # set once pytrends itself is unusable; skip the rest of the run
+        self._dead = ""  # set once the source is unusable; skip the rest of the run
+        self._consecutive_failures = 0
+
+    @property
+    def dead(self) -> str:
+        """Non-empty once the source has been given up on for this run."""
+        return self._dead
+
+    def _failed(self, reason: str) -> str:
+        """Record a failure and trip the breaker if this is the third in a row."""
+        self._consecutive_failures += 1
+        if self._consecutive_failures >= self.failure_limit:
+            self._dead = (f"Google Trends unreachable for this run "
+                          f"({self._consecutive_failures} terms failed): {reason}")
+        return reason
 
     def _client(self):
         if self._pytrends is None:
@@ -126,13 +148,17 @@ class TrendsClient:
                 if attempt < self.max_retries:
                     time.sleep(self.backoff * (2 ** (attempt - 1)) + random.uniform(0, 2))
                     continue
-                result.reason = last_error
+                result.reason = self._failed(last_error)
                 return result
 
             if not series:
+                # A term Google has no data for is not a broken source — it says nothing
+                # about the next term, so it does not count toward the breaker.
+                self._consecutive_failures = 0
                 result.reason = "no data returned for this term"
                 return result
 
+            self._consecutive_failures = 0
             complete = [p for p in series if not p["partial"]] or series
             values = [p["value"] for p in complete]
             result.ok = True
@@ -151,7 +177,7 @@ class TrendsClient:
             result.arrow = _classify(result.delta_pct)
             return result
 
-        result.reason = last_error or "unknown failure"
+        result.reason = self._failed(last_error or "unknown failure")
         return result
 
     def sleep_between(self) -> None:

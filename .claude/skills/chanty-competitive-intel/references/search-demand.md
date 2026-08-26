@@ -100,9 +100,18 @@ Nothing here is allowed to fail the digest build.
   caution gold, and the row still ships with its SERP data. The reason is printed to
   stderr and stored in the snapshot JSON.
 - A SERP failure puts the reason in the domains cell of that row.
-- If pytrends is dead for the whole run, the section header says `Trends unavailable`
-  instead of naming it as a source, and every row carries the gap. Run `--no-trends` to
-  skip it deliberately, and say so in `{{CAVEATS}}`.
+- **Three identical failures in a row give up on that source for the run.** A rate-limit
+  wall, a revoked key or a blocked host fails every remaining term the same way; retrying
+  29 of them with exponential backoff costs half an hour and learns nothing. The remaining
+  rows say the data is missing immediately, and the reason lands in the run summary as a
+  `CAVEAT:` line to copy into `{{CAVEATS}}`. A term Google simply has no data for does not
+  count toward this — it says nothing about the next term.
+- If a source is dead for the whole run, the section header says `Trends unavailable` or
+  `SERP unavailable` instead of naming it, and every row carries the gap. Run `--no-trends`
+  to skip Trends deliberately, and say so in `{{CAVEATS}}`.
+- A term whose every source failed is **not** written to the cache. Caching an empty entry
+  would make next week treat a genuine first sighting as already-seen and drop its baseline
+  row.
 - If Custom Search credentials are missing the script warns and keeps going; every row
   becomes a visible gap. That is a broken run — fix the credentials, don't send it.
 
