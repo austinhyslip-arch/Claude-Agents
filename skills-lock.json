@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "skills": {
+    "b2b-cold-email-copywriting": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/tim-yakubson/b2b-cold-email-copywriting/SKILL.md",
+      "computedHash": "4517179f1bb250a67f6fa61db844527f0fc1491bedbd390160da0c302b50c4e2"
+    },
+    "bridge-before-cold": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/nadav-david/bridge-before-cold/SKILL.md",
+      "computedHash": "9f7504b27ccf7e8ed8f4b1a7839f82264541ca57550b3b50bb0367472d255016"
+    },
+    "bridgebound-firmographic-15": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/alex-vacca/bridgebound-firmographic-15/SKILL.md",
+      "computedHash": "b8052d7ca9f99c09fc9f156edb236d7a0d744ed77a34cbc2631067651392fc68"
+    },
+    "bridgebound-history-16": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/alex-vacca/bridgebound-history-16/SKILL.md",
+      "computedHash": "a6cbf1b7cefddab45e0a2ec5ab1cff48aed9805d0720661a8f0b01fcd4249c22"
+    },
+    "bridgebound-in-market-20": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/alex-vacca/bridgebound-in-market-20/SKILL.md",
+      "computedHash": "65882c69f913789679dc3b8957ca5ca0b0e8350012bd5ef7e51e7d57fae37f35"
+    },
+    "bridgebound-relationship-39": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/alex-vacca/bridgebound-relationship-39/SKILL.md",
+      "computedHash": "2efa29ce066fb3276e8bc5a4a10f2cb99ce76744f1ca555297f5eeab81f31106"
+    },
+    "bridgebound-symptoms-11": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/alex-vacca/bridgebound-symptoms-11/SKILL.md",
+      "computedHash": "5104e9a8e76b0517f3a928ab09d9a5812e0f1cf329f61222c5d8349449027dd0"
+    },
+    "build-list": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ido-goldberg/build-list/SKILL.md",
+      "computedHash": "1267f96eee8df6c77c1379dc59345d22f4c744f36306deb3c77e400b85561072"
+    },
+    "buying-signals-6": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/alex-vacca/buying-signals-6/SKILL.md",
+      "computedHash": "e7033d6d9ac86d8580424d1ab5705c561cc729ef173baeb6e4eb35b34b12e36f"
+    },
+    "cold-email-strategist": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/alex-vacca/cold-email-strategist/SKILL.md",
+      "computedHash": "8ec3a2b2915cfaad25ce8878a93992db5ca570ba04d1f18b0753785b0736cc35"
+    },
+    "frontal-messaging-templates": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/alex-vacca/frontal-messaging-templates/SKILL.md",
+      "computedHash": "ae6468c515e6d447373b13179411da32552072ca5d17d64a6b9fb6eac606be86"
+    },
+    "handle-reply": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ido-goldberg/handle-reply/SKILL.md",
+      "computedHash": "8f7139222fccbb741fdf2fa81436a2ce5793b90efd1475e1f9abd12b5d245f7e"
+    },
+    "human-mannerisms": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/gali-firon/human-mannerisms/SKILL.md",
+      "computedHash": "0bd79bf9b207413c4596aaca3dbe6d0533a95256025e852114c29a73010e09da"
+    },
+    "icp-lookalike-expansion": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/amir-baldiga/icp-lookalike-expansion/SKILL.md",
+      "computedHash": "00701ec74d8aa457afa1111b5c0cae80ced6ea540b7dcf459d78a6a6cb315427"
+    },
+    "josh-braun-copywriting": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/alex-vacca/josh-braun-copywriting/SKILL.md",
+      "computedHash": "d5ecf8efc786a7569fb55990aa1e604008b6f4a7f9c8b2ec8dc94dac423b7627"
+    },
+    "never-guess-an-email": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lucas-godtfredsen/never-guess-an-email/SKILL.md",
+      "computedHash": "949e2fca26f9f8e8166695b7b5f12ff4cc4789e0fcdf95312c6768f8dbb1508b"
+    },
+    "outbound-triggers-6": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/alex-vacca/outbound-triggers-6/SKILL.md",
+      "computedHash": "912a54cba35379e951569379a54de7fee1a20160ae46a1e32c2b9142761d778f"
+    },
+    "outreach-4-categories": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/alex-vacca/outreach-4-categories/SKILL.md",
+      "computedHash": "9b57aa70b8832a58e56865077fe7a39d86e52d88f29b345ab1b864202c0c96d2"
+    },
+    "persona-mapping-framework": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ivan-falco/persona-mapping-framework/SKILL.md",
+      "computedHash": "1fd9b9ee7766870756c63f58918c08fccde778e43771b652677c3b2392b0b3c0"
+    },
+    "personalization-playbooks": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/alex-vacca/personalization-playbooks/SKILL.md",
+      "computedHash": "91ea014177a331e617eebba5ac4d35f68c67478d69cdef956bb2f8cc22bae2d7"
+    },
+    "research": {
+      "source": "swan-gtm/gtm-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ido-goldberg/research/SKILL.md",
+      "computedHash": "d67be3bfdf69ea49b06f5775bf469daa2f8b62ce397083b7b687d6d322adcfa4"
+    }
+  }
+}
