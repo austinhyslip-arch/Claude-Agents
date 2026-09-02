@@ -43,6 +43,19 @@ CareNow (HCA), Concentra
 ## Veterinary (out of scope per spec, kept here only if scope expands later)
 Not applicable — spec scope is human healthcare.
 
+## Confirmed during runs
+
+- **Progressive Dental Concepts** (progressivedentalconcepts.com) — dental support
+  organization (DSO), Camp Hill PA, 51-200 employees, provides admin/ops support to a
+  network of separately-branded dental practices. Confirmed 2026-09-02 via free web search
+  (company's own site description).
+- **Anderson Longevity Clinic franchise system** (alcfranchise.com) — franchise model;
+  individual locations (e.g. the Phoenix, AZ territory) are run by franchisees, not the
+  founding independent owner. Confirmed 2026-09-02 via free web search.
+- **OneOncology** — national oncology practice management network. Absorbs formerly
+  independent oncology practices (e.g. GenesisCare USA of Florida became SunState Medical
+  Specialists under this network). Confirmed 2026-09-02 via free web search.
+
 ---
 
 _Add new entries here as they're confirmed during a run, with a one-line note on the run
