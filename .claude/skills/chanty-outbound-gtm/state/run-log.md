@@ -139,6 +139,37 @@ fetching is fixed.
 2. A found address does not make someone the right contact. Fast Pace's CMO is a media
    contact, not a person who feels a shift-coordination problem.
 
+### 2026-09-02, fourth pass: one paid lookup, result rejected
+
+Austin asked directly for Kelly Cashman's email. Free routes were re-run first and came up
+empty on her specifically, so one Apollo standard match was spent. No waterfall, no phone
+reveal.
+
+**Apollo returned an address that fails our own gate.** kelly@premierrt.com, `email_status`
+extrapolated, confidence 0.6, `email_domain_catchall` true, and matched to a Performance
+Therapy Institute LLC in Bangor, Maine rather than the Brentwood practice. An extrapolated
+address is a pattern guess. Paying for the guess does not change what it is.
+
+Recorded as rejected on her record, deliberately not written to the email field.
+
+**The lookup still paid for itself in other ways**, which is the second lesson. It returned
+her LinkedIn URL, corrected her title to Front Office Manager, gave a December 2025 start
+date, and showed she was Front Desk Specialist at **MPOWER Physical Therapy** from 2023 to
+2025. MPOWER is another account on this list. That is a real personalization angle and a
+bridge between two accounts, and her draft has been rewritten around it.
+
+Apollo also puts the practice at 12 employees against our site-count estimate of 30. Worth
+reconciling, though Apollo had the wrong company record, so its headcount may belong to the
+Maine practice.
+
+**Free search also cleared up the Performance Therapy confusion.** The two addresses that
+looked contradictory are two different offices on the same circle: Brentwood at 1624 Westgate
+#175 on (615) 471-6583, and Cool Springs at 1646 Westgate #106 on (615) 551-5135. Not a data
+conflict after all.
+
+**Running score: four usable addresses from free search, zero from one paid lookup.**
+
+
 
 
 ---

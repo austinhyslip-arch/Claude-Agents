@@ -7,7 +7,7 @@
     "sourcing": "free-web-search only",
     "credits_spent": 0,
     "attio_workspace": "Chanty",
-    "updated": "2026-09-02, exhaustive free sweep before any paid lookup"
+    "updated": "2026-09-02, one paid lookup, result rejected"
   },
   "lists": [
     {
@@ -188,14 +188,26 @@
       "people": [
         {
           "name": "Kelly Cashman",
-          "title": "Office Manager",
+          "title": "Front Office Manager",
           "persona": "ops-manager",
           "attio_person_id": "61796639-dc1c-4f9b-94af-ef53b3270fed",
           "email": null,
-          "email_status": "unverified",
+          "email_status": "rejected",
           "phone": "+16154656810",
           "stage": "Not Contacted",
-          "who_contacted": null
+          "who_contacted": null,
+          "linkedin": "https://www.linkedin.com/in/kelly-cashman-56530b200",
+          "in_role_since": "2025-12",
+          "prior_employer": "MPOWER Physical Therapy, Front Desk Specialist, 2023 to 2025, also an account on this list",
+          "email_rejected": {
+            "address": "kelly@premierrt.com",
+            "provider": "Apollo",
+            "status": "extrapolated",
+            "confidence": 0.6,
+            "catchall": true,
+            "matched_org": "Performance Therapy Institute LLC, Bangor Maine, premierrt.com",
+            "reason": "assembled not published, catch-all domain, wrong company"
+          }
         }
       ],
       "phone": {
@@ -212,7 +224,18 @@
           "status": "published",
           "use": "domain, phone and street number all disagree with the record, confirm by phone first"
         }
-      ]
+      ],
+      "offices": {
+        "Brentwood": {
+          "address": "1624 Westgate Cir #175",
+          "phone": "+16154716583"
+        },
+        "Cool Springs": {
+          "address": "1646 Westgate Cir #106",
+          "phone": "+16155515135"
+        },
+        "other_line": "+16154656810"
+      }
     },
     {
       "name": "MPOWER Physical Therapy",
@@ -429,5 +452,20 @@
     ],
     "result": "4 published addresses found, 2 accounts disqualified on ownership, paid batch reduced from 7 contacts to 1",
     "credits_spent": 0
-  }
+  },
+  "paid_lookups": [
+    {
+      "date": "2026-09-02",
+      "provider": "Apollo",
+      "type": "standard people match",
+      "count": 1,
+      "usable_addresses": 0,
+      "byproducts": [
+        "linkedin url",
+        "corrected title",
+        "start date",
+        "work history revealing a bridge to MPOWER"
+      ]
+    }
+  ]
 }

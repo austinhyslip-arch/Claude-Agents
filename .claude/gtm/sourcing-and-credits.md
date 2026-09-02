@@ -123,6 +123,39 @@ step ran.
 Stop the moment a verified result comes back. Do not run the same contact through every
 provider to compare.
 
+### A provider returning an address is not the same as finding one
+
+This is the rule the 2026-09-02 run was written to prevent breaking. Apollo answered a
+lookup with an address, and the address failed every test that matters:
+
+- `email_status: extrapolated` means Apollo assembled it from a pattern. It is the same
+  guess `never-guess-an-email` forbids, made by a vendor instead of by us, and paid for.
+- `extrapolated_email_confidence: 0.6` is a probability, not a verification. No confidence
+  score turns a hypothesis into a contact.
+- `email_domain_catchall: true` means any verifier will answer accept-all, which is the
+  documented trap.
+- The matched organisation was a similarly named practice in a different state, on a
+  different domain. A name match is not an employer match.
+
+**Check these fields on every paid result before the address goes anywhere near the queue:**
+
+| Field | Accept | Reject |
+|---|---|---|
+| `email_status` | `verified` | `extrapolated`, `guessed`, `unavailable` |
+| `email_domain_catchall` | `false` | `true` |
+| matched organisation | domain, location and description all match the account | anything else |
+
+A rejected address gets recorded on the person as rejected with the reason, and never
+written to the email field. Putting it there makes it look sendable to the next run.
+
+Log the spend either way. A credit that bought a rejected address still cost a credit, and
+the log is how the hit rate becomes visible.
+
+**What a rejected lookup can still be worth.** The same call returned a LinkedIn URL, a
+corrected job title, a start date and a full work history, one job of which was at another
+account on the same list. That was the useful part of the purchase. Read the whole payload
+before writing the lookup off.
+
 ### Which tool does which job
 
 **Apollo**, all of these spend credits.

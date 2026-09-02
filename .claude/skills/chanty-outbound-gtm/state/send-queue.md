@@ -55,24 +55,29 @@ Austin
 
 - Attio person: 61796639-dc1c-4f9b-94af-ef53b3270fed
 - Attio company: 600a6d29-231e-4ef3-94cc-d81c32883690
-- Email: none found (unverified)
+- Email: **none usable.** Apollo returned kelly@premierrt.com, flagged extrapolated at 0.6
+  confidence, on a catch-all domain, matched to a company in Bangor Maine. Rejected.
 - Phone: (615) 465-6810, main line, high confidence
+- LinkedIn: linkedin.com/in/kelly-cashman-56530b200
+- Title: Front Office Manager, corrected from Office Manager
 - Stage: Not Contacted
 - Persona: ops-manager | Score: 5 | List: Healthcare / CT / Agent
 - Category: Outbound | Bridge: none | Premise: typical cold outbound
-- Signal: none
-- Angle: background, four offices under one brand with one office manager across them
-- Proposed slot: 2026-09-09, 09:15 America/Chicago (Austin's calendar is clear)
-- **Hold reason: no verified email address. The practice publishes a phone number but no
-  address that search could reach. Goes to the gap batch.**
+- Angle: background, and a better one than before. She ran a front desk at MPOWER Physical
+  Therapy from 2023 to 2025 and now runs one across four offices. Public work history, so it
+  is checkable.
+- Proposed slot: 2026-09-09, 09:15 America/Chicago
+- **Hold reason: still no verified address. A paid lookup returned a guess, which does not
+  count. Phone is the live route to this account.**
 
-Subject: four offices, one thread
+Subject: front desk, four offices
 
 ```
 Kelly,
 
-You're running front desk across four offices, which usually means the same
-question gets asked four times before it reaches whoever can answer it.
+You ran a front desk at MPOWER before this. Now you're doing it across four
+offices, which is the same problem with more places for a message to go
+missing.
 
 Chanty is a team chat and task app your staff can use from a phone, so a
 schedule change at Cool Springs lands with Nolensville without a group text
