@@ -16,31 +16,38 @@ Gaps that free web search could not fill, batched for one approval. Format:
 - Contacts: <names and companies>
 ```
 
-### Batch 1 :: 2026-09-02 :: status: open
+### Batch 1 :: 2026-09-02 :: status: open, and smaller than it was
 
-- Contacts: 4 named people, plus 3 accounts with no named contact at all
-- Missing: email for every one of them. Phones were found for most.
-- Provider proposed: Apollo, `apollo_people_bulk_match`, one call for the batch
-- Estimated cost: roughly 4 to 7 lead credits
-- Apollo balance: 135 lead credits, cycle ends 2026-09-16
-- Balance if approved: about 128 to 131
+The full free sweep has now been run: press releases, directories, Facebook, Google Business,
+job postings and licensure. It found four published addresses and disqualified two accounts,
+so this batch is down from seven contacts to **one**.
 
-| Person | Company | List |
+**What free search found, no credits spent**
+
+| Address | Where | Use |
 |---|---|---|
-| Alayna Brent, COO | Chord Specialty Dental Partners | Personal |
-| Todd Cruse, CEO | Chord Specialty Dental Partners | Personal |
-| Amy Overstreet, CHRO | Chord Specialty Dental Partners | Personal |
-| Kelly Cashman, Office Manager | Performance Therapy Institute | Agent |
+| marketing@chordsdp.com | Chord press releases | role inbox, routing note only |
+| justin.olson@fastpacehealth.com | Fast Pace press releases | CMO, wrong persona, account blocked on scope |
+| Amy.Hornsby@fastpacemedical.com | older Fast Pace releases | possibly stale, different domain |
+| jennm@performancepttn.com | practice directory | named person, but domain and phone disagree with the record |
 
-Also unnamed: MPOWER Physical Therapy, Nashville Healthcare Center, Family Practice
-Associates all need a contact found before anything can be drafted.
+**What is left to buy**
 
-**Worth reading before approving.** Spending here fixes four contacts. It does not fix the
-cause, which is that the agent cannot open a company's contact page from this environment.
-Open that up and most of these are free. Approve this batch if you want the test to run all
-the way through a real send, otherwise the better move is to fix egress first.
+| Person | Company | List | Why |
+|---|---|---|---|
+| Alayna Brent, COO | Chord Specialty Dental Partners | Personal | the actual entry point. The marketing inbox is a workaround, not a route to operations. |
 
-## Uncertain matches
+One lookup. Roughly 1 lead credit through Apollo, or one Clay Work Email call that only
+charges on a hit. Apollo balance 135, cycle ends 2026-09-16.
+
+Kelly Cashman is off the batch. Her practice has a published address on a domain that
+disagrees with the record, plus a phone and street number that also disagree. One call
+settles all of it for nothing, and buying her address would not answer the question.
+
+**Recommendation: do not approve this yet.** One credit is not the issue, the sequencing is.
+Fix page fetching and the Chord address probably turns up free like the other four did.
+
+## Uncertain matches## Uncertain matches
 
 Possible duplicates that were not merged. Both record links plus what makes them ambiguous.
 
@@ -59,8 +66,13 @@ _None open._
    excludes buyers who purchase through procurement. Does the score need a ceiling, or an
    enterprise exclusion rule? Recommend a rule: over roughly 50 sites or 1,000 employees,
    flag rather than route.
-2. **Family Practice Associates may be HCA-owned.** A TriStar Medical Group page carries the
-   same address. If it is HCA, it is out of scope. Needs one check.
+2. **Family Practice Associates: answered, out of scope.** Confirmed HCA-owned through
+   TriStar Medical Group. Disqualified and marked on the record. It is still sitting in the
+   Agent list because the Attio connection cannot remove a list entry, so it needs pulling
+   by hand.
+2b. **Nashville Healthcare Center may be the same problem.** It appears on Nashville General
+   Hospital's own site as one of its locations. Needs confirming, and if it is right then
+   half the test list was hospital-owned.
 3. **Excluded accounts were kept out of Attio.** Two scored below 3 and were logged in the
    run log instead. Confirm that is the behaviour wanted.
 

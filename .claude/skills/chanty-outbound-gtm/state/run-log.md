@@ -90,6 +90,56 @@ with records nobody is going to work. They live here instead. Say if that is the
 - Three gaps this surfaced: no Do Not Contact status, no company-side touch fields, and a
   ladder that now implies a follow-up cadence which does not exist yet.
 
+### 2026-09-02, third pass: exhaustive free sweep before any paid lookup
+
+Ran every free source on all six accounts. Six searches, no credits spent.
+
+**Found, all published, none assembled**
+
+| Address | Account | Source |
+|---|---|---|
+| marketing@chordsdp.com | Chord | company press releases |
+| justin.olson@fastpacehealth.com | Fast Pace | press releases, CMO |
+| Amy.Hornsby@fastpacemedical.com | Fast Pace | older releases, different domain |
+| jennm@performancepttn.com | Performance Therapy | practice directory |
+
+**Press releases are the best free email source by some distance.** Media contact lines carry
+a named person and a real published address, and every company that has ever announced
+anything has one. That source was not in the original checklist and is now first on it.
+
+**Two accounts disqualified, for nothing**
+
+- Family Practice Associates of Southern Hills is HCA-owned through TriStar Medical Group.
+  Confirmed, marked out of scope.
+- Nashville Healthcare Center appears on Nashville General Hospital's site as one of its
+  locations. Likely the same problem, needs confirming.
+
+Two of six hospital-owned in a six-account test. Ownership now gets checked during sourcing
+rather than after, because one search disqualifies an account before it can ever cost a
+credit.
+
+**The paid batch went from seven contacts to one.** Free search plus disqualification did
+that. The one left is Alayna Brent at Chord, and even that is worth holding until page
+fetching is fixed.
+
+**Corrections found along the way**
+
+- MPOWER has five locations, not three. Rescored 4 to 5.
+- Nashville Healthcare Center main campus is 1818 Albion St, not 1810. Bordeaux has its own
+  line, (615) 562-4612.
+- Fast Pace street number is now unresolved across three sources: 550, 6550, 6650. Left at
+  6550 rather than churning the record on a fourth guess.
+- Performance Therapy has three separate disagreements with the record: domain, phone and
+  street number. One phone call settles all three for nothing.
+
+**Two limits worth recording**
+
+1. Attio cannot remove a record from a list through this connection, so a disqualified
+   account sits in its working list until someone pulls it by hand.
+2. A found address does not make someone the right contact. Fast Pace's CMO is a media
+   contact, not a person who feels a shift-coordination problem.
+
+
 
 ---
 

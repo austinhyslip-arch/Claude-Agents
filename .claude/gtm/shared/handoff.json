@@ -7,7 +7,7 @@
     "sourcing": "free-web-search only",
     "credits_spent": 0,
     "attio_workspace": "Chanty",
-    "updated": "2026-09-02, phone pass and stage alignment"
+    "updated": "2026-09-02, exhaustive free sweep before any paid lookup"
   },
   "lists": [
     {
@@ -93,7 +93,16 @@
         "confidence": "medium",
         "note": "PA area code on a Nashville office, verify on first call",
         "source": "third-party directory"
-      }
+      },
+      "emails_found_free": [
+        {
+          "address": "marketing@chordsdp.com",
+          "type": "role-inbox",
+          "source": "company press releases",
+          "status": "published",
+          "use": "routing note only, not a pitch"
+        }
+      ]
     },
     {
       "name": "Fast Pace Health",
@@ -132,7 +141,24 @@
         "note": "corporate switchboard, expect a phone tree",
         "source": "company contact page plus directories"
       },
-      "note": "address corrected to 6550 Carothers Pkwy Ste 225, was 550"
+      "note": "address corrected to 6550 Carothers Pkwy Ste 225, was 550",
+      "emails_found_free": [
+        {
+          "address": "justin.olson@fastpacehealth.com",
+          "person": "Justin Olson",
+          "title": "Chief Marketing Officer",
+          "source": "press releases",
+          "status": "published",
+          "use": "wrong persona, account blocked on scope"
+        },
+        {
+          "address": "Amy.Hornsby@fastpacemedical.com",
+          "person": "Amy Hornsby",
+          "title": "VP Development and Marketing",
+          "source": "older press releases",
+          "status": "published, possibly stale, different domain"
+        }
+      ]
     },
     {
       "name": "Performance Therapy Institute",
@@ -177,24 +203,33 @@
         "confidence": "high",
         "note": "currently the only working route to this account",
         "source": "practice listing"
-      }
+      },
+      "emails_found_free": [
+        {
+          "address": "jennm@performancepttn.com",
+          "person": "Jenn M",
+          "source": "practice directory",
+          "status": "published",
+          "use": "domain, phone and street number all disagree with the record, confirm by phone first"
+        }
+      ]
     },
     {
       "name": "MPOWER Physical Therapy",
       "domain": "mpowermd.com",
       "attio_company_id": "0f65b905-6e9a-42ac-a300-9f958238b5bd",
       "list": "Agent",
-      "score": 4,
+      "score": 5,
       "score_components": {
         "size": 2,
-        "footprint": 1,
+        "footprint": 2,
         "growth": 0,
         "structure": 0,
         "fit": 1
       },
       "employee_estimate": 25,
       "employee_basis": "site-count",
-      "sites": 3,
+      "sites": 5,
       "timezone": "America/Chicago",
       "signal": null,
       "category": "Outbound",
@@ -213,7 +248,8 @@
         "confidence": "high",
         "note": "Brentwood and Franklin clinic lines, no Nashville number found",
         "source": "practice listings"
-      }
+      },
+      "note": "five locations not three, rescored from 4 to 5"
     },
     {
       "name": "Nashville Healthcare Center",
@@ -246,13 +282,14 @@
         "confidence": "high",
         "note": "patient appointments line, wrong way into the account",
         "source": "practice site listing"
-      }
+      },
+      "flag": "appears on Nashville General Hospital site as one of its locations, likely out of scope, needs confirming"
     },
     {
-      "name": "Family Practice Associates",
+      "name": "Family Practice Associates of Southern Hills",
       "domain": "tristarmedgroup.com",
       "attio_company_id": "414025fd-12d5-401e-98e9-41fc9d28306d",
-      "list": "Agent",
+      "list": "Excluded",
       "score": 3,
       "score_components": {
         "size": 1,
@@ -280,6 +317,11 @@
         "confidence": "medium",
         "note": "do not call until ownership is confirmed",
         "source": "practice directory"
+      },
+      "disqualified": {
+        "reason": "HCA-owned via TriStar Medical Group",
+        "confirmed": "2026-09-02",
+        "action": "no outreach, no lookup, still in the Agent list and needs removing by hand"
       }
     }
   ],
@@ -321,13 +363,12 @@
     }
   ],
   "open_for_austin": [
-    "Companies has no phone field. Main lines are on person records and in the GTM account notes until one exists.",
-    "Companies has no touch fields, so the company half of the dual write is in the notes.",
-    "No Do Not Contact status in the stage ladder. Opt-outs land as Not a Fit plus a note, which loses the distinction.",
-    "Follow-Up Sent and Follow Up Needed exist in the ladder, so a follow-up cadence is now needed. None is defined.",
-    "Gap batch: 4 named contacts need emails, roughly 4 to 7 Apollo lead credits, balance 135",
-    "Fast Pace Health: does the buying power score need an upper bound or an enterprise exclusion",
-    "Family Practice Associates: confirm ownership before outreach",
+    "Paid batch is down to one lookup, Alayna Brent at Chord. Recommendation is to hold it until page fetching is fixed.",
+    "Clay Work Email cascades and only charges on a hit, so the documented Apollo-first waterfall may be the wrong order for small batches. Austin's call.",
+    "Two of six accounts were hospital-owned. Ownership is now checked during sourcing rather than after.",
+    "Attio cannot remove a list entry, so a disqualified account stays in its list until pulled by hand.",
+    "No Do Not Contact status in the stage ladder.",
+    "Follow-up cadence still undefined.",
     "Where does Agent 2 read shared data from"
   ],
   "attio_fields": {
@@ -372,5 +413,21 @@
       "custom_fields": "none yet",
       "phone_field": "does not exist, standard or custom"
     }
+  },
+  "free_sweep": {
+    "sources_worked": [
+      "press releases and newswires",
+      "company site via search",
+      "practice and business directories",
+      "Facebook business pages",
+      "Google Business listings",
+      "patient forms and PDFs",
+      "job postings",
+      "state licensure and registry",
+      "association and conference listings",
+      "LinkedIn company pages"
+    ],
+    "result": "4 published addresses found, 2 accounts disqualified on ownership, paid batch reduced from 7 contacts to 1",
+    "credits_spent": 0
   }
 }
