@@ -58,8 +58,12 @@ Sentences stay short. Paragraphs stay at one to three sentences. Nothing bolded,
 bullets in a cold email, no images, no tracking-heavy formatting.
 
 **No links in a first cold email** unless Austin asks for one. Links hurt deliverability
-from a free Gmail account and they make the email read as a pitch. Calendly goes in the
-second email, after a reply.
+and they make the email read as a pitch.
+
+The booking link is https://calendar.app.google/S56CDe5cBYwNanz39 and it belongs in the
+second email, after a reply. Sending it cold asks a stranger to put time on a calendar
+before they have agreed there is anything to talk about. Paste it exactly, never shorten it,
+never wrap it in tracking.
 
 ## Subject lines
 

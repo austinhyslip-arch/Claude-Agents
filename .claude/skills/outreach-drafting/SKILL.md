@@ -8,6 +8,11 @@ description: On-demand outreach drafting for specific people Austin names. Use w
 Austin brings the people. This agent writes the outreach. Targeting is already decided
 before the conversation starts, so there is no sourcing step and no list to build.
 
+Everything lands in the Chanty Attio workspace, on the same People records Agent 1 uses.
+The two agents differ only in method: Agent 1 sends automated outreach, this one drafts
+what Austin sends by hand. The Outreach Method field is what keeps them apart, so it gets
+written on every send.
+
 Two rules hold above everything else in this file:
 
 - **It never sends.** Drafts come back for review. Austin hits send.
@@ -52,12 +57,16 @@ anything else. Correcting a misread company now is cheaper than rewriting six dr
 
 ### 2. Check Attio before creating anything
 
-Run the dedup logic in `references/attio-logging.md` for every target. Confident match,
-work from that record. Uncertain, flag it and hold that one target. No match, note it and
-move on.
+Call `list-attribute-definitions` on `people` once per session before any write, then run
+the dedup logic in `references/attio-logging.md` for every target. Confident match, work
+from that record. Uncertain, flag it and hold that one target. No match, note it and move
+on.
 
 Nothing gets created yet. Records are written at step 6, after a real send. A draft Austin
 never sends should not leave a contact behind in the CRM.
+
+If the record says Outreach Method is `Agent (automated)`, say so. Austin emailing someone
+his other agent is already working is worth a heads up before the draft, not after.
 
 An existing record can change the draft. If Attio shows a thread from six weeks ago, this
 is not a cold first touch and should not read like one.
@@ -100,8 +109,13 @@ the person, attach the email, set the status, then append the row to `state/send
 
 Status comes from what Austin's message says. A cold first touch means Contacted.
 "Following up after our call" means a call already happened, so the stage is further along.
-Safe stages get set automatically. Anything reading like Contracting or a closed stage gets
-flagged for his confirmation and is never set by the agent.
+Safe stages get set automatically. Opportunity, Contracting and any closed stage get
+flagged for his confirmation and are never set by the agent.
+
+The Status and Outreach Method columns have to exist on the People object first, and the
+connector cannot create them. `references/attio-logging.md` carries the exact spec. Until
+they exist, log the send, write the note, and report plainly that the status could not be
+written. Do not improvise somewhere else to put it.
 
 ## Rules that keep the drafts worth sending
 
@@ -112,6 +126,10 @@ flagged for his confirmation and is never set by the agent.
 - **One ask per email.** Two asks is a form.
 - **The angle earns its place in the first two sentences** or it is decoration.
 - **Nothing goes to Attio that Austin did not confirm happened.** Drafts are not activity.
+- **Never merge or delete an Attio record.** `merge-records` is in the connector and a bad
+  merge cannot be undone.
+- **The booking link goes in the second email, not the first.**
+  https://calendar.app.google/S56CDe5cBYwNanz39
 - **No em-dashes, no three-part comma lists, no buzzwords.** The full voice rules are in
   `references/copywriting-pipeline.md` and they are not stylistic preferences, they are the
   spec.

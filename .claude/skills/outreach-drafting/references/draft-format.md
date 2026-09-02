@@ -16,15 +16,16 @@ Drop the header for a single target.
 ## Per target
 
 ```
-### 1. Jane Doe, VP Marketing, Acme
+### 1. Jane Doe, Head of Ops, Acme
 
 Attio: existing record, last touched 2026-04-02 by Austin. No reply on that thread.
-Persona: VP or Head of Marketing
-Angle: their Q2 hiring post naming a content gap - https://example.com/post
+Outreach Method on record: none set
+Persona: Ops or IT manager
+Angle: their Q2 post about running the team across Slack and Asana - https://example.com/post
 Stage on send: Contacted
 Email: jane@acme.com (given)
 
-Subject: Your content gap post
+Subject: Slack and Asana overlap
 
 Jane,
 
@@ -32,19 +33,20 @@ Jane,
 
 Austin
 
-Notes: 94 words. The hiring post is 6 weeks old, still current. Nothing verified about
-team size, the draft avoids it.
+Notes: 94 words. The post is 6 weeks old, still current. Team size unverified, the draft
+avoids it. No credits spent.
 ```
 
 Field notes:
 
 - **Attio** says what dedup found, and anything on the record that changed the draft.
   Uncertain matches say so here and the draft is held.
+- **Outreach Method on record** flags it when Agent 1 is already working this person.
 - **Angle** carries the source URL every time, even though the URL does not appear in the
   email.
 - **Stage on send** is what will be written if Austin confirms it went out. Flagged stages
   say `flagged, needs your confirmation` instead.
-- **Email** says where the address came from: given, on the record, verified by Hunter, or
+- **Email** says where the address came from: given, on the record, revealed by Apollo, or
   blank.
 - **Notes** carries word count, anything unverified, anything left out for lack of data,
   and any credit spent.
