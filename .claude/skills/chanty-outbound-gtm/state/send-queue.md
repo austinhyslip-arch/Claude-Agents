@@ -40,8 +40,8 @@ I'm Austin, the co-founder of Chanty. We built it because the big internal
 communications platforms aren't built for healthcare clinics who need a
 simple, easy to use platform that's affordable.
 
-You're hiring a regional ops manager over eight clinics, and most of the
-people they'll need to reach aren't sitting at a computer.
+You're hiring a regional ops manager over eight clinics, and the people
+they'll need to reach aren't always at a computer.
 
 Our base plan: no complex builds, no weeks-long integration, BAA signed,
 HIPAA compliant, and affordable.
@@ -78,8 +78,8 @@ I'm Austin, the co-founder of Chanty. We built it because the big internal
 communications platforms aren't built for healthcare clinics who need a
 simple, easy to use platform that's affordable.
 
-You're running front desk across four offices, so a schedule change has
-four places to go missing.
+You're running front desk across four offices, which more than likely means
+four places for a schedule change to go missing.
 
 Our base plan: no complex builds, no weeks-long integration, BAA signed,
 HIPAA compliant, and affordable.

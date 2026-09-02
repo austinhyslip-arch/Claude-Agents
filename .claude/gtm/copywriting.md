@@ -124,6 +124,22 @@ Any of these means the draft goes back through step 5 before it reaches the queu
 - claiming to have read something the agent did not actually read
 - any personalization detail that is not verifiable from a source the agent can cite
 
+## Hedge the problem sentence
+
+We do not know how the reader works. The sentence that names their problem is a guess
+however good the research was, so it gets written as one.
+
+- "aren't sitting at a computer" becomes "aren't always at a computer"
+- "you're losing hours to this" becomes "this more than likely costs you hours"
+- "your staff never see the message" becomes "the message probably doesn't reach everyone"
+
+Use "more than likely", "aren't always", "probably", or put it as a question. Anything that
+tells a stranger how their own operation runs invites them to correct you instead of reply
+to you, and being wrong once costs the whole email.
+
+The facts stay firm. Four offices is four offices, and a posted job is a posted job. It is
+the inference drawn from the fact that gets hedged.
+
 ## Never open on their history
 
 The angle is about the problem they have today. Not their career, not their tenure, not
