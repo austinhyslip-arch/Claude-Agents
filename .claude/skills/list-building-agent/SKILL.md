@@ -9,6 +9,12 @@ Layer 1 (sourcing/qualification) of the outbound GTM stack. Builds healthcare pr
 lists on demand and stops at a spreadsheet for Austin to review by hand before anything
 touches Attio.
 
+**Read `.claude/gtm/README.md` and the contracts it points at before running.** This agent
+does not draft copy and does not spend on email verification, so `copywriting.md` and
+`value-prop.md` are someone else's concern downstream. `sourcing-and-credits.md` still
+matters here: it defines what "verified" actually means, and this agent's own guessed
+addresses do not meet that bar regardless of confidence score, per `references/enrichment.md`.
+
 **This agent never writes to Attio automatically. It always stops at a spreadsheet.**
 Pushing to Attio is a separate, later step that only happens after Austin explicitly
 confirms which rows to push.

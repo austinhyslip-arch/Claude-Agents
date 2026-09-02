@@ -8,13 +8,25 @@ version of how credits are spent, how email is written, or how Attio is updated.
 
 | Agent | Skill | Status |
 |---|---|---|
+| List Building Agent | `.claude/skills/list-building-agent/` | Built. Layer 1, sourcing and qualification only. Stops at a spreadsheet, never touches Attio itself. |
 | 1. Outbound GTM Agent | `.claude/skills/chanty-outbound-gtm/` | Built. Healthcare ready to run, other industries blocked on win data. |
 | 2. On-Demand Outreach Drafting | `.claude/skills/outreach-drafting/` | Built. In this repo, and it writes the same Attio people records Agent 1 does. |
 
-The two agents are not independent. Agent 1 sources and stages on its own cadence. Agent 2
-drafts on demand for targets Austin hands it, and he sends those by hand. Same records,
-different method, and `who_contacted` is what tells them apart. Both follow every contract
-below, so where Agent 2's own references and these files disagree, these files win.
+Three agents, not two independent ones. List Building Agent sources and qualifies, stopping
+at a reviewable spreadsheet. Agent 1 sources and stages on its own cadence, and can also
+work from a spreadsheet List Building Agent produced once Austin has resolved its flags.
+Agent 2 drafts on demand for targets Austin hands it, from either a spreadsheet or a name
+typed into the conversation, and he sends those by hand. All three write or read the same
+Attio people records, and `who_contacted` is what tells the outbound agents apart once
+something is actually sent. All three follow every contract below, so where any agent's own
+references disagree with these files, these files win.
+
+**A list-build spreadsheet is qualified, not verified.** List Building Agent's own "Needs
+Paid Tool" column tracks whether a guess exists, not whether an address is send-eligible.
+`sourcing-and-credits.md`'s verification bar (published, provider-verified, or previously
+delivered) applies to every row before anything gets drafted, regardless of what that
+column says. See the note on `references/enrichment.md` for how that gap was found and
+closed.
 
 `shared/` carries run output between them. Attio is the real handoff since both agents read
 the same workspace; `shared/handoff.json` is a per-run snapshot of what a CRM holds badly,

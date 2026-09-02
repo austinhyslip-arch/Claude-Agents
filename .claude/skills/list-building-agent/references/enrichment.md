@@ -52,8 +52,17 @@ reason, not just a number:
 - `40% — no pattern reference, generic guess (first.last@ default)`
 
 Set `Email Source` = `Guessed` and `Needs Paid Tool (Email)` = `No` for anything with a
-guess in place — the guess is the deliverable at this stage, not a placeholder waiting on
-Apollo.
+guess in place — the guess is the deliverable **of this sourcing step**, not a placeholder
+waiting on Apollo.
+
+**This is not the same thing as send-eligible.** `.claude/gtm/sourcing-and-credits.md`,
+which both outbound agents follow, defines a send-eligible address as one that is
+published, returned verified (not risky, not accept-all) by a provider, or has already
+received mail without bouncing. A guess at any confidence, including 90%, meets none of
+those three and is a hypothesis, not a contact. `Needs Paid Tool (Email)` = `No` here means
+only "a guess exists to work from," not "ready to draft or send." Whoever drafts from this
+sheet re-verifies every guessed row against that bar before it reaches a send queue — this
+agent's job stops at sourcing and qualification, not verification.
 
 ## 3. When free sources and guessing aren't enough
 
