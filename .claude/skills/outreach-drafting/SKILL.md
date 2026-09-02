@@ -105,7 +105,7 @@ back to him, send that one message, log it, and leave the default alone.
 ### 6. Log the send
 
 Only after Austin confirms it went out. Per `references/attio-logging.md`: create or update
-the person, attach the email, set the status, then append the row to `state/send-log.md`.
+the person, attach the email, set the stage and who_contacted, then append the row to `state/send-log.md`.
 
 Stage comes from what Austin's message says. A cold first touch means Contacted.
 "Following up after our call" means a call already happened, so the stage is further along.
@@ -140,7 +140,7 @@ exactly. Read both from `list-attribute-definitions` rather than typing from mem
 - `references/personalization-angles.md`: angle types, ranked, and how to source one
 - `references/persona-map.md`: who is being written to and what each one deletes
 - `references/enrichment-waterfall.md`: free to paid order and the credit gate
-- `references/attio-logging.md`: dedup, field mapping, the status ladder
+- `references/attio-logging.md`: dedup, field mapping, the stage ladder
 - `references/draft-format.md`: how drafts come back for review
 - `state/send-log.md`: what actually went out
 - `state/drafts/`: saved batches when Austin wants one kept
