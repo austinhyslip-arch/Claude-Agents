@@ -1,0 +1,63 @@
+# Follow-up cadence rules
+# days: how many days after the trigger event to schedule a follow-up
+# stale_after_days: if last activity is older than this, flag instead of auto-scheduling
+
+rules:
+  Not Contacted:
+    trigger: "no outreach sent yet"
+    days: null   # not a follow-up case, nothing to schedule
+
+  Contacted:
+    trigger: "initial outreach sent, no reply yet"
+    days: 4
+    min_days: 3
+    max_days: 4
+
+  Follow-Up Sent:
+    trigger: "a follow-up already went out, no reply yet"
+    days: 4
+    min_days: 3
+    max_days: 4
+
+  Replied:
+    trigger: "contact replied, no meeting booked yet"
+    days: 2
+
+  Meeting Booked:
+    trigger: "meeting is on the calendar, nothing to chase yet"
+    days: null   # handled by meeting-confirmation check, not cadence
+
+  Opportunity:
+    trigger: "active deal in progress, e.g. proposal or pricing sent"
+    days: 5
+
+  Contracting:
+    trigger: "in contract/legal review"
+    days: 5
+
+  Follow Up Needed:
+    trigger: "explicitly flagged, catch-all"
+    days: 3
+
+  # WON-Closed, LOST-Closed, Not a Fit: no follow-up scheduled, deal is done
+
+  general_follow_up:
+    trigger: "fallback for any stage not listed above"
+    days: 4
+
+stale_after_days: 21
+
+# Attio stage values, pulled directly from the "Stage" status field on the
+# People object (order matches the pipeline order configured in Attio).
+stage_values:
+  - "Not Contacted"
+  - "Contacted"
+  - "Follow-Up Sent"
+  - "Replied"
+  - "Meeting Booked"
+  - "Opportunity"
+  - "Contracting"
+  - "WON-Closed"
+  - "LOST-Closed"
+  - "Not a Fit"
+  - "Follow Up Needed"

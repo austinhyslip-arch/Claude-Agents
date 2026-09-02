@@ -1,0 +1,62 @@
+name: Sales Ops Agent
+
+on:
+  schedule:
+    # 11:00 UTC = 6am America/Chicago (CDT). Adjust if you want a different local time.
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Run in dry-run mode (no writes to Attio or Calendar)"
+        type: boolean
+        default: false
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sales-ops-agent
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Write Google credential files
+        run: |
+          mkdir -p config
+          printf '%s' "$GOOGLE_CREDENTIALS_JSON" > config/google_credentials.json
+          printf '%s' "$GOOGLE_TOKEN_JSON" > config/google_token.json
+        env:
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+          GOOGLE_TOKEN_JSON: ${{ secrets.GOOGLE_TOKEN_JSON }}
+
+      - name: Run sales ops agent
+        env:
+          ATTIO_API_KEY: ${{ secrets.ATTIO_API_KEY }}
+          ATTIO_STAGE_SLUG: stage
+          ATTIO_LAST_CONTACTED_SLUG: last_contacted_at
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GMAIL_ACCOUNT: austin@chanty.com
+          GOOGLE_CREDENTIALS_PATH: config/google_credentials.json
+          GOOGLE_TOKEN_PATH: config/google_token.json
+          TIMEZONE: America/Chicago
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            python src/main.py --dry-run
+          else
+            python src/main.py
+          fi
+
+      - name: Upload run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sales-ops-agent-log-${{ github.run_id }}
+          path: sales-ops-agent/logs/agent.log
+          retention-days: 30
