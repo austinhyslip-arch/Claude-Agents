@@ -96,7 +96,7 @@ instead of this one — don't force both into one email.
 **Subject line: running as an A/B test, both sentence case, no "Re:".**
 
 - A: "a HIPAA compliant chat"
-- B: "I built an affordable HIPAA compliant chat"
+- B: "we built an affordable HIPAA compliant chat"
 
 Split evenly across a batch. Austin's first draft of both used "Re:" and Title Case; both
 violate the standing subject rule above (no fake "Re:", sentence case) and the "Re:" one was
