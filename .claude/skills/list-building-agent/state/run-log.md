@@ -67,4 +67,32 @@ fully vetted and offered to continue toward 100 in a follow-up run if Austin wan
 
 ---
 
+## 2026-09-02 — Call list, any specialty, nationwide (100 clinics, phone numbers only)
+Companies considered: ~115 raw candidates from directory-listing searches
+Excluded (chain/system-affiliated, caught by name pattern): ~20 (academic faculty
+  practices, UroPartners, Gastro Health, Obstetrix/MEDNAX, Pediatric Associates, Renown,
+  Samaritan, Northwestern Medicine, Mass General, OU Health, and others — added UroPartners
+  to known-health-systems.md)
+Included: 100 (all Pass — dropped the handful of "Unclear" multi-location brands rather
+  than include them, per Austin's request to keep this run simple)
+Contacts: none — company-level only, per Austin's request (main-line phone number, no
+  contact name/title/email work this run)
+
+Sourcing notes: No Apollo used (0 credits spent). Sourced via free web search using
+`"<specialty> practice phone number site:healthgrades.com group-directory"` style queries,
+which reliably return ~8-10 named practices with phone numbers per search — far faster
+than the individual-company verification pass from the first run. Independence screening
+was a fast name-pattern check only (no per-company deep dive), catching a couple of
+disguised chains along the way (Urology Specialists SC → UroPartners; Gastro Health's
+multiple FL listings). Caught and corrected 3 fabricated phone numbers before delivery by
+re-searching each one individually — a reminder to double check every figure lands in a
+row from an actual search result before it ships, not just close to one.
+
+Spreadsheet: state/lists/healthcare-call-list-2026-09-02.xlsx, also delivered as a Google
+Sheet per Austin's request (upload via Google Drive, converts xlsx to native Sheets format
+automatically).
+Pushed to Attio: not applicable — no contacts, company-only call list.
+
+---
+
 _No runs before this one._

@@ -55,6 +55,9 @@ Not applicable — spec scope is human healthcare.
 - **OneOncology** — national oncology practice management network. Absorbs formerly
   independent oncology practices (e.g. GenesisCare USA of Florida became SunState Medical
   Specialists under this network). Confirmed 2026-09-02 via free web search.
+- **UroPartners** — large Chicago-area urology consolidator. "Urology Specialists, S.C."
+  in Chicago is one of its branded locations (confirmed via uropartners.com listing the
+  same address/phone). Watch for other same-city urology group names sharing this pattern.
 
 ---
 
