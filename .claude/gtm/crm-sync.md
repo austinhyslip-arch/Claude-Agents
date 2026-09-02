@@ -34,9 +34,10 @@ came in.
 
 | Field | Set to |
 |---|---|
-| Last touch | the date it happened |
-| Last touch type | email-sent, reply-received, call, meeting, note |
-| GTM status | the rung this touch moved them to, if it moved them |
+| `stage` | the rung this touch moved them to, if it moved them. Live field. |
+| `who_contacted` | `Agent 1 (automated)` or `Austin (manual)`. Live field. Flag rather than overwrite the other agent's value. |
+| Last touch | the date it happened. Note field until it exists. |
+| Last touch type | email-sent, reply-received, call, meeting, note. Note field until it exists. |
 
 Plus a dated note saying what happened and who did it.
 
@@ -92,13 +93,22 @@ verify it actually did, with `search-emails-by-metadata` against recent records.
 mail is not landing on records, flag it in the run summary rather than duplicating the
 logging by hand.
 
-**Demo booked.** Comes through the Calendly to Attio connection over Zapier. Set status to
-`Meeting Booked`. If that connection is not live, cross-check with Attio `search-meetings`
-and with Google Calendar `list_events`, then ask Austin to confirm before setting it.
-A calendar entry is good evidence, not a confirmation.
+**Demo booked.** Calendly is out of the stack. Bookings come through Austin's Google Meet
+link, https://calendar.app.google/S56CDe5cBYwNanz39, which lands on his Google Calendar and
+reaches Attio through the calendar sync as `next_calendar_interaction` on the record.
 
-**Bounce.** Set `Email status` to `bounced` and person status to `Bounced`. Remove from any
-queue. Do not retry the same address, and do not go guess a replacement pattern.
+Nothing automated writes the stage any more, so an agent owns it. Set `stage` to
+`Meeting Booked` when Austin says a meeting is booked, or when `next_calendar_interaction`
+shows a future meeting with that contact. Cross-check with Attio `search-meetings` and
+Google Calendar `list_events` where it is unclear. A calendar entry alone is good evidence,
+not a confirmation, so a lone ambiguous entry gets flagged rather than set.
+
+The Zapier connection that used to carry this is no longer needed.
+
+**Bounce.** Set `email-status: bounced` in the `GTM record` note and remove from any queue.
+Do not retry the same address, and do not go guess a replacement pattern. `Bounced` is not
+an option on the live `stage` field, so leave the stage where it is rather than
+approximating, and say so in the run summary. See the side-status gap in `attio-schema.md`.
 
 ## What never updates automatically
 
@@ -112,6 +122,13 @@ contract" is a candidate, not a stage change. The candidate goes in
 **Do Not Contact.** Any opt-out request, however casually worded, sets `Do Not Contact`
 immediately and removes the record from every queue. This is the one flag that moves
 without asking, and it never gets reversed by an agent.
+
+It is also the one with no field to live in. `Do Not Contact` is not an option on the live
+`stage` field, so until Austin adds it: write `status: Do Not Contact` into the
+`GTM record` note, pull the person from every queue, and repeat it in the run summary so it
+is not discoverable only by reading a note body. **Never approximate it with `Not a Fit`.**
+That option says the account is a poor match, which is a different claim and reversible,
+and conflating the two is how an opt-out gets undone by a later campaign.
 
 ## Gap filling
 

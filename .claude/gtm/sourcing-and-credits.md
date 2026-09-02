@@ -61,12 +61,12 @@ unapproved charge is not.
 | Order | Provider | Use | State |
 |---|---|---|---|
 | 1 | Apollo | first paid attempt | connected |
-| 2 | Hunter | verification, and second attempt when Apollo comes back empty | **not connected** |
+| 2 | Hunter | verification, and second attempt when Apollo comes back empty | **unavailable, no connector exists** |
 | 3 | Clay | last resort, mostly the Personal list, thin free pool | connected |
 
-Hunter has no connector in this setup, so the middle rung is missing. Until it is added,
-the waterfall is Apollo then Clay, and verification falls to whatever the provider itself
-returns. Say so in the approval request rather than letting Austin assume a verification
+Hunter has no connector in this setup and none exists in the connector directory, so this
+is not a matter of Austin connecting it. Treat the waterfall as Apollo then Clay
+permanently, with verification falling to whatever the provider itself returns. Say so in the approval request rather than letting Austin assume a verification
 step ran.
 
 Stop the moment a verified result comes back. Do not run the same contact through every

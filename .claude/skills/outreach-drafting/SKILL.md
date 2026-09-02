@@ -1,146 +1,157 @@
 ---
 name: outreach-drafting
-description: On-demand outreach drafting for specific people Austin names. Use when he pastes one or more contacts (his Personal list, a referral, someone he met at a conference) and wants cold or warm email drafted, when he wants a follow-up or a rewrite of an earlier draft, or when he says he sent something and wants it logged to Attio. Checks Attio for a duplicate first, fills gaps with free research before asking to spend any paid enrichment credit, drafts through the copywriting pipeline, and never sends anything itself. Does no sourcing, no list building, and no automated cadence.
+description: On-demand outreach drafting for specific people Austin names. Use when he pastes one or more contacts (a referral, someone he met at a conference, anyone off his Personal list) and wants cold or warm email drafted, when he wants a rewrite or a follow-up on an earlier draft, or when he says he sent something and wants it logged to Attio. Checks Attio for a duplicate first, fills gaps with free research before asking to spend any paid credit, writes through the shared copywriting pipeline, and never sends anything itself. Agent 2 of the Chanty GTM system. Does no sourcing, no list building, and no automated cadence.
 ---
 
 # On-Demand Outreach Drafting
 
-Austin brings the people. This agent writes the outreach. Targeting is already decided
-before the conversation starts, so there is no sourcing step and no list to build.
+Agent 2 of the Chanty GTM system. Austin brings the people, this agent writes the outreach,
+and he sends it by hand.
 
-Everything lands in the Chanty Attio workspace, on the same People records Agent 1 uses.
-The two agents differ only in method: Agent 1 sends automated outreach, this one drafts
-what Austin sends by hand. The `who_contacted` field is what keeps them apart, so it gets
-written on every send, always as the exact string `Austin (manual)`.
+**Read `.claude/gtm/README.md` and the four contracts it points at before doing anything.
+They outrank this file wherever they overlap.** This file only covers what is different
+about drafting on demand. It deliberately does not restate the copywriting pipeline, the
+credit rules, the Attio schema or the sync rules, because a second copy of those is how the
+two agents drift apart and corrupt the same records.
 
-Two rules hold above everything else in this file:
+Agent 1 sources and stages on its own cadence. This one runs only when Austin asks. Same
+Attio records, different method, and `who_contacted` is what tells them apart.
 
-- **It never sends.** Drafts come back for review. Austin hits send.
-- **It never spends a paid credit without asking first.** Free research first, then one
-  batched ask, then nothing until he approves.
+**Three rules that never bend**, the same three Agent 1 has. No email sends without Austin
+pressing send. No credit gets spent without Austin approving the batch. No stage past
+`Meeting Booked` moves without Austin confirming it.
+
+**One rule that is easy to forget.** Every touch updates the person and their company, in
+the same step. See `.claude/gtm/crm-sync.md`. Being interactive is not an exemption.
 
 ## When it runs
 
 - Austin pastes one or more contacts and asks for outreach.
 - Austin wants a rewrite, a second version, or a follow-up on something this agent drafted.
-- Austin says he sent one, and it needs logging to Attio.
+- Austin says he sent one, and it needs logging.
 
-## What it deliberately leaves out
+## What it does not do
 
-Agent 1 owns finding people. This one does not, so these stay out of the workflow even
-when they are installed:
+Agent 1 owns finding people, so the sourcing and routing half of the stack stays out even
+though every skill is installed here: `build-list`, `icp-lookalike-expansion`,
+`buying-signals-6`, the five `bridgebound-*` catalogues, `outbound-triggers-6`,
+`outreach-4-categories` and `bridge-before-cold`. Targeting is decided before the
+conversation starts.
 
-| Not used | Why |
-|---|---|
-| `build-list`, `icp-lookalike-expansion` | Austin already chose the targets. |
-| `outbound-triggers-6`, `outreach-4-categories` | Trigger scoring decides who to contact. That call is made. |
-| `never-guess-an-email` | Email finding belongs to sourcing. The one piece that carries over is the honesty rule: never invent an address. |
-| `bridge-before-cold` | Warm-path sequencing is a targeting decision, not a drafting one. |
+`never-guess-an-email` is the exception the original brief got wrong. It reads like a
+sourcing skill, but `.claude/gtm/sourcing-and-credits.md` applies its verification rules to
+**every contact either agent touches**. It applies here. An assembled address is a
+hypothesis, a catch-all domain is not verified, and neither goes in a draft Austin is about
+to send.
 
-What it does use, in this order: `persona-mapping-framework`, then
-`personalization-playbooks`, then the copywriting pipeline. If any of those are installed,
-read the installed version and use it. `references/` carries a standalone fallback for each.
+There is no send queue, no send window and no daily pacing cap. Those exist because Agent 1
+sends on a schedule into a shared reputation. Austin sending a handful by hand does not need
+them. What does carry over is the volume ceiling: free Gmail is safe around 20 to 30 a day,
+so say something if a batch plus what has already gone out crosses roughly 25.
 
 ## Workflow
 
 ### 1. Read the whole message before starting
 
-Pull out, per target: name, title, company, email, how Austin knows them, any timing, and
-what he actually wants to happen. He often puts the real ask in the last line, so read to
-the end before drafting anything.
+Per target: name, title, company, email, how Austin knows them, any timing, and what he
+actually wants to happen. He often puts the real ask in the last line, so read to the end.
 
-Anything Austin states is authoritative. Web research and enrichment tools never overrule
-him, they only fill blanks.
+Anything Austin states is authoritative. Research and enrichment fill blanks, they never
+overrule him.
 
-With three or more targets, restate the parsed list back in one compact block before doing
-anything else. Correcting a misread company now is cheaper than rewriting six drafts.
+With three or more targets, restate the parsed list in one compact block before anything
+else. Correcting a misread company now is cheaper than rewriting six drafts.
 
 ### 2. Check Attio before creating anything
 
-Call `list-attribute-definitions` on `people` once per session before any write, then run
-the dedup logic in `references/attio-logging.md` for every target. Confident match, work
-from that record. Uncertain, flag it and hold that one target. No match, note it and move
-on.
+`list-attribute-definitions` on `people` once per session, then the dedup rules in
+`.claude/gtm/crm-sync.md`. Confident match, work from that record. Uncertain, flag it and
+hold that target while the others continue. Never merge, never create a near-duplicate.
 
-Nothing gets created yet. Records are written at step 6, after a real send. A draft Austin
-never sends should not leave a contact behind in the CRM.
+Nothing gets created yet. Records are written at step 6, after a real send. A batch of six
+drafts where Austin sends two should leave two records behind, not six.
 
-If `who_contacted` on the record says `Agent 1 (automated)`, say so. Austin emailing
-someone his other agent is already working is worth a heads up before the draft, not after.
+Two things on the record change the draft, so read them before writing:
 
-An existing record can change the draft. If Attio shows a thread from six weeks ago, this
-is not a cold first touch and should not read like one.
+- `who_contacted` saying `Agent 1 (automated)` means the other agent is already working this
+  person. Say so before drafting, not after.
+- A recent `last_interaction` or a synced thread means this is not a cold first touch and
+  must not read like one.
 
-### 3. Fill the gaps, free first
+### 3. Fill the gaps
 
-Order in `references/enrichment-waterfall.md`: what Austin gave, then the Attio record,
-then free web search. Only what is still missing after that reaches a paid tool.
+`.claude/gtm/sourcing-and-credits.md`, in full. Free web search first and it is not one
+query. Then batch every remaining gap across every target into a single message with the
+live Apollo balance in it, and stop.
 
-Batch every remaining gap across every target into one message, say what each lookup costs
-and what the draft loses without it, and stop. No credit is spent on a partial answer or
-an assumed yes.
+Austin is in the conversation, so the approval is a reply rather than a file. Anything he
+does not resolve before the run ends goes to `state/open-approvals.md`, and any approved
+spend gets appended to `state/credit-log.md`.
 
-### 4. Draft
+### 4. Write
 
-Follow `references/copywriting-pipeline.md` in the order it lists. Persona from
-`references/persona-map.md`, angle from `references/personalization-angles.md`.
+`.claude/gtm/copywriting.md`, all five stages, in order, every time.
+`b2b-cold-email-copywriting` → `cold-email-strategist` → `josh-braun-copywriting` →
+`frontal-messaging-templates` for reference only → `human-mannerisms` as the final pass.
 
-Batching notes:
+Persona from `persona-mapping-framework`, mapped onto the persona tags in
+`.claude/gtm/attio-schema.md`. Angle from `personalization-playbooks`, recorded as one of
+`authored-content`, `engaged-content`, `background`, `company-trigger` or `generic`, and
+carrying a source URL. No URL means the angle drops to `generic` rather than getting
+invented.
 
-- Vary the angle across targets. Two people at one company must not get the same email
-  with the name swapped.
-- Flag it when a batch puts more than one person at the same domain in the same day.
-- Gmail on a free account is safe around 20 to 30 sends a day. If the batch plus what
-  Austin already sent today crosses roughly 25, say so before he sends, not after.
+The send-performance rules in `copywriting.md` beat any skill's default. The two that catch
+people out here: **the CTA is a direct meeting ask with a specific time**, not a soft
+question, and **no named competitor**, which rules out opening on the tool they already pay
+for however tempting that is against Slack or Teams.
+
+Naming a specific time means knowing whether Austin is free. Check Google Calendar
+(`list_events` or `suggest_time`) against the recipient's local time zone before a time goes
+in an email. Suggesting a slot he is already booked in is worse than suggesting none.
+
+The booking link is https://calendar.app.google/S56CDe5cBYwNanz39. It belongs in the second
+email, after a reply. `copywriting.md` wants zero links in a first touch and that wins.
+
+Batching notes: vary the angle across targets, never send two people at one company the
+same email with the name swapped, and flag it when a batch puts more than one person at the
+same domain on the same day.
 
 ### 5. Hand it back
 
-Format per `references/draft-format.md`. Drafts land in the conversation. On request, push
-them to Gmail drafts, which is not sending.
+`references/draft-format.md`. Drafts land in the conversation, not in a send queue. On
+request, push them to Gmail drafts, which is not sending.
 
-If Austin asks this agent to send, say the rule out loud once and offer the Gmail draft
-instead. If he repeats the instruction, that is his call: read the recipient and subject
-back to him, send that one message, log it, and leave the default alone.
+If Austin asks this agent to send, say the rule once and offer the Gmail draft instead. If
+he repeats the instruction, that is his call: read the recipient and subject back to him,
+send that one, log it, and leave the default alone.
 
 ### 6. Log the send
 
-Only after Austin confirms it went out. Per `references/attio-logging.md`: create or update
-the person, attach the email, set the stage and who_contacted, then append the row to `state/send-log.md`.
+Only after Austin confirms it went out, and then per `.claude/gtm/crm-sync.md` in full,
+which means **both records, person and company, in the same step**.
 
-Stage comes from what Austin's message says. A cold first touch means Contacted.
-"Following up after our call" means a call already happened, so the stage is further along.
-Safe stages get set automatically. Opportunity, Contracting and any closed stage get
-flagged for his confirmation and are never set by the agent.
+On the person: `stage` per the ladder in `.claude/gtm/attio-schema.md`, `who_contacted` set
+to the exact string `Austin (manual)`, and the `GTM record` note updated rather than a
+second note format invented. Check for an already-synced copy of the email with
+`search-emails-by-metadata` first, so Attio's Gmail sync and this agent do not both log it.
 
-The `stage` field is Attio's status type with eleven options whose casing does not match
-what you would guess, and `who_contacted` is free text that needs its convention followed
-exactly. Read both from `list-attribute-definitions` rather than typing from memory.
-`references/attio-logging.md` carries both.
+On the company, same step: last touched, last touched by `Austin`, touches read then
+incremented, account status as the furthest rung anyone there has reached, and next step.
+Until the company custom fields exist those live in the `GTM account` note.
 
-## Rules that keep the drafts worth sending
+Then append the row to `state/send-log.md`.
 
-- **No detail goes in an email unless it can be sourced.** No sourced angle means a shorter
-  and more honest email, not an invented one.
-- **Never guess an email address.** If Austin did not give one and free research did not
-  turn up a verified one, ask. A bounce costs more than a delay.
-- **One ask per email.** Two asks is a form.
-- **The angle earns its place in the first two sentences** or it is decoration.
-- **Nothing goes to Attio that Austin did not confirm happened.** Drafts are not activity.
-- **Never merge or delete an Attio record.** `merge-records` is in the connector and a bad
-  merge cannot be undone.
-- **The booking link goes in the second email, not the first.**
-  https://calendar.app.google/S56CDe5cBYwNanz39
-- **No em-dashes, no three-part comma lists, no buzzwords.** The full voice rules are in
-  `references/copywriting-pipeline.md` and they are not stylistic preferences, they are the
-  spec.
+Safe stages are set automatically. `Opportunity`, `Contracting`, `WON-Closed`,
+`LOST-Closed` and `Not a Fit` are flagged for Austin and never set by the agent. `Do Not
+Contact` is the one flag that moves without asking, and it has no field yet, so it follows
+the interim path in `.claude/gtm/attio-schema.md` and gets repeated in the run summary.
 
 ## Files
 
-- `references/copywriting-pipeline.md`: draft order, voice rules, the cut pass, self-check
-- `references/personalization-angles.md`: angle types, ranked, and how to source one
-- `references/persona-map.md`: who is being written to and what each one deletes
-- `references/enrichment-waterfall.md`: free to paid order and the credit gate
-- `references/attio-logging.md`: dedup, field mapping, the stage ladder
 - `references/draft-format.md`: how drafts come back for review
 - `state/send-log.md`: what actually went out
+- `state/credit-log.md`: every approved paid lookup
+- `state/open-approvals.md`: anything left unresolved when a run ends
 - `state/drafts/`: saved batches when Austin wants one kept
+
+Shared contracts live in `.claude/gtm/`. The skill stack lives in `.claude/skills/`.

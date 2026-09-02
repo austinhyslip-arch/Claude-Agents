@@ -8,16 +8,69 @@ Workspace: **Chanty**. Connected as austin@chanty.com with admin access. Verifie
 
 ## What the workspace actually has today
 
-Two standard objects, `companies` and `people`. No custom attributes on either. No Deals
-object. One list, `Customer Success`, parented to companies. The workspace was created the
-same day this was written, so it is effectively empty.
+Two standard objects, `companies` and `people`. No Deals object. One list,
+`Customer Success`, parented to companies. The workspace is effectively empty of records.
 
-That matters for two reasons. The agent has no field to write a buying power score into
-yet, and **the Attio MCP connection cannot create attributes**. It can create records,
-lists, notes, tasks and comments, and it can update records and list entries. Adding a
-custom field is a thing Austin does in the Attio UI.
+**Companies still has no custom attributes. People now has two**, added by Austin in the UI
+after the first draft of this file. They are the live tracking fields and both agents write
+them. See the next section.
 
-So there are two ways to run, and the first one works today.
+**The Attio MCP connection cannot create attributes.** It creates records, lists, notes,
+tasks and comments, and it updates records and list entries. Adding a custom field is a
+thing Austin does in the Attio UI, so an agent that wants a new field asks for it rather
+than working around it.
+
+So there are two ways to run. Option A still covers everything the two live fields do not.
+
+## The live custom fields on People
+
+Read from the workspace on 2026-09-02, after Austin created them. Re-read with
+`list-attribute-definitions` at the start of any session that writes. Never type an option
+title from memory.
+
+### `stage` (title "Stage", type **status**, writable)
+
+Attio's `status` type, not a select, so it behaves as a real pipeline stage. Write it by
+passing the option title exactly: `{"stage": "Contacted"}`.
+
+```
+1  Not Contacted
+2  Contacted
+3  Follow-Up Sent      <- capital U
+4  Replied
+5  Meeting Booked
+6  Opportunity
+7  Contracting
+8  WON-Closed          <- not "Closed Won"
+9  LOST-Closed         <- not "Closed Lost"
+10 Not a Fit
+11 Follow Up Needed    <- no hyphen, unlike option 3
+```
+
+"Follow-Up Sent" and "Follow Up Needed" differ by one hyphen and mean opposite things.
+
+### `who_contacted` (title "Who Contacted", type **text**, writable)
+
+Free text, so nothing enforces consistency. Both agents write exactly one of:
+
+```
+Austin (manual)
+Agent 1 (automated)
+Inbound
+```
+
+Agent 1 writes `Agent 1 (automated)`. Agent 2 writes `Austin (manual)`. Neither overwrites
+the other's value silently: a record already carrying the other agent's name gets flagged,
+because two systems working one human is worth Austin knowing about before the next send.
+
+Converting this to a single Select with those three options would make drift impossible,
+and it is far cheaper now than after the table fills up.
+
+### What these fields do not cover
+
+Nothing on this object holds a **buying power score**, an **employee estimate**, a
+**persona tag**, a **sourcing tag**, an **email status** or a **time zone**. Those still
+live in the `GTM record` note under Option A.
 
 ## Option A, no schema changes, works now
 
@@ -47,6 +100,8 @@ use lists for the routing.
 | `job_title` | as written on their own site |
 | `company` | record link |
 | `description` | persona tag plus a one-line summary |
+| `stage` | the pipeline stage, see the ladder below |
+| `who_contacted` | which agent or person made contact, see above |
 | `linkedin` | profile |
 | `primary_location` | only when the person is clearly somewhere other than the company |
 
@@ -100,12 +155,15 @@ assignment, and list entries are what Austin sorts and works from.
 
 Cleaner, sortable, and worth having before the first real list build.
 
-**Checked 2026-09-02 against the live workspace and none of these exist yet.** Companies has
-31 attributes and people has 28, all of them stock. If fields were added in the UI and the
-agent cannot see them, something is off: a different workspace, an unsaved draft, or the
-connection needs reauthorising. Re-run `list-attribute-definitions` before assuming the
-agent can write to a field, and never write into a field name that has not come back from
-that call.
+**Partly done.** People now carries `stage` and `who_contacted`, which cover the GTM status
+and owner rows below. Companies is still entirely stock, so every company field here is
+still to add, and the company roll-up in `crm-sync.md` runs through the `GTM account` note
+until they exist.
+
+If a field was added in the UI and the agent cannot see it, something is off: a different
+workspace, an unsaved draft, or the connection needs reauthorising. Re-run
+`list-attribute-definitions` before assuming the agent can write to a field, and never write
+into a field name that has not come back from that call.
 
 ### On Companies
 
@@ -190,14 +248,49 @@ Set on the person, used by both personalization and copywriting. Kept short on p
 
 ## Status ladder
 
-Order matters. Nothing skips a rung without Austin saying so.
+The ladder is now the live `stage` field, not a set of names this file invents. Where the
+original ladder and the built field disagree, **the field wins**, because it is what Austin
+sorts his pipeline by.
 
-`New` → `Queued` → `Sent` → `Replied` → `Meeting Booked` → `Contracting` → `Won` / `Lost`
+| Original rung | Live `stage` option | Notes |
+|---|---|---|
+| New | `Not Contacted` | |
+| Queued | no field option | A staged draft is not a CRM state. Queue membership lives in Agent 1's `state/send-queue.md`. Do not invent a stage for it. |
+| Sent | `Contacted` | First touch. |
+| (none) | `Follow-Up Sent` | New. Every touch after the first. |
+| Replied | `Replied` | |
+| Meeting Booked | `Meeting Booked` | |
+| (none) | `Opportunity` | New. A qualification call, so it is flagged, never automatic. |
+| Contracting | `Contracting` | Flagged. |
+| Won / Lost | `WON-Closed` / `LOST-Closed` | Flagged. |
+| (none) | `Not a Fit` | New. Flagged. |
+| (none) | `Follow Up Needed` | New. A work queue flag, not a pipeline position, which is why it sits at order 11 after the closed stages. Set it when a touch has gone unanswered and no follow-up has gone out. Clear it to `Follow-Up Sent` when one does, or `Replied` if they answer. Never set it over `Meeting Booked` or later. |
 
-Side statuses that do not sit on the ladder: `Bounced`, `Held`, `Do Not Contact`.
+Nothing skips a rung without Austin saying so, and nothing moves backward. A new cold
+contact at an account already at `Replied` does not drag anything back.
+
+### The three side statuses have nowhere to live
+
+`Bounced`, `Held` and `Do Not Contact` are all required by `crm-sync.md` and **none of them
+is an option on the `stage` field.** That is a live gap, and `Do Not Contact` is the
+dangerous one: `crm-sync.md` calls it the one flag that moves without asking and never gets
+reversed, so it must not be recoverable only from a note body.
+
+Until Austin adds them as options:
+
+- **Do Not Contact** is written to the `GTM record` note as `status: Do Not Contact`, the
+  person is pulled from every queue, and it is repeated in the run summary. Never
+  approximate it with `Not a Fit`, which means the opposite thing about the account.
+- **Bounced** goes in the note as `email-status: bounced` and the address is suppressed.
+- **Held** is a queue state, so it stays in Agent 1's `state/send-queue.md` where it already
+  lives, and needs no field.
+
+Adding `Do Not Contact` and `Bounced` to the `stage` field is the cleanest fix and should
+happen before real volume.
 
 There is no Deals object in the workspace, so `Contracting` and past it live on the person
-record for now. If Austin adds Deals later, those two rungs move there and the person
+record for now. One person therefore carries one stage, which caps things at one open
+opportunity per human. If Austin adds Deals later, those rungs move there and the person
 record keeps everything up to `Meeting Booked`.
 
 ## Views

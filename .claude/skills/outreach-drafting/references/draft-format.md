@@ -20,12 +20,13 @@ Drop the header for a single target.
 
 Attio: existing record, last touched 2026-04-02 by Austin. No reply on that thread.
 Who Contacted on record: empty
-Persona: Ops or IT manager
-Angle: their Q2 post about running the team across Slack and Asana - https://example.com/post
-Stage on send: Contacted
-Email: jane@acme.com (given)
+Persona: ops-manager
+Angle: company-trigger, their Q2 post on onboarding four new sites - https://example.com/post
+Email: jane@acme.com, published on their team page, verified
+Time suggested: Thu Sep 10, 10:00 CT. Austin's calendar is clear.
+On send: stage Contacted, who_contacted Austin (manual), company touch rolled up
 
-Subject: Slack and Asana overlap
+Subject: onboarding four sites
 
 Jane,
 
@@ -33,8 +34,7 @@ Jane,
 
 Austin
 
-Notes: 94 words. The post is 6 weeks old, still current. Team size unverified, the draft
-avoids it. No credits spent.
+Notes: 84 words. Post is 6 weeks old, still current. No competitor named. No credits spent.
 ```
 
 Field notes:
@@ -42,20 +42,24 @@ Field notes:
 - **Attio** says what dedup found, and anything on the record that changed the draft.
   Uncertain matches say so here and the draft is held.
 - **Who Contacted on record** flags it when Agent 1 is already working this person.
-- **Angle** carries the source URL every time, even though the URL does not appear in the
-  email.
-- **Stage on send** is what will be written if Austin confirms it went out. Flagged stages
-  say `flagged, needs your confirmation` instead.
-- **Email** says where the address came from: given, on the record, revealed by Apollo, or
-  blank.
-- **Notes** carries word count, anything unverified, anything left out for lack of data,
-  and any credit spent.
+- **Persona** is a tag from `.claude/gtm/attio-schema.md`, not a free-text description.
+- **Angle** is one of `authored-content`, `engaged-content`, `background`,
+  `company-trigger` or `generic`, and carries a source URL every time even though the URL
+  does not appear in the email.
+- **Email** says where the address came from and whether it is verified. An assembled
+  address or a catch-all domain is not verified and the target is held, not drafted.
+- **Time suggested** names the slot in the CTA and confirms Austin's calendar is clear for
+  it. The contract requires a specific time, so this is not optional.
+- **On send** is what gets written to both records if Austin confirms. Flagged stages say
+  `flagged, needs your confirmation` instead.
+- **Notes** carries word count against the under-90 first-touch target, anything unverified,
+  anything left out for lack of data, and any credit spent.
 
 ## Held targets
 
-A target waiting on an uncertain Attio match or an unapproved credit gets a short block
-saying what it is waiting for, not a draft. Do not draft around a blocked email address
-and then present it as ready.
+A target waiting on an uncertain Attio match, an unapproved credit, or an unverified
+address gets a short block saying what it is waiting for, not a draft. Do not draft around
+a blocked address and then present it as ready.
 
 ## Closing line
 

@@ -9,7 +9,12 @@ version of how credits are spent, how email is written, or how Attio is updated.
 | Agent | Skill | Status |
 |---|---|---|
 | 1. Outbound GTM Agent | `.claude/skills/chanty-outbound-gtm/` | Built. Healthcare ready to run, other industries blocked on win data. |
-| 2. Built elsewhere | not in this repo | Lives outside this repo. Nothing here depends on it. |
+| 2. On-Demand Outreach Drafting | `.claude/skills/outreach-drafting/` | Built. In this repo, and it writes the same Attio people records Agent 1 does. |
+
+The two agents are not independent. Agent 1 sources and stages on its own cadence. Agent 2
+drafts on demand for targets Austin hands it, and he sends those by hand. Same records,
+different method, and `who_contacted` is what tells them apart. Both follow every contract
+below, so where Agent 2's own references and these files disagree, these files win.
 
 ## Shared contracts
 
@@ -33,7 +38,8 @@ Verified live on 2026-09-02.
 | Clay | Connected. Workspace `Chanty` (1356452) | Paid fallback, mostly the Personal list |
 | Gmail | Connected | Reading replies, staging drafts. Never for agent sending |
 | Google Calendar | Connected | Checking availability before a meeting time goes in an email |
-| Hunter | **Not connected** | The middle rung of the waterfall is missing. See `sourcing-and-credits.md` |
+| Hunter | **Not connected, and no connector exists in the directory** | The middle rung of the waterfall is missing and is not a matter of connecting it. Apollo carries verification. See `sourcing-and-credits.md` |
+| Calendly | **Dropped from the stack** | Replaced by Austin's Google Meet link. The Zapier bridge it needed is no longer required. |
 
 ## Skill stack
 
