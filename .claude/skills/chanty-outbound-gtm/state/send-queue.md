@@ -36,13 +36,15 @@ Subject: eight clinics, one manager
 ```
 Alayna,
 
-You're hiring a regional ops manager to cover eight clinics. That job tends to
-turn into phone tag, because most of the people they need to reach are never
-sitting at a computer.
+I'm Austin, the co-founder of Chanty. We built it because the big internal
+communications platforms aren't built for healthcare clinics who need a
+simple, easy to use platform that's affordable.
 
-Chanty is a team chat and task app clinic staff run from their phones, so a
-message to a front desk doesn't wait for someone to check email between
-patients.
+You're hiring a regional ops manager over eight clinics, and most of the
+people they'll need to reach aren't sitting at a computer.
+
+Our base plan: no complex builds, no weeks-long integration, BAA signed,
+HIPAA compliant, and affordable.
 
 Any chance you have 15 minutes Tuesday the 8th at 10am your time?
 
@@ -72,11 +74,15 @@ Subject: four offices, one thread
 ```
 Kelly,
 
-Four offices means a schedule change has four places to go missing, and most
-of your staff aren't sitting at a computer to catch it anyway.
+I'm Austin, the co-founder of Chanty. We built it because the big internal
+communications platforms aren't built for healthcare clinics who need a
+simple, easy to use platform that's affordable.
 
-Chanty is team chat and tasks your staff run from their phones, so Cool
-Springs and Nolensville hear the same thing at the same time.
+You're running front desk across four offices, so a schedule change has
+four places to go missing.
+
+Our base plan: no complex builds, no weeks-long integration, BAA signed,
+HIPAA compliant, and affordable.
 
 Any chance you have 15 minutes Wednesday the 9th at 9:15am?
 
