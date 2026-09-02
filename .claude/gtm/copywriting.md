@@ -72,6 +72,25 @@ Any of these means the draft goes back through step 5 before it reaches the queu
 - claiming to have read something the agent did not actually read
 - any personalization detail that is not verifiable from a source the agent can cite
 
+## Never open on their history
+
+The angle is about the problem they have today. Not their career, not their tenure, not
+where they worked before, not how long they have been in the job.
+
+Banned openers, whatever the research turned up:
+
+- "You went from X to Y"
+- "You've been at <company> for three years now"
+- "I saw you used to work at <company>"
+- anything reciting their job history back to them
+- anything that reads like their profile was studied
+
+Two reasons. They are not thinking about their old job, so it is not relevant to them. And
+it reads like surveillance, which costs more goodwill than the specificity buys.
+
+True and checkable is the floor, not the bar. A detail can pass the honesty rule and still
+be the wrong thing to say. The test is whether it is on their mind this week.
+
 ## Personalization honesty
 
 The angle has to be real. If `personalization-playbooks` picks an authored-content angle,

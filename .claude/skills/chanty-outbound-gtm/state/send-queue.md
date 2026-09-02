@@ -63,25 +63,20 @@ Austin
 - Stage: Not Contacted
 - Persona: ops-manager | Score: 5 | List: Healthcare / CT / Agent
 - Category: Outbound | Bridge: none | Premise: typical cold outbound
-- Angle: background, and a better one than before. She ran a front desk at MPOWER Physical
-  Therapy from 2023 to 2025 and now runs one across four offices. Public work history, so it
-  is checkable.
+- Angle: background, four offices under one front desk
 - Proposed slot: 2026-09-09, 09:15 America/Chicago
-- **Hold reason: still no verified address. A paid lookup returned a guess, which does not
-  count. Phone is the live route to this account.**
+- **Hold reason: no verified address. Phone is the live route to this account.**
 
-Subject: front desk, four offices
+Subject: four offices, one thread
 
 ```
 Kelly,
 
-You ran a front desk at MPOWER before this. Now you're doing it across four
-offices, which is the same problem with more places for a message to go
-missing.
+Four offices means a schedule change has four places to go missing, and most
+of your staff aren't sitting at a computer to catch it anyway.
 
-Chanty is a team chat and task app your staff can use from a phone, so a
-schedule change at Cool Springs lands with Nolensville without a group text
-or a round of calls.
+Chanty is team chat and tasks your staff run from their phones, so Cool
+Springs and Nolensville hear the same thing at the same time.
 
 Any chance you have 15 minutes Wednesday the 9th at 9:15am?
 
