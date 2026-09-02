@@ -46,10 +46,11 @@ clearly tagged as an estimate, a time zone, and a persona tag.
 Healthcare is the only vertical running. Everything else is paused, see **Rollout status**.
 
 ### 3. Rank the signal
-Run `outbound-triggers-6` over each account. An account with no trigger still gets worked,
-it just ranks below one that has a leadership change or a hiring burst behind it. Record the
-trigger with its source URL and date. No URL means no trigger, so leave the field empty
-rather than filling it with a hunch.
+Run `buying-signals-6` over each account, and reach into the `bridgebound-*` catalogue when
+it comes up empty. An account with no signal still gets worked, it just ranks below one that
+has a leadership change or a hiring burst behind it. Record the signal with its source URL
+and date. No URL means no signal, so leave the field empty rather than filling it with a
+hunch. `outbound-triggers-6` is a different job and runs later, at step 5.
 
 ### 4. Classify and route
 `outreach-4-categories` sorts each lead into Inbound, Postbound, Bridgebound or Outbound.
@@ -59,8 +60,11 @@ warm intro is worth more than a cold email and should not be spent on a cold ema
 
 ### 5. Personalize
 `persona-mapping-framework` maps the buying committee at multi-stakeholder accounts.
-`personalization-playbooks` picks the actual angle per contact: authored content, engaged
-content, background, or a company trigger. Details in `references/routing-and-personalization.md`.
+`personalization-playbooks` sets how much personalization the category earns, and the angle
+per contact comes out of that: authored content, engaged content, background, or a company
+signal. For accounts that are genuinely cold with no bridge, `outbound-triggers-6` picks the
+entry premise, which decides who gets the first email. Details in
+`references/routing-and-personalization.md`.
 
 The angle has to be real and cited. See the honesty rule in `.claude/gtm/copywriting.md`.
 
@@ -76,7 +80,8 @@ email carries its recipient, verified email status, time zone, its send window i
 recipient's local time, the trigger and angle behind it, and the draft itself.
 
 Anything the queue cannot place goes to `Held` with the reason. Unknown time zone is held,
-not guessed. Unverified email is held, not sent.
+not guessed. An unverified address is held, not sent, and a catch-all domain counts as
+unverified.
 
 ### 8. Sweep replies
 Classify inbound with `handle-reply`. Update Attio per `.claude/gtm/crm-sync.md`. Draft the
@@ -119,8 +124,8 @@ Full detail in `references/send-policy.md`.
 ## Files
 
 - `references/lists-and-icp.md`: ICP, regions, the buying power score, Personal / Agent split
-- `references/routing-and-personalization.md`: triggers, the four categories, bridge check,
-  persona mapping, angle selection
+- `references/routing-and-personalization.md`: signal ranking, the four categories, bridge
+  check, persona mapping, angle selection, cold entry premise
 - `references/send-policy.md`: queue format, windows, pacing, hold reasons
 - `state/run-log.md`: what every run did
 - `state/send-queue.md`: staged drafts waiting on Austin

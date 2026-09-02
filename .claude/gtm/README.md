@@ -9,11 +9,7 @@ version of how credits are spent, how email is written, or how Attio is updated.
 | Agent | Skill | Status |
 |---|---|---|
 | 1. Outbound GTM Agent | `.claude/skills/chanty-outbound-gtm/` | Built. Healthcare ready to run, other industries blocked on win data. |
-| 2. (not yet specified) | not created | Waiting on the spec from Austin. |
-
-Agent 2 was named in the original brief but its section was never written down. Nothing in
-this repo assumes what it does. When the spec lands, it gets its own skill folder next to
-Agent 1 and reads the same four contracts below.
+| 2. Built elsewhere | not in this repo | Lives outside this repo. Nothing here depends on it. |
 
 ## Shared contracts
 
@@ -26,28 +22,65 @@ reference file, the contract wins.
 - `attio-schema.md`: the objects, fields and views the agents read and write
 - `crm-sync.md`: what updates automatically, what gets flagged, what never moves on its own
 
+## Connectors
+
+Verified live on 2026-09-02.
+
+| Connector | State | Used for |
+|---|---|---|
+| Attio | Connected. Workspace `Chanty`, admin access as austin@chanty.com | System of record |
+| Apollo | Connected | Paid contact lookup, first in the waterfall, approval required |
+| Clay | Connected. Workspace `Chanty` (1356452) | Paid fallback, mostly the Personal list |
+| Gmail | Connected | Reading replies, staging drafts. Never for agent sending |
+| Google Calendar | Connected | Checking availability before a meeting time goes in an email |
+| Hunter | **Not connected** | The middle rung of the waterfall is missing. See `sourcing-and-credits.md` |
+
 ## Skill stack
 
-Installed with `npx skills add swan-gtm/gtm-skills`. See the agent's `SETUP.md` for the
-install check.
+The 21 skills this system uses are vendored into `.claude/skills/` and committed, so a
+fresh clone or a new session has them without a network install step. `skills-lock.json` at
+the repo root records the source and hash of each one.
+
+To add another from the same library:
+
+```
+npx skills add swan-gtm/gtm-skills -s "<skill-name>" -a claude-code --copy -y
+```
+
+Run it from the repo root. One `-s` flag per skill, since a comma-separated list is not
+matched. `--copy` matters, because the default symlinks into `node_modules` and those links
+break in a fresh container. Commit what it writes.
+
+### What each skill does here
 
 | Skill | Used for |
 |---|---|
 | `research` | company, contact and signal lookups underneath everything else |
 | `build-list` | ICP criteria into a scored contact list |
 | `icp-lookalike-expansion` | widening the list off closed-won data |
-| `never-guess-an-email` | verification before send |
-| `outbound-triggers-6` | ranking the buying signal behind an account |
+| `never-guess-an-email` | published versus assembled addresses, role inbox ranking, suppression |
+| `buying-signals-6` | ranking the buying signal behind an account |
+| `bridgebound-firmographic-15` | business-event triggers: funding, M&A, growth, relocation |
+| `bridgebound-in-market-20` | active-buyer triggers: adjacent vendors, competitors, timing |
+| `bridgebound-symptoms-11` | pain-based triggers: complaints, gaps, influencer audiences |
+| `bridgebound-history-16` | past-prospect triggers: closed-lost, old demos, churn |
+| `bridgebound-relationship-39` | warm-connection triggers, feeds the bridge check |
 | `outreach-4-categories` | Inbound / Postbound / Bridgebound / Outbound |
-| `bridge-before-cold` | is there a warm path before we go cold |
+| `bridge-before-cold` | is there a warm path, and what one-line premise comes out of it |
+| `outbound-triggers-6` | the entry premise for a genuinely cold account |
 | `persona-mapping-framework` | mapping the buying committee |
-| `personalization-playbooks` | picking the angle per contact |
+| `personalization-playbooks` | how much personalization a category earns |
 | `b2b-cold-email-copywriting` | core email structure |
-| `cold-email-strategist` | first-touch strategy |
+| `cold-email-strategist` | first-touch strategy and deliverability |
 | `josh-braun-copywriting` | hook and psychology |
-| `frontal-messaging-templates` | structure and deliverability reference only |
+| `frontal-messaging-templates` | six message structures, reference only |
 | `human-mannerisms` | final pass to strip AI-sounding language |
 | `handle-reply` | classifying inbound replies and drafting the next action |
 
-If a skill in this list is not installed, say so in the run summary and fall back to the
-agent's own reference file. Do not quietly skip a step in the pipeline.
+**One correction against the original brief.** It had `outbound-triggers-6` ranking buying
+signals like leadership changes and hiring. That is not what the skill does. It holds six
+entry premises for cold accounts: CXO Passdown, two Groundswell plays, Groundswell to
+decision maker, Multi-Persona, and plain cold. The signal ranking the brief described is
+`buying-signals-6`, and the trigger catalogue behind it is the five `bridgebound-*` skills.
+Those six were installed on top of the fifteen the brief named, because otherwise the
+ranking step had nothing to run on.

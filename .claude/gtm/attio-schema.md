@@ -3,51 +3,126 @@
 Attio is the system of record. If something happened to a contact and it is not in Attio,
 it did not happen.
 
-## Objects
+Workspace: **Chanty**. Connected as austin@chanty.com with admin access. Verified
+2026-09-02.
 
-**Company** (Attio standard object)
+## What the workspace actually has today
 
-| Field | Type | Notes |
+Two standard objects, `companies` and `people`. No custom attributes on either. No Deals
+object. One list, `Customer Success`, parented to companies. The workspace was created the
+same day this was written, so it is effectively empty.
+
+That matters for two reasons. The agent has no field to write a buying power score into
+yet, and **the Attio MCP connection cannot create attributes**. It can create records,
+lists, notes, tasks and comments, and it can update records and list entries. Adding a
+custom field is a thing Austin does in the Attio UI.
+
+So there are two ways to run, and the first one works today.
+
+## Option A, no schema changes, works now
+
+Use the standard fields for what they cover, put everything else in a structured note, and
+use lists for the routing.
+
+**Companies, standard fields used as-is**
+
+| Attio field | Holds |
+|---|---|
+| `name` | company name |
+| `domains` | dedupe key, strongest match |
+| `description` | one line on what they are |
+| `primary_location` | drives the time zone |
+| `categories` | closest match, `Veterinary` and `Alternative Medicine` exist, most healthcare has no option |
+| `employee_range` | the estimate, bucketed to `1-10`, `11-50`, `51-250`, `251-1K` |
+| `linkedin` | profile |
+| `team` | links to the people records |
+
+**People, standard fields used as-is**
+
+| Attio field | Holds |
+|---|---|
+| `name` | person name |
+| `email_addresses` | verified addresses only |
+| `phone_numbers` | company main line is fine |
+| `job_title` | as written on their own site |
+| `company` | record link |
+| `description` | persona tag plus a one-line summary |
+| `linkedin` | profile |
+| `primary_location` | only when the person is clearly somewhere other than the company |
+
+**Everything else goes in a note on the record**, created with `create-note`, titled
+`GTM record` and formatted so it can be parsed back on the next run:
+
+```
+persona: ops-manager
+timezone: America/Chicago
+employee-estimate: 60 (basis: site-count)
+sites: 4
+score: 5 (size 2, footprint 1, growth 1, structure 1, fit 0)
+list: Healthcare / CT / Agent
+email-status: verified
+sourcing: free-web-search
+category: Outbound
+bridge: none
+signal: hiring, 3 front office roles, <url>, 2026-08-24
+angle: company-trigger, <url>
+status: Queued
+```
+
+**Lists carry the routing.** One Attio list per industry and region and type, created with
+`create-list` and named to match `lists-and-icp.md`:
+
+```
+Healthcare / ET / Personal
+Healthcare / ET / Agent
+Healthcare / CT / Personal
+...
+```
+
+A company or person joins the list its score puts it in. `add-record-to-list` does the
+assignment, and list entries are what Austin sorts and works from.
+
+## Option B, once Austin adds the fields
+
+Cleaner, sortable, and worth doing before the first real list build if there is time. These
+are the custom attributes to create in the Attio UI.
+
+**On Companies**
+
+| Field | Type | Options |
 |---|---|---|
-| Name | text | |
-| Domain | domain | dedupe key, strongest match |
-| Industry | select | `Healthcare`, `Real Estate`, `Frontline`, `Other` |
-| Employee count (est.) | number | always an estimate, never presented as confirmed |
-| Employee count basis | select | `site-count`, `linkedin`, `directory`, `stated`, `guess` |
-| Sites / locations | number | main size driver in healthcare |
-| Time zone | select | `ET`, `CT`, `MT`, `PT`, `AKT`, `HT`, `unknown` |
-| Buying power score | number | 0 to 12, see the agent's `lists-and-icp.md` |
-| List assignment | select | `Personal`, `Agent`, `Excluded` |
-| Trigger | select | from `outbound-triggers-6` |
-| Trigger source | url | no URL means no trigger |
-| Trigger date | date | |
-| Sourcing tag | select | `free-web-search`, `paid-apollo`, `paid-hunter`, `paid-clay` |
+| Industry (GTM) | select | Healthcare, Real Estate, Frontline, Other |
+| Employee count (est.) | number | |
+| Employee count basis | select | site-count, linkedin, directory, stated, guess |
+| Sites | number | |
+| Time zone | select | ET, CT, MT, PT, AKT, HT, unknown |
+| Buying power score | number | |
+| List assignment | select | Personal, Agent, Excluded |
+| Signal | select | former-customer, new-leadership, high-intent-visit, tech-stack, expansion, hiring |
+| Signal source | text (URL) | |
+| Signal date | date | |
+| Sourcing | select | free-web-search, paid-apollo, paid-hunter, paid-clay |
 
-**Person** (Attio standard object)
+**On People**
 
-| Field | Type | Notes |
+| Field | Type | Options |
 |---|---|---|
-| Name | text | |
-| Company | record link | |
-| Title | text | as written on their own site |
-| Persona tag | select | see below |
-| Email | email | |
-| Email status | select | `verified`, `catch-all`, `unverified`, `bounced` |
-| Phone (main line) | phone | company main line is fine |
-| Time zone | select | inherited from company unless the person is clearly elsewhere |
-| Outreach category | select | `Inbound`, `Postbound`, `Bridgebound`, `Outbound` |
-| Bridge path | text | who or what the warm path is, empty when genuinely cold |
-| Personalization angle | select | `authored-content`, `engaged-content`, `background`, `company-trigger`, `generic` |
-| Personalization source | url | required unless the angle is `generic` |
-| Status | select | see the status ladder below |
-| Sourcing tag | select | same values as company |
+| Persona | select | owner-operator, clinical-lead, ops-manager, it-security, finance, hr-people, frontline-supervisor |
+| Email status | select | verified, published-role-inbox, catch-all, unverified, bounced |
+| Outreach category | select | Inbound, Postbound, Bridgebound, Outbound |
+| Bridge path | text | |
+| Personalization angle | select | authored-content, engaged-content, background, company-trigger, generic |
+| Personalization source | text (URL) | |
+| GTM status | select | the ladder below |
+| Owner | select | Austin, Agent |
 | Last touch | date | |
-| Owner | select | `Austin`, `Agent` |
+
+Once these exist, the agent writes to the fields instead of the note, and the note goes back
+to being a note. Nothing else in the workflow changes.
 
 ## Persona tags
 
-Set on the person, used by both personalization and copywriting. Keep the list short so it
-stays useful.
+Set on the person, used by both personalization and copywriting. Kept short on purpose.
 
 - `owner-operator`: owns or runs the business, signs the cheque
 - `clinical-lead`: physician lead, medical director, clinical director
@@ -65,19 +140,38 @@ Order matters. Nothing skips a rung without Austin saying so.
 
 Side statuses that do not sit on the ladder: `Bounced`, `Held`, `Do Not Contact`.
 
+There is no Deals object in the workspace, so `Contracting` and past it live on the person
+record for now. If Austin adds Deals later, those two rungs move there and the person
+record keeps everything up to `Meeting Booked`.
+
 ## Views
 
-Delivery format Austin actually reads:
+What Austin actually reads:
 
-1. **Personal list, pinned at the top of the view.** Sortable by time zone. Contact info
-   visible in the row without opening the record. Sorted by buying power score descending
-   inside each time zone.
-2. **Agent list, its own section underneath.** Same columns, same sort.
+1. **Personal list pinned at the top.** Sortable by time zone, contact info visible in the
+   row without opening the record, sorted by score descending inside each time zone.
+2. **Agent list underneath, its own section.** Same columns, same sort.
 
-Split by industry first, then region inside it. One view per industry is enough while
-healthcare is the only live vertical.
+Attio views are configured in the UI, not over the API, so the agent's part is getting the
+list membership and the fields right. The layout is a one-time setup job.
 
-**Fallback.** If the Attio write path is unavailable, produce a spreadsheet with one tab per
-list, named `<industry>-<region>-<personal|agent>`, carrying the same columns in the same
-order. Say in the run summary that the fallback was used and why, and treat the spreadsheet
-as temporary. It gets loaded into Attio once the write path is back.
+## Tools the agent uses
+
+| Job | Tool |
+|---|---|
+| Find an existing record before creating | `search-records`, then `get-records-by-ids` |
+| Create or update in one call | `upsert-record`, keyed on domain for companies and email for people |
+| Create only | `create-record` |
+| Update a known record | `update-record` |
+| Structured detail | `create-note`, `update-note`, `get-note-body` |
+| Routing | `create-list`, `add-record-to-list`, `update-list-entry-by-record-id` |
+| Reading replies against records | `search-emails-by-metadata`, `semantic-search-emails`, `get-email-content` |
+| Confirming a booked meeting | `search-meetings` |
+| Duplicates | `merge-records`, **only after Austin confirms**, never on the agent's own judgement |
+
+## Fallback
+
+If the Attio connection is down, produce a spreadsheet with one tab per list, named
+`<industry>-<region>-<personal|agent>`, carrying the same fields in the same order. Say in
+the run summary that the fallback was used and why, and load it into Attio once the
+connection is back.

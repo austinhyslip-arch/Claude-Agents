@@ -5,15 +5,17 @@ agent may change on its own and what it has to bring to Austin first.
 
 ## Before creating anything
 
-Check for an existing record. Match on person name and on company, and prefer domain as the
-strongest signal.
+Check for an existing record with `search-records` before anything else. Match on person
+name and on company, and prefer domain as the strongest signal. `upsert-record` keyed on
+domain for companies and on email for people handles the ordinary case in one call.
 
 - **Confident match** (same domain plus same person name, or same person name plus same
   company name with no conflicting details): update the existing record. Do not create a
   second one.
 - **Uncertain match** (name matches but company differs, company matches but the person is
   new, two records already look like the same human): flag it for Austin and move on. Never
-  silently merge. Never create a near-duplicate to sidestep the question.
+  silently merge. Never create a near-duplicate to sidestep the question. `merge-records`
+  exists and is irreversible, so it runs only on Austin's explicit go-ahead.
 
 Flagged matches go in `state/open-approvals.md` under `Uncertain match`, with both record
 links and what makes them ambiguous.
@@ -25,13 +27,14 @@ No confirmation needed. Classify the reply with `handle-reply` and put the sugge
 action on the record as a note, but do not send anything.
 
 **Reply sent by Austin.** Attio's native Gmail sync should catch this. The agent's job is to
-verify it actually did. On each run, spot-check recent sent mail against the records. If
-sent mail is not landing on records, flag it in the run summary rather than duplicating the
+verify it actually did, with `search-emails-by-metadata` against recent records. If sent
+mail is not landing on records, flag it in the run summary rather than duplicating the
 logging by hand.
 
 **Demo booked.** Comes through the Calendly to Attio connection over Zapier. Set status to
-`Meeting Booked`. If that connection is not live, ask Austin to confirm the booking, then
-set it manually.
+`Meeting Booked`. If that connection is not live, cross-check with Attio `search-meetings`
+and with Google Calendar `list_events`, then ask Austin to confirm before setting it.
+A calendar entry is good evidence, not a confirmation.
 
 **Bounce.** Set `Email status` to `bounced` and person status to `Bounced`. Remove from any
 queue. Do not retry the same address, and do not go guess a replacement pattern.

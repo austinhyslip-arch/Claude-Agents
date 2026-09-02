@@ -32,7 +32,8 @@ as everyone else's automation.
 
 An email leaves `Held` and enters `Ready` only when all of these are true:
 
-- [ ] email status is `verified`, or `catch-all` and explicitly flagged as such
+- [ ] email status is `verified` or `published-role-inbox`. A catch-all or accept-all
+      domain is not verified and stays held for Austin to decide on
 - [ ] recipient is not `Do Not Contact` and has not bounced before
 - [ ] time zone is known
 - [ ] the send slot falls inside the window on a weekday
@@ -77,8 +78,10 @@ disappear.
 - Plain text signature. Name, company, one line. No image, no banner, no legal block.
 - Stop the whole queue and tell Austin if bounces cross 3% of a week's sends, or if any
   reply mentions spam.
-- Never send to a role address that is clearly not a person, for example `info@` or
-  `noreply@`, unless it is the only published address and the persona is still clear.
+- A published role inbox is sendable when it is the only address and the persona is still
+  clear, but it gets written differently: one line asking to be routed to whoever owns
+  this, easy to forward, no pitch. Rank them sales-flavoured, then neutral, then support
+  last. Never send to `noreply@` or an address that cannot receive a human reply.
 
 ## Follow-ups
 

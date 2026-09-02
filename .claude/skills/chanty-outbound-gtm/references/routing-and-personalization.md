@@ -5,22 +5,33 @@ committee, then pick the angle. Each step narrows what the email can honestly sa
 
 ## 1. Rank the signal
 
-Run `outbound-triggers-6`. The six categories, with what they look like in healthcare:
+Run `buying-signals-6`. Its six signals are ranked by how well they correlate with an actual
+purchase, strongest first:
 
-| Trigger | What to look for |
-|---|---|
-| Leadership change | new practice manager, new director of operations, new COO |
-| Hiring | open roles posted in the last 60 days, especially front office or multi-site roles |
-| Tech stack | a job post naming the tools they run, a vendor page listing them as a customer |
-| Expansion | new location announced or opened, an acquisition of another practice |
-| Funding or ownership | PE backing, a group roll-up, a management services organisation deal |
-| Content or public activity | a leader posting, speaking, quoted in trade press |
+| Rank | Signal | What it looks like in healthcare | Timing |
+|---|---|---|---|
+| 1 | Former customer or alumni user | someone who used Chanty at a previous practice | on detection |
+| 2 | New leadership, 90 days or less | new practice manager, new director of operations, new COO | days 14 to 45 |
+| 3 | High-intent site visits | pricing, comparison or demo pages | while it is warm |
+| 4 | Tech stack change | a job post naming their tools, a vendor listing them as a customer | on detection |
+| 5 | Expansion | new location announced or opened, a practice acquired | within 90 days |
+| 6 | Hiring or downsizing | front office or multi-site roles posted in the last 60 days | within 60 days |
 
-Record the trigger, its source URL and its date. Anything older than 90 days is stale and
+The wider trigger catalogue sits in the five `bridgebound-*` skills. Reach for them when the
+six above come up empty: `bridgebound-firmographic-15` for business events,
+`bridgebound-in-market-20` for active buyers and competitor timing, `bridgebound-symptoms-11`
+for visible pain, `bridgebound-history-16` for anyone we have talked to before, and
+`bridgebound-relationship-39` for warm paths, which feeds step 3.
+
+Record the signal, its source URL and its date. Anything older than 90 days is stale and
 does not carry an email on its own.
 
-No trigger is a normal state. Untriggered accounts still get worked, they just sort below
-triggered ones inside the same list.
+No signal is a normal state. Unsignalled accounts still get worked, they just sort below
+signalled ones inside the same list.
+
+**Note on the brief.** It had `outbound-triggers-6` doing this job. That skill does
+something else, covered in step 6 below, so the signal ranking runs on `buying-signals-6`
+instead.
 
 ## 2. Classify
 
@@ -88,6 +99,27 @@ week, for example a new location or a hiring burst. Weakest when it is generic c
 Generic is an acceptable outcome. Inventing a detail is not. If the record cannot support
 the angle with a source, the angle is not available, whatever it would have done for the
 open rate.
+
+## 6. Pick the entry premise, cold accounts only
+
+`outbound-triggers-6`, once the lead is genuinely Outbound and no bridge exists. Six premises
+for getting into an account that has never heard of us:
+
+| Premise | Shape | When it fits a healthcare account |
+|---|---|---|
+| CXO Passdown | email the top, ask to be pointed at the right person | small groups where the owner reads their own mail |
+| Groundswell for info | start with end users, build support upward | larger groups with a real committee |
+| Groundswell for product placement | get the product in frontline hands first | works with Chanty's free tier |
+| Groundswell to decision maker | use internal usage as the proof point | only once there is usage to point at |
+| Multi-Persona | coordinated outreach across the committee | multi-site groups with split budget authority |
+| Typical cold outbound | one to one, heavy research, pattern-interrupt open | the default, and where most of this list lands |
+
+Pick one per account and record it. The premise decides who gets the first email, which is
+why it comes before writing and not during.
+
+Note that CXO Passdown and Multi-Persona both put a second person at the same company in
+scope. That runs into the one-cold-email-per-company-per-week rule in `send-policy.md`, and
+the rule wins. Sequence them across weeks rather than emailing two people at once.
 
 ## Angle to persona, quick guide
 
