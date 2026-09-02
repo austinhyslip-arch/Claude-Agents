@@ -14,7 +14,8 @@ HCA Healthcare, Ascension, CommonSpirit Health, Providence, Trinity Health, Kais
 Permanente, Advocate Health, Tenet Healthcare, Community Health Systems, Universal Health
 Services, Mayo Clinic, Cleveland Clinic, Mass General Brigham, NYU Langone, Northwell
 Health, Sutter Health, Intermountain Health, Baylor Scott & White, Banner Health, UPMC,
-Sanford Health
+Sanford Health, Piedmont Healthcare, Tower Health, Penn Medicine, Premier Health (Dayton
+OH region)
 
 ## Dental chains / DSOs
 Heartland Dental, Aspen Dental, Pacific Dental Services, Western Dental, Smile Brands,
@@ -40,11 +41,31 @@ rollups use this generic name — verify by location/parent before excluding)
 American Family Care, MedExpress (UnitedHealth/Optum), CityMD (Summit Health), NextCare,
 CareNow (HCA), Concentra
 
+## Urology rollups
+Solaris Health (parent of The Urology Group, Integrated Medical Professionals), Urology
+Alliance / UA-supported networks — PE-backed physician practice management, same exclusion
+logic as a dental DSO even though the practice keeps its original name after acquisition.
+
 ## Veterinary (out of scope per spec, kept here only if scope expands later)
 Not applicable — spec scope is human healthcare.
 
 ## Confirmed during runs
 
+- **Athens Neurological Associates** (athensneuro.com) — appears directly on Piedmont
+  Healthcare's own provider directory (care.piedmont.org) under Piedmont branding, not as a
+  referral/near-me listing. Confirmed 2026-09-02 via free web search (website language,
+  signal 1). Excluded.
+- **MidLantic Urology** (midlanticurology.com) — acquired by The Urology Group / Solaris
+  Health, December 31 2020; also a member of Urology Alliance. Confirmed 2026-09-02 via
+  free web search (M&A news, signal 4). Excluded.
+- **"Premier Orthopaedics and Sports Medicine"** — not a single entity. Every plausible
+  match found nationally is system-affiliated: Tower Health / Penn Medicine's "Premier
+  Orthopaedic & Sports Medicine Associates Ltd" (Kennett Square / West Chester PA), and
+  Premier Health's "Premier Orthopedics" (Dayton OH region). No independent entity by this
+  name was found anywhere, including Alabama and New Jersey where the original record
+  suggested a match. Confirmed 2026-09-02 via free web search (naming pattern, signal 2).
+  Excluded on identity grounds — do not treat as one confirmed independent practice under
+  this name in a future run without a city/state to disambiguate.
 - **Progressive Dental Concepts** (progressivedentalconcepts.com) — dental support
   organization (DSO), Camp Hill PA, 51-200 employees, provides admin/ops support to a
   network of separately-branded dental practices. Confirmed 2026-09-02 via free web search

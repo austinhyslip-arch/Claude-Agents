@@ -67,4 +67,37 @@ fully vetted and offered to continue toward 100 in a follow-up run if Austin wan
 
 ---
 
-_No runs before this one._
+## 2026-09-02 (continued) — Austin's Unclear/Borderline resolution, via Agent 2
+
+Not a new sourcing run. Austin handed the 2026-09-02 spreadsheet to the outreach-drafting
+session and asked it to resolve the 10 flagged rows before drafting. Recorded here so the
+next list-building-agent run doesn't re-flag the same names.
+
+**Excluded (3), added to `known-health-systems.md`:**
+- Athens Neurological Associates — on Piedmont Healthcare's own provider directory under
+  Piedmont branding, not a referral listing.
+- MidLantic Urology — acquired by The Urology Group / Solaris Health, Dec 2020; also
+  Urology Alliance.
+- Premier Orthopaedics and Sports Medicine — no independent entity by this name found
+  anywhere; every plausible match nationally (PA, OH) is system-affiliated. Excluded on
+  identity grounds, not just ownership.
+
+**Confirmed independent, kept (4):**
+Children's Eye Care PC Michigan, Nirschl Orthopaedic Center, The Dermatology Clinic PLLC,
+GRiN Pediatric Dentistry & Orthodontics (weakest confirmation of the four — no system
+branding found, but ownership structure not independently verified beyond that).
+
+**Size confirmed, kept (3):**
+P4 Physical Therapy (51-200 staff per multiple sources, right at the 200-line, keep),
+St. Louis Heart and Vascular (86-90 staff), RiverRun Health (12-13 staff — bucket corrected
+from the sheet's tentative 51-250 down to 11-50).
+
+**Result:** 67 of the original 70 companies are qualified and clean. 3 excluded.
+
+All 70 original contacts' email addresses, verified or not, remain governed by
+`.claude/gtm/sourcing-and-credits.md` regardless of this resolution — qualification and
+verification are separate gates. See `references/enrichment.md`.
+
+---
+
+_No sourcing runs before the one above this entry._
