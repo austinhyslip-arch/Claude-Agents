@@ -8,16 +8,20 @@ design, not a gap.
 
 ## Before the first real run
 
-**Add two Select columns to the People object in Attio.** The connector can read attribute
-definitions but cannot create them, so this is a manual step in the Attio UI and it is the
-only thing standing between the agent and full logging. Exact option names are in
-`references/attio-logging.md`.
+The People object is set up and no manual step is outstanding. Two tracking fields exist:
 
-1. `Status`, single select, ten options from Not Contacted through Closed Lost.
-2. `Outreach Method`, single select: Agent (automated), Manual (Austin), Inbound.
+- `stage`, Attio's **status** type, eleven options from Not Contacted through Follow Up
+  Needed. Exact titles and their casing quirks are in `references/attio-logging.md`.
+- `who_contacted`, **text**, with a three-value convention this agent must follow exactly.
 
-Until these exist the agent still drafts, still creates and updates people, and still
-attaches the email as a note. It just reports that the stage could not be recorded.
+Two notes on what is there:
+
+1. `who_contacted` being free text means nothing enforces the convention. Converting it to
+   a single Select with the same three values would make drift impossible. Worth doing
+   before the record count grows.
+2. `Follow Up Needed` sits at order 11, after the closed stages. That is fine if it is a
+   queue flag, which is how the agent treats it. If it is meant as a pipeline position it
+   should be reordered to sit near Follow-Up Sent.
 
 **Run mail-tester** before the first real batch from the sending address.
 
@@ -27,7 +31,7 @@ Verified September 2, 2026 in the remote environment.
 
 | Dependency | Status | Notes |
 |---|---|---|
-| Attio | **Connected.** Workspace `Chanty`, austin@chanty.com, admin. | Objects are `people` and `companies` only. No Deals object, no pipeline list, and no status field until the step above is done. One list exists, `customer_success` on companies, which this agent never writes to. |
+| Attio | **Connected and set up.** Workspace `Chanty`, austin@chanty.com, admin. | Objects are `people` and `companies` only. Pipeline tracking lives on `people` via `stage` and `who_contacted`. Still no Deals object, so one person carries one stage, which caps things at one open opportunity per human. One list exists, `customer_success` on companies, which this agent never writes to. Write path is documented but not yet exercised against a real record. |
 | Apollo | **Connected.** 135 lead credits, 0 used, cycle Sept 2 to **Sept 16**. | Two-week cycle, not monthly. Export credits 0 and direct dial 0, so no exports and no phone lookups. Carries email reveal and verification now that Hunter is out. Credit-gated. |
 | Clay | **Connected.** Workspace `Chanty` (1356452). | Last in the waterfall. Roughly 100 data credits a month. Credit-gated. |
 | Gmail | Connected and enabled. | Drafts only, on request. This agent never calls a send tool in its normal flow. |
@@ -56,17 +60,21 @@ and match tools only.
 
 1. **Chanty customer win data.** Still pending. Unlocks non-healthcare proof points, which
    is what the middle of most of these drafts is missing.
-2. **The two Attio columns.** Blocking full logging. See above.
-3. **Attio native Gmail sync.** Unconfirmed. `references/attio-logging.md` handles it by
+2. **`who_contacted` is free text.** Convention documented, nothing enforcing it. A Select
+   would.
+3. **"Follow Up Needed" semantics.** Treated as a queue flag, inferred from the name and its
+   position. Confirm that is what Austin meant.
+4. **Attio native Gmail sync.** Unconfirmed. `references/attio-logging.md` handles it by
    searching the record for an already-synced copy before attaching a note. Confirm it once
    and that check can be simplified.
-4. **Multi-touch cadence ownership.** Unresolved whether `cold-email-strategist` covers full
+5. **Multi-touch cadence ownership.** Unresolved whether `cold-email-strategist` covers full
    cadence architecture. Out of scope for this agent either way, it drafts one message at a
    time, but it becomes a real gap once volume rises.
-5. **Agent 1 does not exist in this repo.** The spec names its copywriting pipeline order and
+6. **Agent 1 does not exist in this repo.** The spec names its copywriting pipeline order and
    its dedup logic as the source of truth. Neither is available, so both were written
    standalone here. When Agent 1 lands, reconcile the two rather than letting them drift,
-   and make sure both write the Outreach Method field the same way.
+   and make sure both write `stage` and `who_contacted` the same way. Two agents writing one
+   pipeline field with different rules is worse than no pipeline field.
 
 ## State and git
 

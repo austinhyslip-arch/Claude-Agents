@@ -9,7 +9,7 @@ not in the connector directory, so **Apollo carries email reveal and verificatio
 ## Order
 
 1. **What Austin gave.** Authoritative. Never overwritten by a tool.
-2. **The Attio record.** Past notes, synced emails, `last_interaction`, Outreach Method.
+2. **The Attio record.** Past notes, synced emails, `last_interaction`, `stage`, `who_contacted`.
    Free, and it is the thing most likely to change the draft.
 3. **Free web.** Company site, newsroom, public LinkedIn activity, news search, podcasts,
    conference agendas, open job postings. Most angles come from here for nothing.

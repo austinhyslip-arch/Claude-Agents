@@ -10,8 +10,8 @@ before the conversation starts, so there is no sourcing step and no list to buil
 
 Everything lands in the Chanty Attio workspace, on the same People records Agent 1 uses.
 The two agents differ only in method: Agent 1 sends automated outreach, this one drafts
-what Austin sends by hand. The Outreach Method field is what keeps them apart, so it gets
-written on every send.
+what Austin sends by hand. The `who_contacted` field is what keeps them apart, so it gets
+written on every send, always as the exact string `Austin (manual)`.
 
 Two rules hold above everything else in this file:
 
@@ -65,8 +65,8 @@ on.
 Nothing gets created yet. Records are written at step 6, after a real send. A draft Austin
 never sends should not leave a contact behind in the CRM.
 
-If the record says Outreach Method is `Agent (automated)`, say so. Austin emailing someone
-his other agent is already working is worth a heads up before the draft, not after.
+If `who_contacted` on the record says `Agent 1 (automated)`, say so. Austin emailing
+someone his other agent is already working is worth a heads up before the draft, not after.
 
 An existing record can change the draft. If Attio shows a thread from six weeks ago, this
 is not a cold first touch and should not read like one.
@@ -107,15 +107,15 @@ back to him, send that one message, log it, and leave the default alone.
 Only after Austin confirms it went out. Per `references/attio-logging.md`: create or update
 the person, attach the email, set the status, then append the row to `state/send-log.md`.
 
-Status comes from what Austin's message says. A cold first touch means Contacted.
+Stage comes from what Austin's message says. A cold first touch means Contacted.
 "Following up after our call" means a call already happened, so the stage is further along.
 Safe stages get set automatically. Opportunity, Contracting and any closed stage get
 flagged for his confirmation and are never set by the agent.
 
-The Status and Outreach Method columns have to exist on the People object first, and the
-connector cannot create them. `references/attio-logging.md` carries the exact spec. Until
-they exist, log the send, write the note, and report plainly that the status could not be
-written. Do not improvise somewhere else to put it.
+The `stage` field is Attio's status type with eleven options whose casing does not match
+what you would guess, and `who_contacted` is free text that needs its convention followed
+exactly. Read both from `list-attribute-definitions` rather than typing from memory.
+`references/attio-logging.md` carries both.
 
 ## Rules that keep the drafts worth sending
 

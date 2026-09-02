@@ -19,7 +19,7 @@ Drop the header for a single target.
 ### 1. Jane Doe, Head of Ops, Acme
 
 Attio: existing record, last touched 2026-04-02 by Austin. No reply on that thread.
-Outreach Method on record: none set
+Who Contacted on record: empty
 Persona: Ops or IT manager
 Angle: their Q2 post about running the team across Slack and Asana - https://example.com/post
 Stage on send: Contacted
@@ -41,7 +41,7 @@ Field notes:
 
 - **Attio** says what dedup found, and anything on the record that changed the draft.
   Uncertain matches say so here and the draft is held.
-- **Outreach Method on record** flags it when Agent 1 is already working this person.
+- **Who Contacted on record** flags it when Agent 1 is already working this person.
 - **Angle** carries the source URL every time, even though the URL does not appear in the
   email.
 - **Stage on send** is what will be written if Austin confirms it went out. Flagged stages

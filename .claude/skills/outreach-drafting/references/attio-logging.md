@@ -1,4 +1,4 @@
-# Attio dedup, logging, and status
+# Attio dedup, logging, and stage
 
 Workspace verified September 2, 2026: **Chanty**, austin@chanty.com, admin.
 
@@ -7,44 +7,67 @@ list exists, `customer_success`, on companies, and this agent does not write to 
 
 Both outreach lists live on the same People records. Agent 1 writes automated outreach,
 this agent writes what Austin drafts and sends by hand. Same records, different method, so
-the method has to be recorded or the two become indistinguishable.
+`who_contacted` has to be written every time or the two become indistinguishable.
 
-Call `list-attribute-definitions` on `people` before the first write of a session. The
-slugs below were read from the live workspace, but the Status column is new and its real
-slug wins over anything hardcoded here.
+Call `list-attribute-definitions` on `people` before the first write of a session. Every
+slug and option title below was read from the live workspace, and the live read always wins
+over anything written here.
 
-## Required setup, one time, in the Attio UI
+## The two tracking fields, verified live
 
-The connector cannot create attributes, so Austin adds these two on the People object.
-Until the first one exists, the agent logs the send and reports that the status could not
-be written. It does not invent a place to put it.
+Both exist on `people` as of September 2, 2026. Austin built them, and the shapes below are
+what is actually in the workspace, not what was originally specced. Read them from
+`list-attribute-definitions` at the start of a session anyway. Do not hardcode.
 
-**1. Status** (type: Select, single). Options in this order:
+### `stage` (title "Stage", type **status**, writable)
 
-```
-Not Contacted
-Contacted
-Follow-up Sent
-Replied
-Meeting Booked
-Opportunity
-Contracting
-Closed Won
-Closed Lost
-Not a Fit
-```
+Not a select. Attio's `status` type, which means it behaves as a real pipeline stage.
+Write it by passing the option title exactly: `{"stage": "Contacted"}`.
 
-**2. Outreach Method** (type: Select, single). Options:
+Eleven options, in workspace order. **The casing is not what you would guess, so copy it:**
 
 ```
-Agent (automated)
-Manual (Austin)
+1  Not Contacted
+2  Contacted
+3  Follow-Up Sent      <- capital U
+4  Replied
+5  Meeting Booked
+6  Opportunity
+7  Contracting
+8  WON-Closed          <- not "Closed Won"
+9  LOST-Closed         <- not "Closed Lost"
+10 Not a Fit
+11 Follow Up Needed    <- no hyphen, unlike option 3
+```
+
+"Follow-Up Sent" and "Follow Up Needed" differ by one hyphen and mean opposite things.
+Passing the wrong string fails or lands in the wrong stage, so read the option list rather
+than typing from memory.
+
+### `who_contacted` (title "Who Contacted", type **text**, writable)
+
+Free text, so nothing stops it drifting into "austin", "Austin H" and "the agent" inside a
+month. It needs a convention, and this is it. Write exactly one of:
+
+```
+Austin (manual)
+Agent 1 (automated)
 Inbound
 ```
 
-This agent always writes `Manual (Austin)`. If a record already says
-`Agent (automated)` and Austin is now emailing them by hand, flag it rather than
-overwriting. Two systems touching one person is worth him knowing about.
+This agent always writes `Austin (manual)`. Never a variant, never lowercase.
+
+If the field already holds a different one of those values, **flag it and do not
+overwrite**. A record that says `Agent 1 (automated)` and is about to get a hand-written
+email from Austin is exactly the collision worth telling him about before he sends.
+
+## Stage lives on People, and that has consequences
+
+There is still no Deals object, so one person carries one stage. A contact who buys twice,
+changes companies, or gets worked for two different products has nowhere to put the second
+pipeline position. That is fine at current volume. It stops being fine when Austin needs
+two open opportunities against one human, and the fix at that point is a Deals object, not
+a workaround here.
 
 ## Attribute slugs on `people`
 
@@ -57,6 +80,8 @@ overwriting. Two systems touching one person is worth him knowing about.
 | LinkedIn | `linkedin` | text | |
 | Description | `description` | text | Where the contact source goes when there is no better field. |
 | Phone | `phone_numbers` | phone-number, multiselect | |
+| Stage | `stage` | status | Eleven options, see above. Write the title exactly. |
+| Who Contacted | `who_contacted` | text | Controlled vocabulary, see above. |
 | Last interaction | `last_interaction` | interaction | **Read only.** Useful for dedup context. |
 | Next calendar interaction | `next_calendar_interaction` | interaction | **Read only.** This is how a booked meeting shows up, see the status table. |
 
@@ -71,7 +96,7 @@ Use `search-records` on `people`, then confirm with `get-records-by-ids`. Order:
 5. **No match.** New person. Nothing is created yet, see below.
 
 On uncertain: stop for that one target, show Austin both records with enough to tell them
-apart (job title, company, `last_interaction`, Outreach Method), and ask. Do not merge, do
+apart (job title, company, `last_interaction`, `stage`, `who_contacted`), and ask. Do not merge, do
 not create a second record, do not pick the newer one. Keep drafting the other targets
 while that one waits.
 
@@ -89,7 +114,7 @@ one.
 
 **Person record**, via `upsert-record` on `people`, matched on `email_addresses`.
 
-- New record: name, email, job title, company, LinkedIn if known, Status, Outreach Method,
+- New record: name, email, job title, company, LinkedIn if known, `stage`, `who_contacted`,
   and the contact source in `description` (Personal list, referral and who from, conference
   and which one).
 - Existing record: fill empty fields only. Never overwrite a populated field with something
@@ -111,30 +136,51 @@ Subject: <subject>
 <body>
 ```
 
-**Status.** Per the table below.
+**Stage and Who Contacted.** Per the ladder below. `who_contacted` is written on every
+send, `stage` per the table.
 
-## Status ladder
+## Stage ladder
 
 | Stage | Set automatically |
 |---|---|
 | Not Contacted | Yes, on create when nothing has gone out |
 | Contacted | Yes, on a confirmed cold first touch |
-| Follow-up Sent | Yes |
+| Follow-Up Sent | Yes, on a confirmed follow-up |
+| Follow Up Needed | Yes, as a queue flag. See below. |
 | Replied | Yes, when Austin says they replied |
 | Meeting Booked | Yes, when Austin says a meeting is booked, or when `next_calendar_interaction` on the record shows a future meeting. Nothing else owns this field now that Calendly is out of the stack. |
 | Opportunity | No. Flag. That is a qualification call. |
 | Contracting | Never. Flag for confirmation. |
-| Closed Won, Closed Lost, Not a Fit | Never. Flag for confirmation. |
+| WON-Closed, LOST-Closed, Not a Fit | Never. Flag for confirmation. |
 
-Rules on top of the table:
+### How "Follow Up Needed" is used
 
-- The status reflects what the message says, not the best case. "Following up after our
-  call" means at least Replied. "Sent it" on a first touch means Contacted and nothing more.
+Read it as a work queue, not a pipeline position. It sits at order 11, after the closed
+stages, which is where a queue flag belongs rather than where a stage would.
+
+- **Set it** when a sent touch has gone unanswered past the follow-up window and no
+  follow-up has gone out yet.
+- **Clear it** to `Follow-Up Sent` when the follow-up goes out, or to `Replied` if they
+  answer first.
+- **Never set it** over `Meeting Booked` or anything later without asking. Someone with a
+  meeting on the calendar does not need chasing.
+- Ask this agent who needs a follow-up and it filters `people` on this stage. That is the
+  point of the flag.
+
+This reading was inferred from the option name and its position. If Austin means something
+else by it, this section is the thing to correct.
+
+### Rules on top of the table
+
+- The stage reflects what the message says, not the best case. "Following up after our call"
+  means at least Replied. "Sent it" on a first touch means Contacted and nothing more.
 - Never advance a stage on the strength of an open or a click. Mailtrack under-reports and
   over-reports on Apple Mail, so a pixel is not evidence of anything.
 - Never move a stage backward. If the record is further along than the message implies,
   flag it. That usually means dedup matched the wrong person.
 - Ambiguous stage, ask in one line. Guessing upward pollutes the pipeline.
+- Agent 1 writes the same field on the same records. Both agents follow this table, or the
+  pipeline stops meaning anything.
 
 ## Never
 
