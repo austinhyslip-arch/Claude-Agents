@@ -73,9 +73,16 @@ The angle has to be real and cited. See the honesty rule in `.claude/gtm/copywri
 
 ### 6. Write
 Run the pipeline in `.claude/gtm/copywriting.md` in order. All five stages, every time. The
-send-performance rules in that file beat any skill's default: direct meeting ask with a
-specific time, three to six word subject line, outcome-led value proposition, no named
-competitor, casual tone with neutral as the healthcare fallback.
+send-performance rules in that file beat any skill's default: founder-first opening, direct
+meeting ask with a specific time, three to six word subject line, outcome-led value
+proposition, no named competitor in a first touch, casual tone with neutral as the
+healthcare fallback.
+
+Every claim about Chanty comes from `.claude/gtm/value-prop.md`. Pick the pitch angle from
+its section 4 persona map and the proof point from its section 3 table. Healthcare is the
+vertical running, so Pillar 5 (HIPAA and a signed BAA on the $3 Business plan, not gated to
+Enterprise) is the differentiator worth leading with, and the healthcare stats in section 3
+are the ones cleared for use. Never invent a number to fill a sentence.
 
 ### 7. Stage
 Append each draft to `state/send-queue.md` per `references/send-policy.md`. Every queued

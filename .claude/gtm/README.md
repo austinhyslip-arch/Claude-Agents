@@ -21,6 +21,8 @@ below, so where Agent 2's own references and these files disagree, these files w
 Both agents read these before acting. If one of them conflicts with an agent's own
 reference file, the contract wins.
 
+- `value-prop.md`: what any agent is allowed to claim about Chanty, and the numbers behind
+  it. Ground truth for every claim in every email, page and digest.
 - `sourcing-and-credits.md`: free search first, batch the gaps, never spend a credit
   without approval
 - `copywriting.md`: the pipeline order and the send-performance rules that override it

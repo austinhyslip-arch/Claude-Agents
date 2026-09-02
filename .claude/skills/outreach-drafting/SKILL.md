@@ -100,10 +100,18 @@ Persona from `persona-mapping-framework`, mapped onto the persona tags in
 carrying a source URL. No URL means the angle drops to `generic` rather than getting
 invented.
 
-The send-performance rules in `copywriting.md` beat any skill's default. The two that catch
-people out here: **the CTA is a direct meeting ask with a specific time**, not a soft
-question, and **no named competitor**, which rules out opening on the tool they already pay
-for however tempting that is against Slack or Teams.
+Every claim about Chanty comes from `.claude/gtm/value-prop.md`. Pitch angle from its
+section 4 persona map, proof point from its section 3 table, nothing invented to fill a
+sentence.
+
+The send-performance rules in `copywriting.md` beat any skill's default. Three catch people
+out here: **the email opens founder-first**, Austin as a co-founder and why Chanty was
+built; **the CTA is a direct meeting ask with a specific time**, not a soft question; and
+**no named competitor in a first touch**, which rules out opening on the tool they already
+pay for however tempting that is against Slack or Teams.
+
+Founder-first is a frame, not a substitute for an angle. One specific sourced sentence still
+has to say why this person and why now.
 
 Naming a specific time means knowing whether Austin is free. Check Google Calendar
 (`list_events` or `suggest_time`) against the recipient's local time zone before a time goes
