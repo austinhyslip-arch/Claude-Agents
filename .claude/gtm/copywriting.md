@@ -51,8 +51,69 @@ listen to him. One specific, sourced sentence still has to answer why her and wh
 email carrying the founder line and nothing specific about the reader is a template, and
 `personalization-playbooks` still decides how much personalization the category earns.
 
-**The healthcare opening, word for word.** Set by Austin on 2026-09-02 as the standing
-formula for this vertical, not just for one draft. Every healthcare first touch opens:
+**The healthcare opening, word for word.** Superseded 2026-09-02 by the version below,
+built and approved across a 67-contact batch rather than one individual draft. The original
+per-account version (item 3 was a sourced, account-specific bridge sentence) is kept at the
+bottom of this section for history — it is what Agent 2 used for one-off targets like Amy
+Overstreet before this batch, and remains a legitimate fallback when a real per-account
+signal exists and is worth using instead of the anecdote below.
+
+**Current standing formula, every healthcare first touch, verbatim except the greeting name
+and the day/time/timezone in the ask:**
+
+```
+{FirstName},
+
+I'm Austin, co-founder of Chanty, an internal chat tool. We built it because the big
+platforms weren't made for clinics needing something simple, affordable, and HIPAA
+compliant.
+
+I used to work at a family-run clinic. Group texts, nobody sure who saw what, and constant
+HIPAA worry. If you're on a bigger platform, you're over-paying for complicated compliance.
+
+Our base plan means no complex builds or weeks-long integration, just a signed BAA, HIPAA
+compliance, and pricing that stays affordable. Need something? Call me, not a bot.
+
+I'm excited to show this to you because it's exactly what I wish I had at the clinic I
+worked for. Do you have 15 minutes {Day} at {Time} {TZ}?
+
+Austin
+```
+
+119 words including the greeting name, for every recipient — this is the hard ceiling in
+the Length and shape section, "under 120," not "up to 120," so there is no headroom to add
+anything without cutting something else first.
+
+**This paragraph is deliberately universal, not account-specific.** It carries no company
+name, no specialty, no location, no signal. That is not a personalization-honesty violation,
+since it never pretends to be about the reader specifically — it is Austin's own true story,
+told the same way to everyone, which is a different and legitimate thing from inventing a
+fake per-account detail. It does mean this template supplies none of the "one sourced,
+personal sentence" the general framework elsewhere in this file still asks for. Where a real
+account-specific signal exists and is strong, use the original per-account version below
+instead of this one — don't force both into one email.
+
+**Subject line: running as an A/B test, both sentence case, no "Re:".**
+
+- A: "a HIPAA compliant chat"
+- B: "I built an affordable HIPAA compliant chat"
+
+Split evenly across a batch. Austin's first draft of both used "Re:" and Title Case; both
+violate the standing subject rule above (no fake "Re:", sentence case) and the "Re:" one was
+flagged as a real deliverability and CAN-SPAM concern, not just a style note. Austin did not
+push back on removing it, so the versions above are what shipped. If he explicitly wants
+"Re:" restored on a future batch, that requires him saying so again, not defaulting back to
+it.
+
+**Deliberate exception to the comma-list rule**, carried over from the prior version: the
+value line ("no complex builds, no weeks-long integration, a signed BAA, HIPAA compliance,
+and pricing that stays affordable") is a comma list, which is exactly the pattern the
+pipeline otherwise cuts. Austin dictated this wording specifically, so it stands as written
+for this one claim block and nowhere else.
+
+---
+
+**Original per-account version, kept as a fallback:**
 
 1. "I'm Austin, the co-founder of Chanty."
 2. The reason, close to verbatim: "We built it because the big internal communications
@@ -66,12 +127,6 @@ formula for this vertical, not just for one draft. Every healthcare first touch 
    "base plan"**, then no complex builds, no weeks-long integration, a signed BAA, HIPAA
    compliant, and affordable. Pillar 5 in `value-prop.md` is what backs every claim in it.
 5. The direct meeting ask, per the CTA rule below.
-
-**Deliberate exception to the comma-list rule.** Item 4 is a five-part comma list, which is
-exactly the pattern the pipeline otherwise cuts. Austin dictated this wording specifically,
-so it stands as written for this one claim block and nowhere else. Do not generalize it
-into permission for comma lists elsewhere in the email, and do not soften or shorten
-Austin's own phrasing here without him saying so again.
 
 **CTA.** Direct meeting ask with a specific time suggested. "Do you have 15 minutes
 Thursday at 10 your time?" is the shape. Soft asks lose. Banned: "worth a reply?", "open to
