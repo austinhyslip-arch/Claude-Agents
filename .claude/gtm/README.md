@@ -9,7 +9,7 @@ version of how credits are spent, how email is written, or how Attio is updated.
 | Agent | Skill | Status |
 |---|---|---|
 | 1. Outbound GTM Agent | `.claude/skills/chanty-outbound-gtm/` | Built. Healthcare ready to run, other industries blocked on win data. |
-| 2. Built elsewhere | not in this repo | Lives outside this repo. Nothing here depends on it. |
+| 2. Built elsewhere | not in this repo | Lives outside this repo. Nothing here depends on it. Data reaches it through `shared/`, see below. |
 
 ## Shared contracts
 
@@ -21,6 +21,11 @@ reference file, the contract wins.
 - `copywriting.md`: the pipeline order and the send-performance rules that override it
 - `attio-schema.md`: the objects, fields and views the agents read and write
 - `crm-sync.md`: what updates automatically, what gets flagged, what never moves on its own
+
+`shared/` carries data between the two agents. Attio is the real handoff, since both agents
+read the same workspace. `shared/handoff.json` is a per-run snapshot of what Attio cannot
+hold well, mainly score components, hold reasons and staged drafts. Attio wins on any
+disagreement. See `shared/README.md`.
 
 ## Connectors
 
