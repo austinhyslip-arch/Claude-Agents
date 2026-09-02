@@ -15,6 +15,9 @@ outrank this file where they overlap.
 spent without Austin approving the batch. No deal stage past `Meeting Booked` moves without
 Austin confirming it.
 
+**One rule that is easy to forget.** Every touch updates the person and their company, in the
+same step. See `.claude/gtm/crm-sync.md`.
+
 ## Run modes
 
 | Mode | When | What it does |
@@ -84,8 +87,9 @@ not guessed. An unverified address is held, not sent, and a catch-all domain cou
 unverified.
 
 ### 8. Sweep replies
-Classify inbound with `handle-reply`. Update Attio per `.claude/gtm/crm-sync.md`. Draft the
-next action and leave it on the record. Do not send it.
+Classify inbound with `handle-reply`. Update Attio per `.claude/gtm/crm-sync.md`, which means
+both records: the person and the company they belong to, in the same step. Draft the next
+action and leave it on the record. Do not send it.
 
 ### 9. Log
 Append the run to `state/run-log.md`: mode, counts sourced and by which method, how many

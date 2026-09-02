@@ -26,7 +26,9 @@ as everyone else's automation.
   to 25 minutes during the window is the shape to aim for.
 - Overflow rolls to the next send day, in the order it was queued. It does not get dropped
   and it does not get squeezed into today by raising the cap.
-- One cold first touch per company per week. One per person per fortnight.
+- One cold first touch per company per week. One per person per fortnight. Check the
+  company's `Last touched` date to enforce this, which is the practical reason the dual
+  write exists.
 
 ## Send-eligibility gate
 
@@ -66,10 +68,13 @@ Subject: staffing across three sites
 <body>
 ```
 
-When Austin sends one, move the block to `state/run-log.md` under that day's entry and set
-the Attio status to `Sent`. When he edits before sending, record the edit in the log. The
-edits are the most useful feedback the copywriting pipeline gets, so do not let them
-disappear.
+When Austin sends one, move the block to `state/run-log.md` under that day's entry and write
+the touch to Attio: the person goes to `Sent` with the date and touch type, and the company
+gets the same date, the incremented touch count and its next step, per the dual write section
+in `.claude/gtm/crm-sync.md`. Both records, same step.
+
+When he edits before sending, record the edit in the log. The edits are the most useful
+feedback the copywriting pipeline gets, so do not let them disappear.
 
 ## Deliverability
 

@@ -69,6 +69,20 @@ angle: company-trigger, <url>
 status: Queued
 ```
 
+The company gets its own `GTM account` note, which is where the dual write in
+`crm-sync.md` lands until the custom fields exist:
+
+```
+account-status: Replied
+last-touched: 2026-09-04
+last-touched-by: Agent
+touches: 3
+next-step: Austin to reply to Jane, week of Sept 8
+```
+
+Read the note, change the lines, write it back with `update-note`. Slower than a field, but
+it keeps the company record honest from day one.
+
 **Lists carry the routing.** One Attio list per industry and region and type, created with
 `create-list` and named to match `lists-and-icp.md`:
 
@@ -82,17 +96,23 @@ Healthcare / CT / Personal
 A company or person joins the list its score puts it in. `add-record-to-list` does the
 assignment, and list entries are what Austin sorts and works from.
 
-## Option B, once Austin adds the fields
+## Option B, the custom fields
 
-Cleaner, sortable, and worth doing before the first real list build if there is time. These
-are the custom attributes to create in the Attio UI.
+Cleaner, sortable, and worth having before the first real list build.
 
-**On Companies**
+**Checked 2026-09-02 against the live workspace and none of these exist yet.** Companies has
+31 attributes and people has 28, all of them stock. If fields were added in the UI and the
+agent cannot see them, something is off: a different workspace, an unsaved draft, or the
+connection needs reauthorising. Re-run `list-attribute-definitions` before assuming the
+agent can write to a field, and never write into a field name that has not come back from
+that call.
+
+### On Companies
 
 | Field | Type | Options |
 |---|---|---|
 | Industry (GTM) | select | Healthcare, Real Estate, Frontline, Other |
-| Employee count (est.) | number | |
+| Employee count (est.) | number | exact-ish estimate, see below |
 | Employee count basis | select | site-count, linkedin, directory, stated, guess |
 | Sites | number | |
 | Time zone | select | ET, CT, MT, PT, AKT, HT, unknown |
@@ -102,8 +122,18 @@ are the custom attributes to create in the Attio UI.
 | Signal source | text (URL) | |
 | Signal date | date | |
 | Sourcing | select | free-web-search, paid-apollo, paid-hunter, paid-clay |
+| Account status | select | the ladder below, furthest rung any person there has reached |
+| Last touched | date | any outreach to anyone at this company |
+| Last touched by | select | Austin, Agent |
+| Touches | number | running count across every person at the company |
+| Next step | text | one line, what happens next at this account |
 
-**On People**
+The last five are what make the dual write in `crm-sync.md` work. They are also what enforces
+the one-cold-email-per-company-per-week rule, since without a company-level last-touched date
+the agent has to go read every person record to find out whether the account was hit
+this week.
+
+### On People
 
 | Field | Type | Options |
 |---|---|---|
@@ -116,9 +146,35 @@ are the custom attributes to create in the Attio UI.
 | GTM status | select | the ladder below |
 | Owner | select | Austin, Agent |
 | Last touch | date | |
+| Last touch type | select | email-sent, reply-received, call, meeting, note |
 
 Once these exist, the agent writes to the fields instead of the note, and the note goes back
 to being a note. Nothing else in the workflow changes.
+
+## Where employee count belongs
+
+**On Companies, not People.** It is a property of the business, so one company record holds
+one number and every person there inherits it by being linked. Put it on people and the same
+figure gets stored five times at a five-contact account, and the first time one copy is
+updated the others are quietly wrong.
+
+Three fields, all on Companies:
+
+| Field | Type | Why |
+|---|---|---|
+| `employee_range` | select, already exists | Attio's stock bucketed field. Free, sortable, good for views. Buckets: 1-10, 11-50, 51-250, 251-1K |
+| Employee count (est.) | number, to add | the actual estimate the score runs on, since the buckets are too coarse for the 0 to 4 size points |
+| Employee count basis | select, to add | site-count, linkedin, directory, stated, guess. Keeps the estimate honest |
+
+The agent writes all three together. The number drives the score, the range drives the view,
+and the basis is what stops an estimate hardening into a fact.
+
+**If it needs to be visible on a person record**, reach it through the `company` link rather
+than copying it. Attio views can pull columns from a linked record, so a people view can show
+the company's employee count without the person record owning the value. If a real copy on
+the person is wanted anyway, the rule is one direction only: Companies is the source, the
+agent overwrites the person's copy on every touch, and nothing ever writes back the other
+way.
 
 ## Persona tags
 
