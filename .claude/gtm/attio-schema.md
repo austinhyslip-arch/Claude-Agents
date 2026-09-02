@@ -8,16 +8,41 @@ Workspace: **Chanty**. Connected as austin@chanty.com with admin access. Verifie
 
 ## What the workspace actually has today
 
-Two standard objects, `companies` and `people`. No custom attributes on either. No Deals
-object. One list, `Customer Success`, parented to companies. The workspace was created the
-same day this was written, so it is effectively empty.
+Two standard objects, `companies` and `people`. No Deals object. Lists as below.
 
-That matters for two reasons. The agent has no field to write a buying power score into
-yet, and **the Attio MCP connection cannot create attributes**. It can create records,
-lists, notes, tasks and comments, and it can update records and list entries. Adding a
-custom field is a thing Austin does in the Attio UI.
+**Austin's custom fields, live on `people` as of 2026-09-02:**
 
-So there are two ways to run, and the first one works today.
+| Field | api_slug | Type | Notes |
+|---|---|---|---|
+| Stage | `stage` | status | 11 statuses, the real pipeline. See the ladder below. |
+| Who Contacted | `who_contacted` | text | "Who reached out to this opportunity" |
+
+**Companies has no custom fields at all**, and that matters more than it sounds. It has no
+phone attribute either, standard or custom, so a company main line has nowhere to live on
+the company record. Two consequences, both worked around rather than solved:
+
+- Main lines are written to the **person** records at that company, and to the company's
+  `GTM account` note.
+- The company half of "every touch updates both records" has no fields to write into, so it
+  goes in the note until the fields below exist.
+
+The Attio MCP connection **cannot create attributes**. It creates records, lists, notes,
+tasks and comments, and updates records and list entries. Adding a field is a thing Austin
+does in the UI. Always re-run `list-attribute-definitions` before writing to a field rather
+than assuming it is there.
+
+Attio also enriches company records by itself. Creating Fast Pace Health with a name and
+domain pulled in categories, LinkedIn, Twitter, an estimated ARR band and a foundation date
+without being asked. Worth knowing before the agent goes and researches something Attio was
+about to fill in for free.
+
+### Lists
+
+| List | api_slug | list_id | Parent |
+|---|---|---|---|
+| Customer Success | `customer_success` | d1090ab0-1b1a-4119-83bd-210b3e80d0c7 | companies |
+| Healthcare / CT / Personal | `healthcare_ct_personal` | 54d05801-0490-4976-95aa-12c923494ed7 | companies |
+| Healthcare / CT / Agent | `healthcare_ct_agent` | ec286089-7d94-4d73-838a-07a585f15b7e | companies |
 
 ## Option A, no schema changes, works now
 
@@ -66,19 +91,24 @@ category: Outbound
 bridge: none
 signal: hiring, 3 front office roles, <url>, 2026-08-24
 angle: company-trigger, <url>
-status: Queued
+stage: Not Contacted
+who-contacted: (empty until someone actually reaches out)
 ```
 
 The company gets its own `GTM account` note, which is where the dual write in
 `crm-sync.md` lands until the custom fields exist:
 
 ```
-account-status: Replied
+main-line: (615) 465-6810
+account-stage: Replied
 last-touched: 2026-09-04
-last-touched-by: Agent
+who-contacted: Agent
 touches: 3
 next-step: Austin to reply to Jane, week of Sept 8
 ```
+
+The `main-line` line is there because Companies genuinely has no phone field. It moves to a
+real attribute the day one exists.
 
 Read the note, change the lines, write it back with `update-note`. Slower than a field, but
 it keeps the company record honest from day one.
@@ -122,9 +152,10 @@ that call.
 | Signal source | text (URL) | |
 | Signal date | date | |
 | Sourcing | select | free-web-search, paid-apollo, paid-hunter, paid-clay |
-| Account status | select | the ladder below, furthest rung any person there has reached |
+| **Main line** | **phone number** | **the one to add first. Companies has no phone field of any kind today, so every main line the agent finds has to live on a person record or in a note.** |
+| Account stage | status | mirror of the people `stage` ladder, furthest rung any person there has reached |
 | Last touched | date | any outreach to anyone at this company |
-| Last touched by | select | Austin, Agent |
+| Who contacted | text | matches the people field of the same name |
 | Touches | number | running count across every person at the company |
 | Next step | text | one line, what happens next at this account |
 
@@ -135,6 +166,8 @@ this week.
 
 ### On People
 
+`Stage` and `Who Contacted` already exist. These would still help:
+
 | Field | Type | Options |
 |---|---|---|
 | Persona | select | owner-operator, clinical-lead, ops-manager, it-security, finance, hr-people, frontline-supervisor |
@@ -143,10 +176,10 @@ this week.
 | Bridge path | text | |
 | Personalization angle | select | authored-content, engaged-content, background, company-trigger, generic |
 | Personalization source | text (URL) | |
-| GTM status | select | the ladder below |
 | Owner | select | Austin, Agent |
 | Last touch | date | |
 | Last touch type | select | email-sent, reply-received, call, meeting, note |
+| Do Not Contact | checkbox | see the gap noted under the ladder |
 
 Once these exist, the agent writes to the fields instead of the note, and the note goes back
 to being a note. Nothing else in the workflow changes.
@@ -188,17 +221,42 @@ Set on the person, used by both personalization and copywriting. Kept short on p
 - `hr-people`: HR, people ops, staffing
 - `frontline-supervisor`: supervises the non-desk staff who would actually use Chanty
 
-## Status ladder
+## Stage, the real ladder
 
-Order matters. Nothing skips a rung without Austin saying so.
+Austin's `stage` field on people. These eleven are the pipeline, and the agent uses them
+rather than any ladder invented in this repo.
 
-`New` → `Queued` → `Sent` → `Replied` → `Meeting Booked` → `Contracting` → `Won` / `Lost`
+| # | Status | Who sets it | When |
+|---|---|---|---|
+| 1 | Not Contacted | Agent | on record creation, always |
+| 2 | Contacted | Agent | after a first touch actually goes out, never when it is only staged |
+| 3 | Follow-Up Sent | Agent | after a follow-up goes out |
+| 4 | Replied | Agent | on any inbound reply, no confirmation needed |
+| 5 | Meeting Booked | Agent | Calendly to Attio, or Austin confirms |
+| 6 | Opportunity | **Austin** | a judgement call about whether a real deal exists |
+| 7 | Contracting | **Austin** | never inferred from email content |
+| 8 | WON-Closed | **Austin** | |
+| 9 | LOST-Closed | **Austin** | |
+| 10 | Not a Fit | Agent, narrowly | only on objective disqualification: out of ICP, wrong ownership, no distributed workforce. A judgement call goes to Austin. |
+| 11 | Follow Up Needed | Agent | a reply that says "not now, come back later", or any commitment made to follow up |
 
-Side statuses that do not sit on the ladder: `Bounced`, `Held`, `Do Not Contact`.
+Statuses 6 through 9 are the ones that wait for Austin. That is the same line the original
+brief drew at `Contracting`, moved one rung earlier because `Opportunity` is a judgement
+about deal quality and the agent is not the one to make it.
 
-There is no Deals object in the workspace, so `Contracting` and past it live on the person
-record for now. If Austin adds Deals later, those two rungs move there and the person
-record keeps everything up to `Meeting Booked`.
+### Who Contacted
+
+Set on **every** touch, to whoever actually reached out. `Austin` or `Agent`, or a name if
+someone else did. This field is the reason the dual write exists: without it, an account
+with three people at it gives no way to see who has already spoken to whom.
+
+### One gap in the ladder
+
+**There is no Do Not Contact status.** Opt-outs currently have nowhere honest to go. `Not a
+Fit` means the wrong kind of account, which is a different thing from someone asking not to
+be emailed, and collapsing the two loses information that matters. Worth adding either a
+twelfth status or a checkbox on people. Until then, an opt-out sets `Not a Fit`, gets a note
+saying it was an opt-out and not a fit judgement, and gets flagged to Austin.
 
 ## Views
 

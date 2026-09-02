@@ -69,8 +69,8 @@ Subject: staffing across three sites
 ```
 
 When Austin sends one, move the block to `state/run-log.md` under that day's entry and write
-the touch to Attio: the person goes to `Sent` with the date and touch type, and the company
-gets the same date, the incremented touch count and its next step, per the dual write section
+the touch to Attio: the person's `stage` goes to `Contacted` and `who_contacted` is set, and the
+company gets the same date, the incremented touch count and its next step, per the dual write section
 in `.claude/gtm/crm-sync.md`. Both records, same step.
 
 When he edits before sending, record the edit in the log. The edits are the most useful

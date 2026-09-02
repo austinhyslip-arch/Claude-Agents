@@ -6,11 +6,22 @@
     "scope": "Healthcare, Central time zone",
     "sourcing": "free-web-search only",
     "credits_spent": 0,
-    "attio_workspace": "Chanty"
+    "attio_workspace": "Chanty",
+    "updated": "2026-09-02, phone pass and stage alignment"
   },
   "lists": [
-    { "name": "Healthcare / CT / Personal", "api_slug": "healthcare_ct_personal", "list_id": "54d05801-0490-4976-95aa-12c923494ed7", "parent_object": "companies" },
-    { "name": "Healthcare / CT / Agent", "api_slug": "healthcare_ct_agent", "list_id": "ec286089-7d94-4d73-838a-07a585f15b7e", "parent_object": "companies" }
+    {
+      "name": "Healthcare / CT / Personal",
+      "api_slug": "healthcare_ct_personal",
+      "list_id": "54d05801-0490-4976-95aa-12c923494ed7",
+      "parent_object": "companies"
+    },
+    {
+      "name": "Healthcare / CT / Agent",
+      "api_slug": "healthcare_ct_agent",
+      "list_id": "ec286089-7d94-4d73-838a-07a585f15b7e",
+      "parent_object": "companies"
+    }
   ],
   "accounts": [
     {
@@ -19,12 +30,22 @@
       "attio_company_id": "090d1bb7-6723-48f2-9d0d-24f9fada1269",
       "list": "Personal",
       "score": 11,
-      "score_components": { "size": 4, "footprint": 3, "growth": 1, "structure": 2, "fit": 1 },
+      "score_components": {
+        "size": 4,
+        "footprint": 3,
+        "growth": 1,
+        "structure": 2,
+        "fit": 1
+      },
       "employee_estimate": 1000,
       "employee_basis": "stated",
       "sites": "six-state network, exact count unconfirmed",
       "timezone": "America/Chicago",
-      "signal": { "type": "hiring", "detail": "Regional Operations Manager over eight clinics", "date": "2026-09-02" },
+      "signal": {
+        "type": "hiring",
+        "detail": "Regional Operations Manager over eight clinics",
+        "date": "2026-09-02"
+      },
       "category": "Outbound",
       "bridge": null,
       "premise": "Multi-Persona",
@@ -33,10 +54,46 @@
       "touches": 0,
       "next_step": "no verified email for any contact, gap batch decision needed",
       "people": [
-        { "name": "Alayna Brent", "title": "Chief Operating Officer", "persona": "ops-manager", "attio_person_id": "b2874814-0915-4b23-9b74-78a13a3586b7", "email": null, "email_status": "unverified" },
-        { "name": "Todd Cruse", "title": "Chief Executive Officer", "persona": "owner-operator", "attio_person_id": "2ba326ef-4ae6-495e-bd97-5d9d9c102e94", "email": null, "email_status": "unverified" },
-        { "name": "Amy Overstreet", "title": "Chief Human Resources Officer", "persona": "hr-people", "attio_person_id": "81006777-4a25-43bd-8e18-49d0ee1a9e7e", "email": null, "email_status": "unverified" }
-      ]
+        {
+          "name": "Alayna Brent",
+          "title": "Chief Operating Officer",
+          "persona": "ops-manager",
+          "attio_person_id": "b2874814-0915-4b23-9b74-78a13a3586b7",
+          "email": null,
+          "email_status": "unverified",
+          "stage": "Not Contacted",
+          "who_contacted": null,
+          "phone": "+14847872900"
+        },
+        {
+          "name": "Todd Cruse",
+          "title": "Chief Executive Officer",
+          "persona": "owner-operator",
+          "attio_person_id": "2ba326ef-4ae6-495e-bd97-5d9d9c102e94",
+          "email": null,
+          "email_status": "unverified",
+          "stage": "Not Contacted",
+          "who_contacted": null,
+          "phone": "+14847872900"
+        },
+        {
+          "name": "Amy Overstreet",
+          "title": "Chief Human Resources Officer",
+          "persona": "hr-people",
+          "attio_person_id": "81006777-4a25-43bd-8e18-49d0ee1a9e7e",
+          "email": null,
+          "email_status": "unverified",
+          "stage": "Not Contacted",
+          "who_contacted": null,
+          "phone": "+14847872900"
+        }
+      ],
+      "phone": {
+        "main_line": "+14847872900",
+        "confidence": "medium",
+        "note": "PA area code on a Nashville office, verify on first call",
+        "source": "third-party directory"
+      }
     },
     {
       "name": "Fast Pace Health",
@@ -44,12 +101,22 @@
       "attio_company_id": "294425ca-7618-455f-8133-a251aae84f72",
       "list": "Personal",
       "score": 10,
-      "score_components": { "size": 4, "footprint": 3, "growth": 1, "structure": 1, "fit": 1 },
+      "score_components": {
+        "size": 4,
+        "footprint": 3,
+        "growth": 1,
+        "structure": 1,
+        "fit": 1
+      },
       "employee_estimate": 2000,
       "employee_basis": "guess",
       "sites": "300+ per company site, third-party sources say 198 to 238",
       "timezone": "America/Chicago",
-      "signal": { "type": "hiring", "detail": "front office roles across TN sites, weak signal at this size", "date": "2026-09-02" },
+      "signal": {
+        "type": "hiring",
+        "detail": "front office roles across TN sites, weak signal at this size",
+        "date": "2026-09-02"
+      },
       "category": "Outbound",
       "bridge": null,
       "premise": null,
@@ -58,7 +125,14 @@
       "touches": 0,
       "next_step": "Austin to decide whether accounts this size are in the motion at all",
       "flag": "possibly out of ICP, procurement-cycle buyer",
-      "people": []
+      "people": [],
+      "phone": {
+        "main_line": "+19312531110",
+        "confidence": "high",
+        "note": "corporate switchboard, expect a phone tree",
+        "source": "company contact page plus directories"
+      },
+      "note": "address corrected to 6550 Carothers Pkwy Ste 225, was 550"
     },
     {
       "name": "Performance Therapy Institute",
@@ -66,7 +140,13 @@
       "attio_company_id": "600a6d29-231e-4ef3-94cc-d81c32883690",
       "list": "Agent",
       "score": 5,
-      "score_components": { "size": 2, "footprint": 1, "growth": 0, "structure": 1, "fit": 1 },
+      "score_components": {
+        "size": 2,
+        "footprint": 1,
+        "growth": 0,
+        "structure": 1,
+        "fit": 1
+      },
       "employee_estimate": 30,
       "employee_basis": "site-count",
       "sites": 4,
@@ -80,8 +160,24 @@
       "touches": 0,
       "next_step": "draft staged and held, no verified email",
       "people": [
-        { "name": "Kelly Cashman", "title": "Office Manager", "persona": "ops-manager", "attio_person_id": "61796639-dc1c-4f9b-94af-ef53b3270fed", "email": null, "email_status": "unverified", "phone": "+16154656810" }
-      ]
+        {
+          "name": "Kelly Cashman",
+          "title": "Office Manager",
+          "persona": "ops-manager",
+          "attio_person_id": "61796639-dc1c-4f9b-94af-ef53b3270fed",
+          "email": null,
+          "email_status": "unverified",
+          "phone": "+16154656810",
+          "stage": "Not Contacted",
+          "who_contacted": null
+        }
+      ],
+      "phone": {
+        "main_line": "+16154656810",
+        "confidence": "high",
+        "note": "currently the only working route to this account",
+        "source": "practice listing"
+      }
     },
     {
       "name": "MPOWER Physical Therapy",
@@ -89,7 +185,13 @@
       "attio_company_id": "0f65b905-6e9a-42ac-a300-9f958238b5bd",
       "list": "Agent",
       "score": 4,
-      "score_components": { "size": 2, "footprint": 1, "growth": 0, "structure": 0, "fit": 1 },
+      "score_components": {
+        "size": 2,
+        "footprint": 1,
+        "growth": 0,
+        "structure": 0,
+        "fit": 1
+      },
       "employee_estimate": 25,
       "employee_basis": "site-count",
       "sites": 3,
@@ -102,7 +204,16 @@
       "last_touched": null,
       "touches": 0,
       "next_step": "needs a named contact",
-      "people": []
+      "people": [],
+      "phone": {
+        "main_line": "+16158153780",
+        "other_lines": [
+          "+16155675750"
+        ],
+        "confidence": "high",
+        "note": "Brentwood and Franklin clinic lines, no Nashville number found",
+        "source": "practice listings"
+      }
     },
     {
       "name": "Nashville Healthcare Center",
@@ -110,7 +221,13 @@
       "attio_company_id": "ea78c828-6d5f-4db0-923a-caf2046b60b8",
       "list": "Agent",
       "score": 4,
-      "score_components": { "size": 2, "footprint": 1, "growth": 0, "structure": 0, "fit": 1 },
+      "score_components": {
+        "size": 2,
+        "footprint": 1,
+        "growth": 0,
+        "structure": 0,
+        "fit": 1
+      },
       "employee_estimate": 40,
       "employee_basis": "site-count",
       "sites": 2,
@@ -123,7 +240,13 @@
       "last_touched": null,
       "touches": 0,
       "next_step": "needs a named contact",
-      "people": []
+      "people": [],
+      "phone": {
+        "main_line": "+16153414968",
+        "confidence": "high",
+        "note": "patient appointments line, wrong way into the account",
+        "source": "practice site listing"
+      }
     },
     {
       "name": "Family Practice Associates",
@@ -131,7 +254,13 @@
       "attio_company_id": "414025fd-12d5-401e-98e9-41fc9d28306d",
       "list": "Agent",
       "score": 3,
-      "score_components": { "size": 1, "footprint": 1, "growth": 0, "structure": 0, "fit": 1 },
+      "score_components": {
+        "size": 1,
+        "footprint": 1,
+        "growth": 0,
+        "structure": 0,
+        "fit": 1
+      },
       "employee_estimate": 20,
       "employee_basis": "guess",
       "sites": 2,
@@ -145,12 +274,29 @@
       "touches": 0,
       "next_step": "confirm whether this is HCA-owned before any outreach",
       "flag": "domain provisional, may be HCA / TriStar owned and therefore out of scope",
-      "people": []
+      "people": [],
+      "phone": {
+        "main_line": "+16158346166",
+        "confidence": "medium",
+        "note": "do not call until ownership is confirmed",
+        "source": "practice directory"
+      }
     }
   ],
   "scored_out": [
-    { "name": "Get Better Physical Therapy", "score": 2, "reason": "single site, no coordination problem", "contact_known": "Kate Glenn, Office Manager", "written_to_attio": false },
-    { "name": "Nashville Family Medical Clinic", "score": 1, "reason": "single site", "written_to_attio": false }
+    {
+      "name": "Get Better Physical Therapy",
+      "score": 2,
+      "reason": "single site, no coordination problem",
+      "contact_known": "Kate Glenn, Office Manager",
+      "written_to_attio": false
+    },
+    {
+      "name": "Nashville Family Medical Clinic",
+      "score": 1,
+      "reason": "single site",
+      "written_to_attio": false
+    }
   ],
   "staged_drafts": [
     {
@@ -175,10 +321,56 @@
     }
   ],
   "open_for_austin": [
-    "Gap batch: 4 named contacts need emails, ~4 to 7 Apollo lead credits, balance 135",
+    "Companies has no phone field. Main lines are on person records and in the GTM account notes until one exists.",
+    "Companies has no touch fields, so the company half of the dual write is in the notes.",
+    "No Do Not Contact status in the stage ladder. Opt-outs land as Not a Fit plus a note, which loses the distinction.",
+    "Follow-Up Sent and Follow Up Needed exist in the ladder, so a follow-up cadence is now needed. None is defined.",
+    "Gap batch: 4 named contacts need emails, roughly 4 to 7 Apollo lead credits, balance 135",
     "Fast Pace Health: does the buying power score need an upper bound or an enterprise exclusion",
     "Family Practice Associates: confirm ownership before outreach",
-    "Excluded accounts were kept out of Attio, confirm that is wanted",
     "Where does Agent 2 read shared data from"
-  ]
+  ],
+  "attio_fields": {
+    "people": {
+      "stage": {
+        "type": "status",
+        "values": [
+          "Not Contacted",
+          "Contacted",
+          "Follow-Up Sent",
+          "Replied",
+          "Meeting Booked",
+          "Opportunity",
+          "Contracting",
+          "WON-Closed",
+          "LOST-Closed",
+          "Not a Fit",
+          "Follow Up Needed"
+        ],
+        "agent_may_set": [
+          "Not Contacted",
+          "Contacted",
+          "Follow-Up Sent",
+          "Replied",
+          "Meeting Booked",
+          "Not a Fit",
+          "Follow Up Needed"
+        ],
+        "austin_only": [
+          "Opportunity",
+          "Contracting",
+          "WON-Closed",
+          "LOST-Closed"
+        ]
+      },
+      "who_contacted": {
+        "type": "text",
+        "set_on": "every touch"
+      }
+    },
+    "companies": {
+      "custom_fields": "none yet",
+      "phone_field": "does not exist, standard or custom"
+    }
+  }
 }

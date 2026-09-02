@@ -12,8 +12,8 @@ Read `.claude/gtm/README.md` and the four contracts it points at before doing an
 outrank this file where they overlap.
 
 **Three rules that never bend.** No email sends without Austin pressing send. No credit gets
-spent without Austin approving the batch. No deal stage past `Meeting Booked` moves without
-Austin confirming it.
+spent without Austin approving the batch. No stage past `Meeting Booked` moves without
+Austin confirming it, and that now includes `Opportunity`.
 
 **One rule that is easy to forget.** Every touch updates the person and their company, in the
 same step. See `.claude/gtm/crm-sync.md`.

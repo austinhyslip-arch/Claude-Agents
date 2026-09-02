@@ -73,6 +73,24 @@ with records nobody is going to work. They live here instead. Say if that is the
 6. **Two accounts need a human check before outreach**, both flagged in their notes: Fast
    Pace on scope, Family Practice Associates on whether it is HCA-owned.
 
+### 2026-09-02, second pass: phones and stage alignment
+
+- Main lines found for all 6 accounts, free web search, no credits spent
+- Phones written to the 4 person records and to every `GTM account` note
+- **Companies has no phone attribute**, standard or custom, so there is nowhere on a company
+  record to put a main line. That is why they live on people and in notes.
+- Fast Pace Health address corrected from 550 to 6550 Carothers Pkwy. The first search gave
+  the wrong number, a second pass with several corroborating sources gave the right one.
+  Worth remembering that one search result is not a source.
+- Attio enriched the Fast Pace record on its own: categories, LinkedIn, Twitter, an ARR band
+  and a foundation date, none of it asked for. Useful, and worth not duplicating by hand.
+- **Austin's custom fields appeared on people mid-run**: `Stage` (11 statuses) and `Who
+  Contacted`. The repo's invented status ladder has been replaced with his throughout. All
+  four contacts set to `Not Contacted`.
+- Three gaps this surfaced: no Do Not Contact status, no company-side touch fields, and a
+  ladder that now implies a follow-up cadence which does not exist yet.
+
+
 ---
 
 ## 2026-09-02 | Setup
