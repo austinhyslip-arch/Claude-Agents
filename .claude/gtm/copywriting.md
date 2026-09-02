@@ -24,10 +24,54 @@ draft. It is not a competing writer.
 machine. If a sentence would not survive being read aloud by a person who talks like a
 person, it does not ship.
 
+## Ground truth for claims
+
+Every factual claim about Chanty comes from `value-prop.md`. Price, plan, feature,
+compliance, stat, logo, all of it. A number that is not in that file does not exist, and no
+agent invents one to fill a sentence. Cite its stats as Chanty's own reported figures, never
+as independently verified.
+
+Two live cautions from that file: the `<60% decrease in frontline turnover` figure is
+ambiguous and stays out of outbound until Austin confirms what it means, and the big-name
+logos are team-level usage rather than enterprise deployments, so they are social proof and
+nothing more.
+
 ## Rules that override the pipeline
 
 These come from Chanty's own send performance, so where a skill's default disagrees, the
 rule below wins.
+
+**Open founder-first.** Austin writes as **the** co-founder of Chanty, not "a", and the
+email says so in the first line. It is the strongest thing available that needs no
+sourcing, and it earns the direct meeting ask. The shape is: who he is, why Chanty was
+built, what that means for the reader, then the ask.
+
+Founder-first is a **frame, not a substitute for an angle.** It answers why she should
+listen to him. One specific, sourced sentence still has to answer why her and why now. An
+email carrying the founder line and nothing specific about the reader is a template, and
+`personalization-playbooks` still decides how much personalization the category earns.
+
+**The healthcare opening, word for word.** Set by Austin on 2026-09-02 as the standing
+formula for this vertical, not just for one draft. Every healthcare first touch opens:
+
+1. "I'm Austin, the co-founder of Chanty."
+2. The reason, close to verbatim: "We built it because the big internal communications
+   platforms aren't built for healthcare clinics who need a simple, easy to use platform
+   that's affordable."
+3. One sentence that reformats to the specific account: their scale, their structure,
+   their own signal, whatever `personalization-playbooks` picked for this contact. This is
+   the only sourced, personal sentence in the email, and it still has to earn its place.
+   It exists to connect the general reason above to this reader, not to repeat either.
+4. The value line, in this order and close to this wording: **no price point stated, say
+   "base plan"**, then no complex builds, no weeks-long integration, a signed BAA, HIPAA
+   compliant, and affordable. Pillar 5 in `value-prop.md` is what backs every claim in it.
+5. The direct meeting ask, per the CTA rule below.
+
+**Deliberate exception to the comma-list rule.** Item 4 is a five-part comma list, which is
+exactly the pattern the pipeline otherwise cuts. Austin dictated this wording specifically,
+so it stands as written for this one claim block and nowhere else. Do not generalize it
+into permission for comma lists elsewhere in the email, and do not soften or shorten
+Austin's own phrasing here without him saying so again.
 
 **CTA.** Direct meeting ask with a specific time suggested. "Do you have 15 minutes
 Thursday at 10 your time?" is the shape. Soft asks lose. Banned: "worth a reply?", "open to
@@ -38,10 +82,18 @@ CTA that asks the reader to define the next step themselves.
 needs another edit. Lowercase or sentence case, not title case. No brackets, no emoji, no
 "Re:" that is not a real reply, no question mark trying to look like a thread.
 
-**Value proposition.** Lead with the outcome for the person reading it. Never frame the
-email against a named competitor. Not "better than Slack", not "cheaper than Teams", not
-"unlike Monday.com". If the reader wants that comparison they will ask for it on the call.
-Naming a competitor in a first touch reads as a pitch and gets treated as one.
+**Value proposition.** Lead with the outcome for the person reading it, drawn from the
+persona-mapped pitch angles in `value-prop.md` section 4.
+
+**Never frame a first touch against a named competitor.** Not "better than Slack", not
+"cheaper than Teams", not "unlike Monday.com". If the reader wants that comparison they will
+ask for it on the call. Naming a competitor in a first touch reads as a pitch and gets
+treated as one, and picking the wrong incumbent is worse than picking none.
+
+This holds even though `value-prop.md` marks Chanty's own Slack and Teams data-ownership
+lines as safe to use verbatim. Those are available **from the reply onward**, and in
+objection handling, content and sales collateral. They are not available in a first touch.
+The category critique survives without the name: "the big platforms" does the same work.
 
 **Tone.** Casual by default. Neutral is the fallback for healthcare and other conservative
 verticals. Formal is never right. Practical test: contractions yes, "I wanted to reach out"

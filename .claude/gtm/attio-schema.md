@@ -8,33 +8,7 @@ Workspace: **Chanty**. Connected as austin@chanty.com with admin access. Verifie
 
 ## What the workspace actually has today
 
-Two standard objects, `companies` and `people`. No Deals object. Lists as below.
-
-**Austin's custom fields, live on `people` as of 2026-09-02:**
-
-| Field | api_slug | Type | Notes |
-|---|---|---|---|
-| Stage | `stage` | status | 11 statuses, the real pipeline. See the ladder below. |
-| Who Contacted | `who_contacted` | text | "Who reached out to this opportunity" |
-
-**Companies has no custom fields at all**, and that matters more than it sounds. It has no
-phone attribute either, standard or custom, so a company main line has nowhere to live on
-the company record. Two consequences, both worked around rather than solved:
-
-- Main lines are written to the **person** records at that company, and to the company's
-  `GTM account` note.
-- The company half of "every touch updates both records" has no fields to write into, so it
-  goes in the note until the fields below exist.
-
-The Attio MCP connection **cannot create attributes**. It creates records, lists, notes,
-tasks and comments, and updates records and list entries. Adding a field is a thing Austin
-does in the UI. Always re-run `list-attribute-definitions` before writing to a field rather
-than assuming it is there.
-
-Attio also enriches company records by itself. Creating Fast Pace Health with a name and
-domain pulled in categories, LinkedIn, Twitter, an estimated ARR band and a foundation date
-without being asked. Worth knowing before the agent goes and researches something Attio was
-about to fill in for free.
+Two standard objects, `companies` and `people`. No Deals object.
 
 ### Lists
 
@@ -43,6 +17,71 @@ about to fill in for free.
 | Customer Success | `customer_success` | d1090ab0-1b1a-4119-83bd-210b3e80d0c7 | companies |
 | Healthcare / CT / Personal | `healthcare_ct_personal` | 54d05801-0490-4976-95aa-12c923494ed7 | companies |
 | Healthcare / CT / Agent | `healthcare_ct_agent` | ec286089-7d94-4d73-838a-07a585f15b7e | companies |
+
+Companies also has **no phone attribute**, standard or custom, so a main line has nowhere to
+live on a company record. Main lines go on the person records at that company and into the
+company's `GTM account` note.
+
+**Companies still has no custom attributes. People now has two**, added by Austin in the UI
+after the first draft of this file. They are the live tracking fields and both agents write
+them. See the next section.
+
+**The Attio MCP connection cannot create attributes.** It creates records, lists, notes,
+tasks and comments, and it updates records and list entries. Adding a custom field is a
+thing Austin does in the Attio UI, so an agent that wants a new field asks for it rather
+than working around it.
+
+So there are two ways to run. Option A still covers everything the two live fields do not.
+
+## The live custom fields on People
+
+Read from the workspace on 2026-09-02, after Austin created them. Re-read with
+`list-attribute-definitions` at the start of any session that writes. Never type an option
+title from memory.
+
+### `stage` (title "Stage", type **status**, writable)
+
+Attio's `status` type, not a select, so it behaves as a real pipeline stage. Write it by
+passing the option title exactly: `{"stage": "Contacted"}`.
+
+```
+1  Not Contacted
+2  Contacted
+3  Follow-Up Sent      <- capital U
+4  Replied
+5  Meeting Booked
+6  Opportunity
+7  Contracting
+8  WON-Closed          <- not "Closed Won"
+9  LOST-Closed         <- not "Closed Lost"
+10 Not a Fit
+11 Follow Up Needed    <- no hyphen, unlike option 3
+```
+
+"Follow-Up Sent" and "Follow Up Needed" differ by one hyphen and mean opposite things.
+
+### `who_contacted` (title "Who Contacted", type **text**, writable)
+
+Free text, so nothing enforces consistency. Both agents write exactly one of:
+
+```
+Austin (manual)
+Agent 1 (automated)
+Inbound
+```
+
+Agent 1 writes `Agent 1 (automated)`. Agent 2 writes `Austin (manual)`. Neither overwrites
+the other's value silently: a record already carrying the other agent's name gets flagged,
+because two systems working one human is worth Austin knowing about before the next send.
+
+Converting this to a single Select with those three options would make drift impossible,
+and it is far cheaper now than after the table fills up.
+
+### What these fields do not cover
+
+Nothing on this object holds a **buying power score**, an **employee estimate**, a
+**persona tag**, a **sourcing tag**, an **email status** or a **time zone**. Those still
+live in the `GTM record` note under Option A.
 
 ## Option A, no schema changes, works now
 
@@ -72,6 +111,8 @@ use lists for the routing.
 | `job_title` | as written on their own site |
 | `company` | record link |
 | `description` | persona tag plus a one-line summary |
+| `stage` | the pipeline stage, see the ladder below |
+| `who_contacted` | which agent or person made contact, see above |
 | `linkedin` | profile |
 | `primary_location` | only when the person is clearly somewhere other than the company |
 
@@ -91,24 +132,19 @@ category: Outbound
 bridge: none
 signal: hiring, 3 front office roles, <url>, 2026-08-24
 angle: company-trigger, <url>
-stage: Not Contacted
-who-contacted: (empty until someone actually reaches out)
+status: Queued
 ```
 
 The company gets its own `GTM account` note, which is where the dual write in
 `crm-sync.md` lands until the custom fields exist:
 
 ```
-main-line: (615) 465-6810
-account-stage: Replied
+account-status: Replied
 last-touched: 2026-09-04
-who-contacted: Agent
+last-touched-by: Agent
 touches: 3
 next-step: Austin to reply to Jane, week of Sept 8
 ```
-
-The `main-line` line is there because Companies genuinely has no phone field. It moves to a
-real attribute the day one exists.
 
 Read the note, change the lines, write it back with `update-note`. Slower than a field, but
 it keeps the company record honest from day one.
@@ -130,12 +166,15 @@ assignment, and list entries are what Austin sorts and works from.
 
 Cleaner, sortable, and worth having before the first real list build.
 
-**Checked 2026-09-02 against the live workspace and none of these exist yet.** Companies has
-31 attributes and people has 28, all of them stock. If fields were added in the UI and the
-agent cannot see them, something is off: a different workspace, an unsaved draft, or the
-connection needs reauthorising. Re-run `list-attribute-definitions` before assuming the
-agent can write to a field, and never write into a field name that has not come back from
-that call.
+**Partly done.** People now carries `stage` and `who_contacted`, which cover the GTM status
+and owner rows below. Companies is still entirely stock, so every company field here is
+still to add, and the company roll-up in `crm-sync.md` runs through the `GTM account` note
+until they exist.
+
+If a field was added in the UI and the agent cannot see it, something is off: a different
+workspace, an unsaved draft, or the connection needs reauthorising. Re-run
+`list-attribute-definitions` before assuming the agent can write to a field, and never write
+into a field name that has not come back from that call.
 
 ### On Companies
 
@@ -152,10 +191,9 @@ that call.
 | Signal source | text (URL) | |
 | Signal date | date | |
 | Sourcing | select | free-web-search, paid-apollo, paid-hunter, paid-clay |
-| **Main line** | **phone number** | **the one to add first. Companies has no phone field of any kind today, so every main line the agent finds has to live on a person record or in a note.** |
-| Account stage | status | mirror of the people `stage` ladder, furthest rung any person there has reached |
+| Account status | select | the ladder below, furthest rung any person there has reached |
 | Last touched | date | any outreach to anyone at this company |
-| Who contacted | text | matches the people field of the same name |
+| Last touched by | select | Austin, Agent |
 | Touches | number | running count across every person at the company |
 | Next step | text | one line, what happens next at this account |
 
@@ -166,8 +204,6 @@ this week.
 
 ### On People
 
-`Stage` and `Who Contacted` already exist. These would still help:
-
 | Field | Type | Options |
 |---|---|---|
 | Persona | select | owner-operator, clinical-lead, ops-manager, it-security, finance, hr-people, frontline-supervisor |
@@ -176,10 +212,10 @@ this week.
 | Bridge path | text | |
 | Personalization angle | select | authored-content, engaged-content, background, company-trigger, generic |
 | Personalization source | text (URL) | |
+| GTM status | select | the ladder below |
 | Owner | select | Austin, Agent |
 | Last touch | date | |
 | Last touch type | select | email-sent, reply-received, call, meeting, note |
-| Do Not Contact | checkbox | see the gap noted under the ladder |
 
 Once these exist, the agent writes to the fields instead of the note, and the note goes back
 to being a note. Nothing else in the workflow changes.
@@ -221,42 +257,52 @@ Set on the person, used by both personalization and copywriting. Kept short on p
 - `hr-people`: HR, people ops, staffing
 - `frontline-supervisor`: supervises the non-desk staff who would actually use Chanty
 
-## Stage, the real ladder
+## Status ladder
 
-Austin's `stage` field on people. These eleven are the pipeline, and the agent uses them
-rather than any ladder invented in this repo.
+The ladder is now the live `stage` field, not a set of names this file invents. Where the
+original ladder and the built field disagree, **the field wins**, because it is what Austin
+sorts his pipeline by.
 
-| # | Status | Who sets it | When |
-|---|---|---|---|
-| 1 | Not Contacted | Agent | on record creation, always |
-| 2 | Contacted | Agent | after a first touch actually goes out, never when it is only staged |
-| 3 | Follow-Up Sent | Agent | after a follow-up goes out |
-| 4 | Replied | Agent | on any inbound reply, no confirmation needed |
-| 5 | Meeting Booked | Agent | Calendly to Attio, or Austin confirms |
-| 6 | Opportunity | **Austin** | a judgement call about whether a real deal exists |
-| 7 | Contracting | **Austin** | never inferred from email content |
-| 8 | WON-Closed | **Austin** | |
-| 9 | LOST-Closed | **Austin** | |
-| 10 | Not a Fit | Agent, narrowly | only on objective disqualification: out of ICP, wrong ownership, no distributed workforce. A judgement call goes to Austin. |
-| 11 | Follow Up Needed | Agent | a reply that says "not now, come back later", or any commitment made to follow up |
+| Original rung | Live `stage` option | Notes |
+|---|---|---|
+| New | `Not Contacted` | |
+| Queued | no field option | A staged draft is not a CRM state. Queue membership lives in Agent 1's `state/send-queue.md`. Do not invent a stage for it. |
+| Sent | `Contacted` | First touch. |
+| (none) | `Follow-Up Sent` | New. Every touch after the first. |
+| Replied | `Replied` | |
+| Meeting Booked | `Meeting Booked` | |
+| (none) | `Opportunity` | New. A qualification call, so it is flagged, never automatic. |
+| Contracting | `Contracting` | Flagged. |
+| Won / Lost | `WON-Closed` / `LOST-Closed` | Flagged. |
+| (none) | `Not a Fit` | New. Flagged. |
+| (none) | `Follow Up Needed` | New. A work queue flag, not a pipeline position, which is why it sits at order 11 after the closed stages. Set it when a touch has gone unanswered and no follow-up has gone out. Clear it to `Follow-Up Sent` when one does, or `Replied` if they answer. Never set it over `Meeting Booked` or later. |
 
-Statuses 6 through 9 are the ones that wait for Austin. That is the same line the original
-brief drew at `Contracting`, moved one rung earlier because `Opportunity` is a judgement
-about deal quality and the agent is not the one to make it.
+Nothing skips a rung without Austin saying so, and nothing moves backward. A new cold
+contact at an account already at `Replied` does not drag anything back.
 
-### Who Contacted
+### The three side statuses have nowhere to live
 
-Set on **every** touch, to whoever actually reached out. `Austin` or `Agent`, or a name if
-someone else did. This field is the reason the dual write exists: without it, an account
-with three people at it gives no way to see who has already spoken to whom.
+`Bounced`, `Held` and `Do Not Contact` are all required by `crm-sync.md` and **none of them
+is an option on the `stage` field.** That is a live gap, and `Do Not Contact` is the
+dangerous one: `crm-sync.md` calls it the one flag that moves without asking and never gets
+reversed, so it must not be recoverable only from a note body.
 
-### One gap in the ladder
+Until Austin adds them as options:
 
-**There is no Do Not Contact status.** Opt-outs currently have nowhere honest to go. `Not a
-Fit` means the wrong kind of account, which is a different thing from someone asking not to
-be emailed, and collapsing the two loses information that matters. Worth adding either a
-twelfth status or a checkbox on people. Until then, an opt-out sets `Not a Fit`, gets a note
-saying it was an opt-out and not a fit judgement, and gets flagged to Austin.
+- **Do Not Contact** is written to the `GTM record` note as `status: Do Not Contact`, the
+  person is pulled from every queue, and it is repeated in the run summary. Never
+  approximate it with `Not a Fit`, which means the opposite thing about the account.
+- **Bounced** goes in the note as `email-status: bounced` and the address is suppressed.
+- **Held** is a queue state, so it stays in Agent 1's `state/send-queue.md` where it already
+  lives, and needs no field.
+
+Adding `Do Not Contact` and `Bounced` to the `stage` field is the cleanest fix and should
+happen before real volume.
+
+There is no Deals object in the workspace, so `Contracting` and past it live on the person
+record for now. One person therefore carries one stage, which caps things at one open
+opportunity per human. If Austin adds Deals later, those rungs move there and the person
+record keeps everything up to `Meeting Booked`.
 
 ## Views
 

@@ -117,6 +117,18 @@ re-reporting the same acquisition three weeks running.
 - **"Users report" and "Slack announced" are different claims.** Keep them different.
 - **Never contact a competitor, sign up under false pretenses, or scrape behind a login.**
 
+## Reading a competitor move against Chanty's own position
+
+`.claude/gtm/value-prop.md` section 5 holds Chanty's stated position against every Tier 1
+and Tier 2 competitor, and section 3 holds the numbers. When a tracked competitor changes
+price, gates a feature, or moves on compliance, read it against that file rather than a
+remembered version of where Chanty sits, and say in the item what it changes for Chanty
+specifically. A Slack free-tier change lands on Pillar 3. A competitor putting HIPAA behind
+Enterprise lands on Pillar 5. That is what makes a digest item sales-usable rather than
+merely true.
+
+This agent still writes no CRM records and invents no Chanty claims of its own.
+
 ## Adapting the outbound scoring logic
 
 If `outbound-triggers-6` or `outreach-4-categories` are installed, read them first and use

@@ -34,13 +34,13 @@ came in.
 
 | Field | Set to |
 |---|---|
-| `stage` | the rung this touch moved them to, if it moved them |
-| `who_contacted` | Austin, Agent, or the name of whoever reached out |
-| Last touch | the date it happened, once the field exists |
-| Last touch type | email-sent, reply-received, call, meeting, note |
+| `stage` | the rung this touch moved them to, if it moved them. Live field. |
+| `who_contacted` | `Agent 1 (automated)` or `Austin (manual)`. Live field. Flag rather than overwrite the other agent's value. |
+| Last touch | the date it happened. Note field until it exists. |
+| Last touch type | email-sent, reply-received, call, meeting, note. Note field until it exists. |
 
 `who_contacted` is set on every touch without exception. It is the field that answers "has
-anyone here already spoken to this person", and it is worthless the first time it gets
+anyone here already spoken to this person", and it is worthless the first time it is
 skipped.
 
 Plus a dated note saying what happened and who did it.
@@ -50,16 +50,10 @@ Plus a dated note saying what happened and who did it.
 | Field | Set to |
 |---|---|
 | Last touched | the same date |
-| Who contacted | the same value written on the person |
+| Last touched by | Austin or Agent |
 | Touches | existing count plus one |
-| Account stage | the furthest rung any person at this company has reached |
+| Account status | the furthest rung any person at this company has reached |
 | Next step | one line on what happens next, or cleared if nothing is pending |
-
-**None of these fields exist on Companies yet**, so today this block goes into the company's
-`GTM account` note instead, in the format in `attio-schema.md`. Read the note, change the
-lines, write it back. It is slower and it is not sortable, but the company record stays
-honest from the first touch, and the day the fields appear the agent writes to them instead
-with nothing else changing.
 
 Read `Touches` before writing it. There is no increment operation, so the agent fetches the
 current value and writes the new one, and two runs touching the same account in parallel
@@ -67,18 +61,15 @@ would otherwise lose a count.
 
 ### Rules on the company roll-up
 
-- **Account stage only moves forward.** A new cold contact at an account already at
-  `Replied` does not drag the company back to `Not Contacted`. Take the furthest rung, never
-  the most recent one.
-- **Past `Meeting Booked` it stops on its own**, same as the person ladder. `Opportunity`,
-  `Contracting`, `WON-Closed` and `LOST-Closed` wait for Austin on a company exactly as they
-  do on a person.
-- **An opt-out flows both ways.** One person asking not to be contacted is set on that
-  person immediately and they come out of every queue. If they asked on behalf of the
-  business, or they are the owner, apply it to the company too and pull their colleagues.
-  When it is ambiguous, set the person, flag the company, let Austin decide. Note the gap in
-  `attio-schema.md`: there is no Do Not Contact status yet, so this currently lands as `Not a
-  Fit` plus a note saying what it really was.
+- **Account status only moves forward.** A new cold contact at an account already at
+  `Replied` does not drag the company back to `Queued`. Take the furthest rung, never the
+  most recent one.
+- **Past `Meeting Booked` it stops on its own**, same as the person ladder. `Contracting`,
+  `Won` and `Lost` on a company wait for Austin exactly like they do on a person.
+- **`Do Not Contact` is the exception that flows both ways.** One person opting out sets
+  that person immediately. If they asked on behalf of the business, or they are the owner,
+  set the company too and pull every colleague from the queues. When it is ambiguous, set
+  the person, flag the company, and let Austin decide.
 - **A bounce is a touch.** It updates both records. An account whose only touches are
   bounces is a data problem, not an engaged account, so `Next step` says so.
 
@@ -96,8 +87,8 @@ the two as worth flagging rather than silently overwriting.
 
 ## What updates automatically
 
-**Reply received.** Set `stage` to `Replied`, set `who_contacted`, log the message on the
-record, stamp the date, and roll the touch up to the company per the section above. No confirmation needed. Classify
+**Reply received.** Set status to `Replied`, log the message on the record, stamp the date,
+and roll the touch up to the company per the section above. No confirmation needed. Classify
 the reply with `handle-reply`, put the suggested next action on the person record as a note
 and in the company's `Next step`, but do not send anything.
 
@@ -106,22 +97,28 @@ verify it actually did, with `search-emails-by-metadata` against recent records.
 mail is not landing on records, flag it in the run summary rather than duplicating the
 logging by hand.
 
-**Demo booked.** Comes through the Calendly to Attio connection over Zapier. Set status to
-`Meeting Booked`. If that connection is not live, cross-check with Attio `search-meetings`
-and with Google Calendar `list_events`, then ask Austin to confirm before setting it.
-A calendar entry is good evidence, not a confirmation.
+**Demo booked.** Calendly is out of the stack. Bookings come through Austin's Google Meet
+link, https://calendar.app.google/S56CDe5cBYwNanz39, which lands on his Google Calendar and
+reaches Attio through the calendar sync as `next_calendar_interaction` on the record.
 
-**Bounce.** Note the bounce on the record, remove the address, and take the person out of
-every queue. There is no bounced status in the ladder, so `stage` stays where it was and the
-note carries the fact. Do not retry the address, and do not go guess a replacement pattern.
+Nothing automated writes the stage any more, so an agent owns it. Set `stage` to
+`Meeting Booked` when Austin says a meeting is booked, or when `next_calendar_interaction`
+shows a future meeting with that contact. Cross-check with Attio `search-meetings` and
+Google Calendar `list_events` where it is unclear. A calendar entry alone is good evidence,
+not a confirmation, so a lone ambiguous entry gets flagged rather than set.
+
+The Zapier connection that used to carry this is no longer needed.
+
+**Bounce.** Set `email-status: bounced` in the `GTM record` note and remove from any queue.
+Do not retry the same address, and do not go guess a replacement pattern. `Bounced` is not
+an option on the live `stage` field, so leave the stage where it is rather than
+approximating, and say so in the run summary. See the side-status gap in `attio-schema.md`.
 A bounce is a touch, so it rolls up to the company like any other.
 
 ## What never updates automatically
 
-**`Opportunity` and everything past it.** `Opportunity`, `Contracting`, `WON-Closed` and
-`LOST-Closed` are flagged as a candidate change and wait for Austin's confirmation.
-`Opportunity` is included because it is a judgement about whether a real deal exists, which
-is not the agent's call to make.
+**Contracting and everything past it.** `Contracting`, `Won` and `Lost` are flagged as a
+candidate change and wait for Austin's confirmation.
 
 **Never advance a deal stage off inferred email content alone.** "Sounds good, send me the
 contract" is a candidate, not a stage change. The candidate goes in
@@ -130,6 +127,13 @@ contract" is a candidate, not a stage change. The candidate goes in
 **Do Not Contact.** Any opt-out request, however casually worded, sets `Do Not Contact`
 immediately and removes the record from every queue. This is the one flag that moves
 without asking, and it never gets reversed by an agent.
+
+It is also the one with no field to live in. `Do Not Contact` is not an option on the live
+`stage` field, so until Austin adds it: write `status: Do Not Contact` into the
+`GTM record` note, pull the person from every queue, and repeat it in the run summary so it
+is not discoverable only by reading a note body. **Never approximate it with `Not a Fit`.**
+That option says the account is a poor match, which is a different claim and reversible,
+and conflating the two is how an opt-out gets undone by a later campaign.
 
 ## Gap filling
 

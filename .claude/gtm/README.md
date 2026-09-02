@@ -9,23 +9,29 @@ version of how credits are spent, how email is written, or how Attio is updated.
 | Agent | Skill | Status |
 |---|---|---|
 | 1. Outbound GTM Agent | `.claude/skills/chanty-outbound-gtm/` | Built. Healthcare ready to run, other industries blocked on win data. |
-| 2. Built elsewhere | not in this repo | Lives outside this repo. Nothing here depends on it. Data reaches it through `shared/`, see below. |
+| 2. On-Demand Outreach Drafting | `.claude/skills/outreach-drafting/` | Built. In this repo, and it writes the same Attio people records Agent 1 does. |
+
+The two agents are not independent. Agent 1 sources and stages on its own cadence. Agent 2
+drafts on demand for targets Austin hands it, and he sends those by hand. Same records,
+different method, and `who_contacted` is what tells them apart. Both follow every contract
+below, so where Agent 2's own references and these files disagree, these files win.
+
+`shared/` carries run output between them. Attio is the real handoff since both agents read
+the same workspace; `shared/handoff.json` is a per-run snapshot of what a CRM holds badly,
+mainly score components, hold reasons and staged drafts.
 
 ## Shared contracts
 
 Both agents read these before acting. If one of them conflicts with an agent's own
 reference file, the contract wins.
 
+- `value-prop.md`: what any agent is allowed to claim about Chanty, and the numbers behind
+  it. Ground truth for every claim in every email, page and digest.
 - `sourcing-and-credits.md`: free search first, batch the gaps, never spend a credit
   without approval
 - `copywriting.md`: the pipeline order and the send-performance rules that override it
 - `attio-schema.md`: the objects, fields and views the agents read and write
 - `crm-sync.md`: what updates automatically, what gets flagged, what never moves on its own
-
-`shared/` carries data between the two agents. Attio is the real handoff, since both agents
-read the same workspace. `shared/handoff.json` is a per-run snapshot of what Attio cannot
-hold well, mainly score components, hold reasons and staged drafts. Attio wins on any
-disagreement. See `shared/README.md`.
 
 ## Connectors
 
@@ -38,7 +44,8 @@ Verified live on 2026-09-02.
 | Clay | Connected. Workspace `Chanty` (1356452) | Paid fallback, mostly the Personal list |
 | Gmail | Connected | Reading replies, staging drafts. Never for agent sending |
 | Google Calendar | Connected | Checking availability before a meeting time goes in an email |
-| Hunter | **Not connected** | The middle rung of the waterfall is missing. See `sourcing-and-credits.md` |
+| Hunter | **Not connected, and no connector exists in the directory** | The middle rung of the waterfall is missing and is not a matter of connecting it. Apollo carries verification. See `sourcing-and-credits.md` |
+| Calendly | **Dropped from the stack** | Replaced by Austin's Google Meet link. The Zapier bridge it needed is no longer required. |
 
 ## Skill stack
 
