@@ -32,7 +32,8 @@ Same trap the competitive intel skill documents.
 | Google Calendar | Connected | Checking real availability before a specific time goes into an email, which the CTA rule needs. |
 | Attio native Gmail sync | **Unverified** | The CRM rules assume it catches Austin's sent mail. Confirm with one real send before relying on it. |
 | Calendly to Attio via Zapier | **Unverified** | If the Zap is not live, booked meetings need manual confirmation. Check before the first one gets booked. |
-| Web search and page fetch | **Restricted in this container** | Direct fetches to `google.com` and the provider APIs are refused by the network egress policy here. npm and GitHub are reachable, which is how the skills installed. Free-web-search sourcing is the entire first step, so real list building needs a session with open egress or the connectors doing the fetching. |
+| Web search | **Works** | The `WebSearch` tool runs server-side and returns results normally. Tested 2026-09-02: a healthcare prospecting query came back with practice names, addresses and main phone lines. |
+| Page fetch | **Blocked in this container** | `WebFetch` on a company's own site returns `EGRESS_BLOCKED`. The environment's proxy allows package registries and Anthropic infrastructure, nothing else. This is the real constraint. Search snippets give phones and addresses, but the named-person email usually lives on a contact or team page the agent cannot open, so those contacts fall into the paid gap batch instead of being found for free. Against 135 Apollo credits that is the wrong way round. Fix it by opening egress on the environment, or run the list build from a session where fetching is allowed. |
 
 ## The one place the brief and the skills disagreed
 
@@ -59,6 +60,8 @@ ranking step had nothing to run on otherwise. Both jobs now happen, at different
    touches and nothing else until a sequence is defined.
 4. **Hunter, if it is wanted.** Optional. Apollo and Clay both return their own verification,
    it is just not independent.
+5. **Egress for page fetching.** See the dependency table. Without it the free-search step
+   loses its most productive source and the credit pool takes the load.
 
 ## Adding more skills later
 
