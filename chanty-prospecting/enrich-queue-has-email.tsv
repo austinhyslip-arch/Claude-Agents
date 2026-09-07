@@ -1,4 +1,3 @@
-personId	fullName	jobTitle	company	domain	band	hasEmail
 217869950	Lisa DiFusco	President & Founder	Lightheart Institute	lightheart.com	sub20	Y
 9983743349	Janice Stephenson	Owner and Chief Financial Officer	DIY Pools and Spas	diypoolsandspas.com	sub20	Y
 9423121164	Mike Rush	General Manager	Aegis Fire and Integrated Services	aegisfis.com	sub20	Y
@@ -7,108 +6,67 @@ personId	fullName	jobTitle	company	domain	band	hasEmail
 3333229044	Todd Sabin	Owner	Todd Sabin	toddsabin.com	sub20	Y
 9865743157	Angel Santos	Business Owner	HandyGeekz	handygeekz.com	sub20	Y
 32584018	Katrina Puetz	Owner	Furnishments	furnishments.com	sub20	Y
-8511464499	Demara Wessells	Business Owner	Maddocks Delivery Services	maddocksdeliveryservices.com	sub20	N
-368815900	Deborah Traugh	Owner	Centre for Health and Wellness	healthandwell.com	sub20	N
 7071960247	Carrie Gorham	Co-Owner	Grown Heeyah Powered	grownheeyah.com	sub20	Y
 -1999034977	David Torres	Operations Owner	Flatiron Panel Products	flatironpanelproducts.com	sub20	Y
-2649856351	Chris Falls	Owner	Falls Heating and Cooling	fallsheating.com	sub20	N
 -1976439256	Robert Freedman	Owner	Flatiron Panel Products	flatironpanelproducts.com	sub20	Y
 -2096003034	Joseph Underwood	Owner	Balboa Winery	balboawinery.com	sub20	Y
-8812561757	Cj Conway	Owner	Esoteric Auto Detail	esotericdetail.com	sub20	N
 8665581074	Jennifer Harvey	Manager, Business Office	The Blairmont Club	blairmontclub.com	sub20	Y
 -886234703	Camille Estrella	Office Manager	Riccoboni Dental	riccobonidental.com	sub20	Y
--872865505	Noreen Tracy	Office Manager	Regal Associates	regalassociates.com	sub20	N
 17870583175	Nilsa Malabet	Office Manager	Linda Vista Real Estate	lindavistare.com	sub20	Y
-2363062480	Casmiria Carmona	Office Manager	Esoteric Auto Detail	esotericdetail.com	sub20	N
-1904351451	Yvonne Quijano	Legal Assistant & Office Manager	Guarisco Cordes & Lala	gctaxlaw.com	sub20	N
 2033379645	Roy Musoff	CEO & Owner	ExpressDocs Urgent Care Center	myexpressdocs.com	sub20	Y
--2124414246	Matthew Sobel	General Manager	ExpressDocs Urgent Care Center	myexpressdocs.com	sub20	N
-206343173	Victor Hayes	Founder & Co-Owner	Victor R Hayes	victorhayesco.com	sub20	N
 206343174	Suzanne Mikolaizyk	Co-Owner	Victor R Hayes	victorhayesco.com	sub20	Y
 2878608215	Lori Singer	Owner	Advance Innovative Solutions	ais-rx.com	sub20	Y
--913829285	Nicole Fore	Office Manager	Advance Innovative Solutions	ais-rx.com	sub20	N
-239817551	Tenby Dahman	Owner and Principal	Peak Lending Team	peaklendingteam.com	sub20	N
 841660038	Timothy Cochran	Owner	Trace Horse	tracehorse.com	sub20	Y
 14692886359	Madesta Jackson	Founder	Future Mvp	futuremvp.org	sub20	Y
 13769800	Dan Froot	Founder	Dan Froot	danfroot.com	sub20	Y
-669244149	Christopher Stoll	Owner and Operator	Audioflare Recording Studio	audioflare.com	sub20	N
-17432168441	Janet Carter	Pharmacist, Owner	Prescription Alternatives	prescriptionalternativesfrisco.com	sub20	N
 25932970	David Alberts	Founder	Better Than Ever	betterthaneverhome.com	sub20	Y
-9618076404	Jeffrey Kolb	Co-Owner	Kolb & Kolb	kolbdental.com	sub20	N
-419161802	Tony Smith	Founder	Personal Travel	personaltravelcorp.com	sub20	N
 -901374897	Rekha Arapurakal	Owner	Personal Travel	personaltravelcorp.com	sub20	Y
--1253765295	Vern Stover	Owner	Rincon Energy	rinconenergy.com	sub20	N
 376779836	Doris Lindsey	Owner	Cody Financial Mortgage Services	codyfinancial.com	sub20	Y
 1449502596	Wendy Young	Office Manager	Cody Financial Mortgage Services	codyfinancial.com	sub20	Y
 -1537463305	Mary Lenhart	Owner	Lenhart Development	lenhartdevelopment.com	sub20	Y
 8671598653	Madhu Ambalia	Owner	Monarch Development Group	monarchdevelopmentgroup.com	sub20	Y
-10090653307	Barbara Presby	Office Manager	Mahoning Valley Second Harvest Food Bank	mahoningvalleysecondharvest.org	sub20	N
 2664080592	Nancy Gilbert	Office Manager	Key Communications	key-comm.com	sub20	Y
--880425451	Frances Isbell	Office Manager	Isbell Farms	isbellfarms.com	sub20	N
 1869612650	Vicki Napier	Office Manager	Jordan-Smith Electric	jordan-smith.com	sub20	Y
 1618586605	Karen Warner	Founder & CEO	BEAM Circular	beamcircular.org	sub20	Y
 1582392029	David Karstedt	Broker and Owner	1st Texas Realtors	1sttexasrealtors.com	sub20	Y
--2036756979	Yossi Benalisha	Owner	Premiere Home Builders	premierehb.com	sub20	N
 13257796804	Jerred Eversole	Owner	Deep Fork Productions	deepforkproductions.com	sub20	Y
 1204038992	Alan Serio	Business Owner	Wonderland Distilling	wonderlanddistilling.com	sub20	Y
 194992528	Kay Isaacson-Leibowitz	Co-Founder	World of Children	worldofchildren.org	sub20	Y
 8918297	Harry Leibowitz	Co-Founder	World of Children	worldofchildren.org	sub20	Y
-3165987135	Michael Carroll	Co-Owner	Capital Repair Services	capitalrepairservices.com	sub20	N
-3458184911	Jesse Ramirez	Owner	Efficient Computer Systems	efficientcomputersystems.com	sub20	N
 2879226139	Lisa Pyle	Partner and Co-Founder	Real8 Group	real8group.com	sub20	Y
 479058413	Margaret Lett	Founder	Benafica	benafica.com	sub20	Y
 -1880216484	Alain Trudeau	Owner	Benafica	benafica.com	sub20	Y
 -953942795	Karen Tinker	Office Manager	CMP Professional Land Surveyors	cmplandsurveying.com	sub20	Y
 13519771967	Angela Ralph	Office Manager	ACE Extrusion	aceextrusion.com	sub20	Y
-9128391851	Erica Green	Office Manager	van der Veen, Hartshorn & Levin	mtvlaw.com	sub20	N
 1888394903	Angie Fuller	Office Manager	Taylor Seed Farms	taylorseedfarms.com	sub20	Y
 1263546930	Scott Bernhard	President & Owner	Bernhard Plumbing	bernhardplumbing.com	sub20	Y
 1660921731	Kevin McNulty	Owner	Caliber Contracting Services	calibercontractingservices.com	sub20	Y
 6009427006	Lacey Garcia	Owner	Raven Salon	ravensalon.com	sub20	Y
 2478955828	Shawn Ericsson	Founder	The Man Salon	themansalon.net	sub20	Y
-8724884102	Martha Marin	Owner	ELCO Fulfillment Services	elcofulfillment.com	sub20	N
-20710564	Evelyn Fletcher	Owner	Electronic Assembly Services	electronicassemblyservicesinc.com	sub20	N
-10152621391	Lisa Walker	Executive Director & Co-Owner	Illinois Dedicated Electrology Academy	welcometoidea.com	sub20	N
 -2120666609	Crisney Lane	Founder	Mosaic Safaris	mosaicsafaris.com	sub20	Y
 235991457	George Abetti	Owner	Geobarns	geobarns.com	sub20	Y
--1517887103	Steven Gittleman	Owner	Ambassador Services	ambassadorservices.net	sub20	N
 -1879254144	Lisa Wesley	Office Manager	Ambassador Services	ambassadorservices.net	sub20	Y
-2049647609	Miles McLaughlin	Founder	Atlas Property Relief	atlaspropertyrelief.com	sub20	N
-2375080288	Paul Antonelli	Founder	Veritas Distributors	veritasdistributors.com	sub20	N
 1260663590	Celine Antonelli	Office Manager	Veritas Distributors	veritasdistributors.com	sub20	Y
 7466851737	Kyle Binder	Owner	PetLovers	petlovers.com	sub20	Y
-2358632136	Robbie Smith	Owner	Creative Computer Services	ccservices.com	sub20	N
-13322829435	Dale Nadeau	Owner	Willow Creek III	willowcreek3.com	sub20	N
-9055669114	Tom Wike	Owner	Willow Creek III	willowcreek3.com	sub20	N
 14789975283	Lana Sims	Office Manager	Mitsuyama + Rebman	mitsuyamaandrebman.com	sub20	Y
--879958796	Deborah Clarke	Office Manager	Hawaii VA Loans	hawaiivaloans.com	sub20	N
 9554374115	Andrea Gillespie	Office Manager	Xtreme Electric	xtreme-electrickc.com	sub20	Y
 9751232693	Jana Meyer	Office Manager	Stewart Heating & Air	stewarthvac.com	sub20	Y
 2444472252	Katherine Gonzalez	Office Manager	Community Loan Servicing	communityloanservicing.com	sub20	Y
 5475657240	Bailey Parnell	Founder & CEO	Skillscamp	allskillscamp.com	sub20	Y
 16973958	Robert Dede	Owner and President	Gigasoft	gigasoft.com	sub20	Y
-380716418	Thomas Mattus	President & Founder	Success Strategies International	ssi-learn.com	sub20	N
-11258687600	Reginald Cobb	Owner and President	Total Force	totalforce.com	sub20	N
 1041369680	Josh Klem	Owner	Nor-Cal-Motooption	motooption.com	sub20	Y
 600427806	Anna Borofsky	Owner and Manager	Clean Vibes	cleanvibes.com	sub20	Y
-7827484092	Prakash Singhi	Owner	Royal Gems	royalgems.com	sub20	N
 6021988269	Taher Hamza	Business Owner	Royal Gems	royalgems.com	sub20	Y
 7273004076	Jean McKown	Co-Owner	McKown Pressure Washing	mckownpressurewash.com	sub20	Y
-2735124216	Paul McKown	Owner and Craftsman	McKown Pressure Washing	mckownpressurewash.com	sub20	N
-13840940328	John Cole	Owner and Estimator	JEC Construction	jecconstruction.com	sub20	N
-11298144136	Corey Kidd	Founder	Wing Castle	wingcastletogo.com	sub20	N
 10056951448	David Reichert	Founder & Wealth Advisor	Reichert Wealth	reichertwealth.com	sub20	Y
 5322512830	Erin Eickhoff	Founder	The Jab Lab	the-jab-lab.com	sub20	Y
 282264553	Troy Fitzgerald	Owner	KC Running	kcrunningcompany.com	sub20	Y
 2024472963	Stephen Kuska	Owner	Computer Solutions Unlimited	csucentral.com	sub20	Y
--1487761106	James Fortunato	Owner	Computer Solutions Unlimited	csucentral.com	sub20	N
 1647511830	Brian Kunkel	Owner	Carefree Floors	carefreefloors.com	sub20	Y
 -1861537668	Laurie Kunkel	Owner	Carefree Floors	carefreefloors.com	sub20	Y
 178751117	Andy Sangster	Owner and Director	Camp Wawenock	campwawenock.com	sub20	Y
 -1919207038	Jenny Braun	Office Manager	Body Mechanics	bmechanics.com	sub20	Y
 2111788590	Veronica Mora	Office Manager	Epstein & Weil	epsteinweil.com	sub20	Y
--873487137	Ann Peters	Office Manager	Progress Equity Partners	progressequity.com	sub20	N
-8513313779	Fatima Marchan	Office Manager	Lavi & Ebrahimian	lelawfirm.com	sub20	N
 5712074574	Sean Mitchell	CEO & Founder	Keystone IT	keystoneit.com	sub20	Y
 1138116663	Mike Mckay	VP and General Manager	Keystone IT	keystoneit.com	sub20	Y
 33855663	Marie McGuire	General Manager	HomePride	homepridebath.com	sub20	Y
@@ -119,44 +77,29 @@ personId	fullName	jobTitle	company	domain	band	hasEmail
 2713401198	Chris Phare	Co-Founder & Chief Science Officer	Voyant Photonics	voyantphotonics.com	sub20	Y
 1912451101	Steven Miller	Co-Founder & CTO	Voyant Photonics	voyantphotonics.com	sub20	Y
 -1536938257	Kristi Pollum	Owner	KL Coordination	klcoordination.com	sub20	Y
-3349698043	Tracy Gloeckner	Owner	Dirt Road Darlings	dirtroaddarlings.com	sub20	N
--925726985	Olivia Terrell	Owner	Olivia Terrell Jewelry	oliviaterrelljewelry.com	sub20	N
-2941805727	Mary Lemmon	Owner	Lemmon Notary & Tax Services	lemmonnotary-clericalservices.com	sub20	N
 1737137108	Robin Reinhardt	Owner	Robinwood Kitchens	robinwoodkitchens.com	sub20	Y
-8750566154	Elizabeth McIntosh	Owner	Shear Magic	shearmagicandco.com	sub20	N
 10418927621	Travis Larson	Founder	Emerald Advisors	emeraldadv.com	sub20	Y
 -1250727930	Kurt Lindenberg	Founder	Lindy's Sales	lindyssales.com	sub20	Y
 1898546552	Moises Ortiz	Owner and Operator	Chattanooga Photo Booth	chattbooth.com	sub20	Y
 92861872	Lisa Diaz	Founder	Lumen Impact Group	lumenimpactgroup.com	sub20	Y
-17683803461	Louis Francis	Founder	Forturance Financial Group	worryfreeins.com	sub20	N
-17175051503	James Komosinski	Founder	DirectPay	directpayinc.com	sub20	N
 1755353240	Jim May	Owner and Manager	4mfeeders	4mfeeders.com	sub20	Y
 7762319658	Alicia Shaffer	Founder	Three Bird Nest	threebirdnest.com	sub20	Y
-1663387613	Carol Lindquist	Office Manager	CorzaMedical Opthalmology	corzaeye.com	sub20	N
 17593308930	Corey Vanderstad	General Manager	Ernst Instruments	ernstinstruments.com	sub20	Y
--1561068248	Nathan Woellhof	General Manager	DPx Gear	dpxgear.com	sub20	N
-1232099664	Dawn Bankston	Owner	Associated Women's Healthcare	associatedwomenshealthcare.com	sub20	N
 141831530	Jeffrey Blum	Owner	Blum Builders	juliusblumbuilders.com	sub20	Y
 9283837096	David Blum	Owner and Operator	Blum Builders	juliusblumbuilders.com	sub20	Y
 1825206677	Bridget Hodkin	Owner	Elite Mechanical Systems	elitemechanical.net	sub20	Y
 1868429210	Travis Hodkin	Owner	Elite Mechanical Systems	elitemechanical.net	sub20	Y
 216155652	Les Henig	Owner	Les Henig Photography	leshenig.com	sub20	Y
-8670033099	Mandela Bamas	Founder	Dodgenet	dodgenet.com	sub20	N
 9575895389	Melissa Fosbury	Owner	Sea Glass Realty	seaglassrealty.com	sub20	Y
 5023227002	Blake Ruschman	Co-Founder	Ecodrive Global	ecodrive.community	sub20	Y
 2679539738	Trevor Laudate	Co-Founder	Ecodrive Global	ecodrive.community	sub20	Y
 2863834582	Scott Richardson	Co-Owner	Occasionally Yours	occasionallyyoursgifts.com	sub20	Y
 2369933601	Donna Arlt	Owner	Occasionally Yours	occasionallyyoursgifts.com	sub20	Y
-2650344015	Gilbert Rockson	Owner	Piedmont Properties/CORFAC International	piedmontproperties.com	sub20	N
 -1474721421	Caitlin McLaughlin	Office Manager	Piedmont Properties/CORFAC International	piedmontproperties.com	sub20	Y
-2787538862	Richard Teachout	Owner and Agent	Mountain Country Realty	mcrla.com	sub20	N
--1156835922	Lisa Tantillo	Office Manager	Peraflex Hose	peraflex.com	sub20	N
-11299901207	Brenda Field	Office Manager	Creative Dentistry Santa Rosa	creativedentistrysantarosa.com	sub20	N
 2364290081	Misty Sampsel	Office Manager	Hutchinson	hutchinsonandco.com	sub20	Y
 -1448559402	Linda Ireland	Agent & Office Manager	Hutchinson	hutchinsonandco.com	sub20	Y
 8057630297	Jennifer Kittell	Office Manager	Kittell Law Firm	kittell-law.com	sub20	Y
 12522449659	Joan Salamone	Office Manager	Suffolk Security Systems	suffolksecurity.com	sub20	Y
--889957288	Kathy Harrington	Office Manager	Suffolk Security Systems	suffolksecurity.com	sub20	N
 6838396224	Taylor Reding	Office Manager	Pacific Lumber Inspection Bureau	plib.org	sub20	Y
 2753540458	Elizabeth Rivera	Office Manager	SPC Construction	spcco.com	sub20	Y
 -869073381	Annette Gates	Manager, Front Office	SPC Construction	spcco.com	sub20	Y
@@ -165,19 +108,14 @@ personId	fullName	jobTitle	company	domain	band	hasEmail
 835747569	David Irwin	Founder & CEO	Polaris I/O	polarisio.com	sub20	Y
 4033626843	VijayKanth Vk	Co-Founder & CFO	TheCapitalNet	thecapitalnet.com	sub20	Y
 1752024133	Kristin Tighe	Founder & Owner	Nolia Chocolates	noliachocolates.com	sub20	Y
-9637300551	Vivian Morgan	General Manager	Reflections Venue & Gardens	reflectionsplano.com	sub20	N
 71862031	Craig Morrison	Owner	Cimarron Homes	cimarronhomes.com	sub20	Y
 1188721591	Samuel Kemp	Owner	Kemp & Associates	retirefrombell.com	sub20	Y
--1535897501	Jeffrey Skidmore	Founder	Union Retirement Solutions	unionretirementsolutions.com	sub20	N
 7047971261	Brett Piper	Owner	Air Ex Air Conditioning	air-ex.com	sub20	Y
-2684275107	James Priest	Owner	Priest & Associates Consulting	priestassociates.com	sub20	N
 182945389	Jeffrey Marineau	Owner	Marineau and Associates	marineau.net	sub20	Y
 3252753672	Kori Tonnesen	Office Manager	Marineau and Associates	marineau.net	sub20	Y
-562207890	Kristine Preiser	Practice Owner	Preiser Animal Hospital	preiseranimalhospital.com	sub20	N
 15335816051	Nadine Reyes	Owner and Broker	Aspira Realty	aspirarealty.com	sub20	Y
 2729502963	Jessica Petryszyn	Office Manager	Hoogendyk & Associates	blackmtntax.com	sub20	Y
 16200945619	Amanda Bathurst	Office Manager	Lnc Oculoplastics	lncoculoplastics.com	sub20	Y
-8114166174	Jennifer Ferrante	Office Manager	SJ Ferrante Builders	sjferrantebuilders.com	sub20	N
 7393379849	Jessica Laney	Office Manager	Springdale Water Utilities	springdalewater.com	sub20	Y
 -1878065558	Tracy Krawczyk	Office Manager	Cutting Edge Machining	cuttingedgemachining.com	sub20	Y
 10020017307	Yash Baraiya	Manager, Human Resources Operations	Elluminati	elluminatiinc.com	20-99	Y
@@ -192,34 +130,23 @@ personId	fullName	jobTitle	company	domain	band	hasEmail
 8639568024	Deb Bennett	Office Manager	Dor	dormarhvac.com	20-99	Y
 17873205887	Thomas Muncey	Manager, Operations	Dor	dormarhvac.com	20-99	Y
 3487009543	Gertrude Babbs	Office Manager	Antiochs Hope Center	antiochccc.com	20-99	Y
-14832198459	Stacey Jackson	Office Manager	Bancroft Property Investments	bancroftpropertyinv.com	20-99	N
--1513402159	Kevin Tuggle	Manager, Operations	The Jolley Trolley	clearwaterjolleytrolley.com	20-99	N
 10219758855	Isabelle Kang	Manager, Operations	RogueHire	roguehire.com	20-99	Y
 10032002084	Ramana Reddy	Manager, Operations	Datics	daticsinc.com	20-99	Y
 7458090894	Angelo Penn	Manager, Operations	Open Gym Premier	opengympremier.com	20-99	Y
 11472521509	Jade Lopez	Manager, Operations	Open Gym Premier	opengympremier.com	20-99	Y
-6003652079	Anthony Weir	Manager, Operations	Trux	truxnow.com	20-99	N
 10512647044	Kimberly Fayle	Manager, Business Office	Belleville Health Care Center	bellevillehrc.com	20-99	Y
 1320663085	Jenna Trested	Office Manager	Swarts Manning & Associates	swartsmanning.com	20-99	Y
 1287018861	Jeanette Freeman	Office Manager	Sycamore Park District	sycamoreparkdistrict.com	20-99	Y
--2040346997	Danielle Hart	Office Manager	Caron & Bletzer	caronbletzer.com	20-99	N
 -1020352989	Abigail Midgette	Office Manager	Mobile On-site Mammography	mobileonsitemammography.com	20-99	Y
 -1510334617	Ellerbe Shada	Office Manager	First Care Medical Clinic	firstcarecanhelp.com	20-99	Y
-8483792810	Sheila Arisohn	Office Manager	First Care Medical Clinic	firstcarecanhelp.com	20-99	N
 7699442701	Katherine Damigos	Office Manager	Pure Power Engineering	purepower.com	20-99	Y
 1119475303	Heather Cass	Office Manager	Tidioute Community Charter School	tidioutecharter.com	20-99	Y
 1783532901	Dawn McGeorge	Manager, Human Resources	University Prep	universityprep.org	20-99	Y
 7211441001	Tarra Van Ness	Office Manager	Arbonite	arbonite.com	20-99	Y
-8475636281	Crystal Knight	Office Manager	Brigham Anesthesia Assoc	kennygardner.com	20-99	N
 -1602395684	Tracy Green	Office Manager	Industrial Services Enterprises	isenj.com	20-99	Y
-3854435822	Ebony Diehl	Office Manager	Industrial Services Enterprises	isenj.com	20-99	N
-2353552808	Brenda Bennett	Office Manager	Desert Truss	deserttruss.com	20-99	N
 1628958018	Maria Fox	Office Manager	Schultz Technology Solutions	schultztechnology.com	20-99	Y
-1621151324	Kristine Tufarolo	Office Manager	Schultz Technology Solutions	schultztechnology.com	20-99	N
-14800987447	Terri Winklepleck	Office Manager	Sans Bois Health Services	sansbois.com	20-99	N
 2205400723	Robin Scott	Manager, Business Office	Virginia Cardiovascular Specialists	vacardio.com	20-99	Y
 -1322975147	Paula Royal	Office Manager	Virginia Cardiovascular Specialists	vacardio.com	20-99	Y
-3792780236	Kimberly Broxterman	Office Manager	Region VII Area Agency on Aging	region7aaa.org	20-99	N
 11270240603	Tess Penrod	Office Management	CD Companies	thecdcompanies.com	20-99	Y
 1670918244	Bobby Villarreal	Manager, IT Operations	TAS Energy	turbineairsystems.com	100-499	Y
 8508343207	Olivier Bonnard	Manager, Human Resources	TAS Energy	turbineairsystems.com	100-499	Y
@@ -272,7 +199,6 @@ personId	fullName	jobTitle	company	domain	band	hasEmail
 2443061128	Tari Mercier	Director, Operations & Supply Chain	Depatie Fluid Power	depatie.com	100-499	Y
 1877816194	Rodney Dunlap-Keener	Director, Operations	Shopkick	shopkick.com	100-499	Y
 8804419104	Renard Tallushi	Director, Operations Safety & Sustainability	Direct Clean Solutions	directcleansolutions.com	100-499	Y
-2302631162	Stewart Savage	Director, Operations	Prime Scaffold	primescaffold.com	100-499	N
 2823367671	Ricky Young	Director, Plant Operations	Washington County Hospital	washingtoncountyhospital.org	100-499	Y
 14509041219	Nathan Knowles	Director, Clinical Operations	Ophthalmic Consultants of Boston	eyeboston.com	100-499	Y
 8751159204	William Cunningham	Director, Athletic Facilities & Operations	Lenoir-Rhyne University	lr.edu	100-499	Y
