@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Attribution",
+  "type": "object",
+  "required": ["attribution_id", "organization_id", "created_at"],
+  "additionalProperties": false,
+  "properties": {
+    "attribution_id": {"type": "string"},
+    "organization_id": {"type": "string", "pattern": "^ORG-[0-9A-Z]{8}$"},
+    "partner_id": {"type": ["string", "null"]},
+    "tracking_url": {"type": ["string", "null"]},
+    "direct": {"$ref": "#/definitions/metrics"},
+    "assisted": {"$ref": "#/definitions/metrics"},
+    "distribution_events": {"type": "array", "items": {"type": "object"}},
+    "created_at": {"type": "string"},
+    "updated_at": {"type": ["string", "null"]}
+  },
+  "definitions": {
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reach": {"type": "number"},
+        "registrations": {"type": "number"},
+        "attendees": {"type": "number"},
+        "visits": {"type": "number"},
+        "signups": {"type": "number"},
+        "activated_teams": {"type": "number"},
+        "paid_accounts": {"type": "number"},
+        "seats": {"type": "number"},
+        "mrr": {"type": "number"},
+        "arr": {"type": "number"}
+      }
+    }
+  }
+}

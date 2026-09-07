@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AgentExecution",
+  "description": "The agent output contract. Every agent returns this shape.",
+  "type": "object",
+  "required": ["record_id", "agent_name", "timestamp", "status", "recommended_action"],
+  "additionalProperties": false,
+  "properties": {
+    "execution_id": {"type": ["string", "null"]},
+    "record_id": {"type": "string"},
+    "agent_name": {"type": "string", "enum": ["discovery", "intelligence", "opportunity", "contact", "signal", "outreach", "response", "learning", "orchestrator"]},
+    "timestamp": {"type": "string"},
+    "status": {"type": "string", "enum": ["ok", "blocked", "partial", "error"]},
+    "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "evidence": {"type": "array", "items": {"type": "object"}},
+    "recommended_action": {"type": "string"},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "escalation_required": {"type": "boolean"},
+    "next_state": {"type": ["string", "null"]},
+    "notes": {"type": ["string", "null"]},
+    "payload": {"type": ["object", "null"]}
+  }
+}

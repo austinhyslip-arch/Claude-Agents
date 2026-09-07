@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Partner",
+  "type": "object",
+  "required": ["partner_id", "organization_id", "attribution_id", "tier", "partnership_stage", "created_at"],
+  "additionalProperties": false,
+  "properties": {
+    "partner_id": {"type": "string", "pattern": "^PTR-[0-9A-Z]{8}$"},
+    "organization_id": {"type": "string", "pattern": "^ORG-[0-9A-Z]{8}$"},
+    "attribution_id": {"type": "string"},
+    "tier": {"type": "string", "enum": ["A", "B", "C", "D"]},
+    "partnership_stage": {"type": "string", "enum": ["negotiation", "won", "activation", "live", "dormant", "ended"]},
+    "offer": {"type": ["string", "null"]},
+    "won_at": {"type": ["string", "null"]},
+    "activation_checklist": {"type": "object"},
+    "activated": {"type": "boolean"},
+    "distribution_occurred": {"type": "boolean"},
+    "distribution_events": {"type": "array", "items": {"type": "object"}},
+    "archetype": {"type": ["object", "null"]},
+    "reason_for_yes": {"type": ["string", "null"]},
+    "last_reactivation_check": {"type": ["string", "null"]},
+    "owner": {"type": ["string", "null"]},
+    "created_at": {"type": "string"},
+    "updated_at": {"type": ["string", "null"]}
+  }
+}

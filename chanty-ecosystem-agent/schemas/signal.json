@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Signal",
+  "type": "object",
+  "required": ["signal_id", "organization_id", "signal_type", "summary", "signal_date", "source_url", "source_type", "confidence", "created_at"],
+  "additionalProperties": false,
+  "properties": {
+    "signal_id": {"type": "string", "pattern": "^SIG-[0-9A-Z]{8}$"},
+    "organization_id": {"type": "string", "pattern": "^ORG-[0-9A-Z]{8}$"},
+    "signal_type": {"type": "string", "enum": ["webinar", "workshop", "conference", "ai_initiative", "technology_initiative", "productivity_initiative", "member_education", "member_benefit_launch", "sponsorship_opportunity", "new_leadership", "new_chapter", "new_program", "newsletter", "report", "survey", "event_announcement", "partnership_announcement", "other"]},
+    "summary": {"type": "string"},
+    "signal_date": {"type": "string"},
+    "source": {"type": ["string", "null"]},
+    "source_url": {"type": "string"},
+    "source_type": {"type": "string", "enum": ["A", "B", "C", "D"]},
+    "relevance": {"type": ["string", "null"]},
+    "confidence": {"type": "string", "enum": ["KNOWN_FACT", "ESTIMATE", "UNKNOWN"]},
+    "decay_band": {"type": ["string", "null"], "enum": ["very_strong", "strong", "moderate", "historical", null]},
+    "expires_at": {"type": ["string", "null"]},
+    "recommended_action": {"type": ["string", "null"]},
+    "used_in_outreach": {"type": "array", "items": {"type": "string"}},
+    "created_at": {"type": "string"}
+  }
+}

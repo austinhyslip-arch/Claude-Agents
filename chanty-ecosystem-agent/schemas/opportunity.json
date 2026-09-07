@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Opportunity",
+  "type": "object",
+  "required": ["opportunity_id", "organization_id", "recommended_offer", "created_at"],
+  "additionalProperties": false,
+  "properties": {
+    "opportunity_id": {"type": "string", "pattern": "^OPP-[0-9A-Z]{8}$"},
+    "organization_id": {"type": "string", "pattern": "^ORG-[0-9A-Z]{8}$"},
+    "organization_need": {"type": ["string", "null"]},
+    "audience_need": {"type": ["string", "null"]},
+    "distribution_mechanism": {"type": ["string", "null"]},
+    "recommended_offer": {"type": "string", "enum": ["educational_workshop", "member_resource", "member_benefit", "partner_referral_program", "co_branded_content", "event_participation", "discovery_conversation"]},
+    "offer_variant": {"type": ["string", "null"]},
+    "why_this_offer": {"type": ["string", "null"]},
+    "why_now": {"type": ["string", "null"]},
+    "value_to_organization": {"type": ["string", "null"]},
+    "value_to_chanty": {"type": ["string", "null"]},
+    "recommended_contact_role": {"type": ["string", "null"]},
+    "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "evidence": {"type": "array", "items": {"type": "object"}},
+    "estimated_seats": {"type": ["number", "null"]},
+    "estimate_inputs": {"type": ["object", "null"]},
+    "risks": {"type": "array", "items": {"type": "string"}},
+    "unknowns": {"type": "array", "items": {"type": "string"}},
+    "escalation_required": {"type": "boolean"},
+    "status": {"type": ["string", "null"]},
+    "created_at": {"type": "string"},
+    "updated_at": {"type": ["string", "null"]}
+  }
+}

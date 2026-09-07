@@ -1,0 +1,135 @@
+# Chanty Ecosystem Agent
+
+An evidence-driven business development system that finds organizations able to
+put Chanty in front of small businesses, works out why those organizations would
+want to, prepares the approach, and stops where a human should decide.
+
+It is not an AI that sends emails.
+
+## The one number
+
+Incremental paid Chanty seats attributable to ecosystem distribution.
+
+Organizations discovered, contacts found, emails sent, opens and clicks are
+diagnostics. They are reported because they help debug the pipeline. They are
+never the goal, and a report that leads with them is a bad report.
+
+## How this is put together
+
+Reasoning lives in `agents/*.md`. Rules live in `config/`. The parts that must
+behave identically every time live in `scripts/eco/` as plain Python with no
+dependencies: scoring, state transitions, dedupe, suppression, gates, audit,
+attribution.
+
+    agents/      what each agent does and refuses to do
+    config/      policy, offers, claims, scoring, escalation, suppression
+    schemas/     record shapes, enforced on every write
+    workflows/   the operating procedures
+    scripts/eco/ the deterministic core and its CLI
+    tests/       133 tests, run them before trusting anything
+    data/        the working record store
+    logs/        the audit log
+    docs/        taxonomy, evidence model, integrations, what needs authorizing
+
+Run the core from `scripts/`:
+
+    cd scripts && python3 -m eco status
+
+Slash commands live in `../.claude/commands/eco-*.md`.
+
+## Rules that override everything else
+
+**Pricing is $3 per seat.** Do not invent, imply, or explore a discount, member
+rate, free account, extended trial, commission, referral percentage, revenue
+share or exclusivity. You may say a partnership economics conversation makes
+sense. You may not have it.
+
+**Contact data is public sources only.** Never use an enrichment provider,
+contact database or data broker to find a person's email. Apollo, ZoomInfo and
+Clay's contact tools are all connected in this environment and all blocked.
+Connected is not permitted. There is no silent fallback: there is a stop and a
+question to the user.
+
+**Never guess an email.** Not first@, not first.last@, not the obvious pattern
+from three colleagues' addresses. If the right person's email is not public, set
+`email_status = not_publicly_found`, move to EMAIL_NOT_PUBLIC, print the handoff
+block, set `requires_user_permission = true`, and ask.
+
+**Never substitute a different person** because their address was easier to find.
+
+**Never state an estimate as a fact.** If they published "2,500 members", you may
+say 2,500. If we inferred it, the message says "your member community".
+
+**Never send.** The posture is draft, don't send. Autonomy is level 0. Tier A and
+strategic organizations stay human-approved at every level.
+
+## Before any action, answer five questions
+
+1. Who is this organization?
+2. Who does it reach?
+3. Why is Chanty relevant to those people?
+4. Why now?
+5. What specifically are we offering?
+
+Any unknown means research more, or stop. Never fill the gap with a guess.
+
+## Evidence
+
+A: the organization's own site. B: their own social or announcement. C: a
+reputable third party. D: a search snippet or unverified directory.
+
+D is discovery only. It never supports a sentence in a message. Every material
+claim carries claim, source, source type, URL, date checked and confidence. Every
+important field is KNOWN_FACT, ESTIMATE or UNKNOWN, and the three are never
+blurred.
+
+## States
+
+DISCOVERED, RESEARCHING, QUALIFIED, CONTACT_IDENTIFIED, READY_FOR_OUTREACH,
+OUTREACH_ACTIVE, RESPONSE_RECEIVED, HUMAN_REVIEW, CONVERSATION,
+PARTNERSHIP_NEGOTIATION, PARTNER_WON, ACTIVATION, LIVE, ATTRIBUTION, plus
+NURTURE, SUPPRESSED, DISQUALIFIED, EMAIL_NOT_PUBLIC.
+
+You do not set a state. You fire an event and `scripts/eco/state_machine.py`
+decides. Illegal transitions raise. `partner_won`, `begin_negotiation`, `go_live`
+and `human_override` require a human.
+
+## The gates
+
+Hard qualification: verified organization, relevant audience, identified
+distribution mechanism, credible contact, a specific partnership hypothesis,
+evidence, no suppression, no unresolved contradiction. All eight, or no outreach.
+
+Send: every qualification gate, plus contact data policy, suppression, claims,
+personalization, recent outreach, email compliance, a public email, an approved
+offer, an opt-out token, no pending escalation, and either autonomy permission or
+human approval.
+
+Everything fails closed. Absence of evidence is a failure, not a pass.
+
+## Escalate, always
+
+National partnerships. Major associations. Franchises. Major MSP opportunities.
+Pricing. Commissions. Referral economics. Contracts. Exclusivity. Data sharing.
+Security. Compliance. HIPAA. Legal. Media. Public endorsements. Complaints.
+Anything unusual.
+
+## Systems
+
+Attio is the operational system of record. Claude Code is reasoning and
+orchestration. Clay is for organization discovery and company research only.
+Sending infrastructure is not configured, which is why the send gate fails.
+
+`docs/integrations.md` has the current state of each, and
+`docs/authorization-required.md` lists exactly what a human needs to do before
+anything can be sent.
+
+## Failure modes this system is built to prevent
+
+Database inflation. Generic personalization. Fabricated facts. Contact spraying.
+Invented economics. Unauthorized discounts. Fake urgency. Vanity metrics. No
+attribution. Partnerships that were never activated. No lookalike expansion.
+Outreach that continues after a reply. Enrichment fallback. Guessed emails.
+Suppression failures.
+
+Each of those has a test. If you find yourself working around one, stop and ask.

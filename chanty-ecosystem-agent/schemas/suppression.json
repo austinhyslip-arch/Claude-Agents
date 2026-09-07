@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Suppression",
+  "type": "object",
+  "required": ["suppression_id", "scope", "value", "reason", "created_at", "created_by"],
+  "additionalProperties": false,
+  "properties": {
+    "suppression_id": {"type": "string", "pattern": "^SUP-[0-9A-Z]{8}$"},
+    "scope": {"type": "string", "enum": ["contact", "organization", "domain"]},
+    "value": {"type": "string"},
+    "reason": {"type": "string", "enum": ["requested_no_contact", "complaint", "unsubscribed", "competitor", "partner_conflict", "bounced_hard", "manual"]},
+    "note": {"type": ["string", "null"]},
+    "permanent": {"type": "boolean"},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "lifted_at": {"type": ["string", "null"]},
+    "lifted_by": {"type": ["string", "null"]}
+  }
+}

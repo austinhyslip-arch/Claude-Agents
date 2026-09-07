@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Contact",
+  "type": "object",
+  "required": ["contact_id", "organization_id", "full_name", "email_status", "created_at"],
+  "additionalProperties": false,
+  "properties": {
+    "contact_id": {"type": "string", "pattern": "^CON-[0-9A-Z]{8}$"},
+    "organization_id": {"type": "string", "pattern": "^ORG-[0-9A-Z]{8}$"},
+    "full_name": {"type": "string", "minLength": 2},
+    "first_name": {"type": ["string", "null"]},
+    "last_name": {"type": ["string", "null"]},
+    "title": {"type": ["string", "null"]},
+    "role_category": {"type": ["string", "null"], "enum": ["partnerships", "membership", "programs", "events", "sponsorship", "business_development", "executive", "communications", "other", null]},
+    "is_primary": {"type": "boolean"},
+
+    "email": {"type": ["string", "null"]},
+    "email_status": {"type": "string", "enum": ["public_verified", "not_publicly_found", "org_inbox_only", "form_only", "suppressed"]},
+    "email_source_url": {"type": ["string", "null"]},
+    "email_source_type": {"type": ["string", "null"], "enum": ["A", "B", "C", "D", null]},
+    "email_date_checked": {"type": ["string", "null"]},
+    "email_discovery_method": {"type": ["string", "null"], "enum": ["organization_website", "staff_page", "team_page", "leadership_page", "contact_page", "program_page", "event_page", "organization_published_pdf", "public_newsletter", "public_professional_profile", "public_social_profile_with_displayed_business_contact", "public_search_result_pointing_to_the_above", "general_organization_contact_form", "public_organization_phone", null]},
+
+    "public_profile_url": {"type": ["string", "null"]},
+    "public_phone": {"type": ["string", "null"]},
+    "contact_form_url": {"type": ["string", "null"]},
+    "org_inbox": {"type": ["string", "null"]},
+
+    "sources_checked": {"type": "array", "items": {"type": "string"}},
+    "alternative_contact_methods": {"type": "array", "items": {"type": "string"}},
+
+    "enrichment_used": {"type": "boolean"},
+    "enrichment_authorized_by": {"type": ["string", "null"]},
+    "enrichment_authorized_at": {"type": ["string", "null"]},
+    "requires_user_permission": {"type": "boolean"},
+    "recommended_action": {"type": ["string", "null"]},
+
+    "response_history": {"type": "array", "items": {"type": "object"}},
+    "preferences": {"type": ["object", "null"]},
+    "next_step": {"type": ["string", "null"]},
+    "relationship_owner": {"type": ["string", "null"]},
+    "suppressed": {"type": "boolean"},
+    "suppression_id": {"type": ["string", "null"]},
+    "attio_record_id": {"type": ["string", "null"]},
+    "created_at": {"type": "string"},
+    "updated_at": {"type": ["string", "null"]}
+  }
+}

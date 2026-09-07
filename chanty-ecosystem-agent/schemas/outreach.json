@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Outreach",
+  "type": "object",
+  "required": ["outreach_id", "organization_id", "contact_id", "touch_number", "status", "created_at"],
+  "additionalProperties": false,
+  "properties": {
+    "outreach_id": {"type": "string", "pattern": "^OUT-[0-9A-Z]{8}$"},
+    "organization_id": {"type": "string", "pattern": "^ORG-[0-9A-Z]{8}$"},
+    "contact_id": {"type": "string", "pattern": "^CON-[0-9A-Z]{8}$"},
+    "opportunity_id": {"type": ["string", "null"]},
+    "signal_id": {"type": ["string", "null"]},
+    "touch_number": {"type": "integer", "minimum": 1, "maximum": 4},
+    "scheduled_day": {"type": ["integer", "null"]},
+    "channel": {"type": ["string", "null"], "enum": ["email", "contact_form", "public_profile", null]},
+    "subject": {"type": ["string", "null"]},
+    "body": {"type": ["string", "null"]},
+    "offer": {"type": ["string", "null"]},
+    "personalization_claims": {"type": "array", "items": {"type": "object"}},
+    "status": {"type": "string", "enum": ["draft", "gate_failed", "human_review", "approved", "sent", "cancelled", "suppressed"]},
+    "gate_results": {"type": ["object", "null"]},
+    "approved_by": {"type": ["string", "null"]},
+    "approved_at": {"type": ["string", "null"]},
+    "sent_at": {"type": ["string", "null"]},
+    "response_id": {"type": ["string", "null"]},
+    "response_classification": {"type": ["string", "null"], "enum": ["POSITIVE", "MEETING", "PARTNERSHIP", "PROGRAMMING", "REFERRAL", "PRICING", "NEUTRAL", "NEGATIVE", "SUPPRESS", "WRONG_PERSON", "OOO", "AMBIGUOUS", null]},
+    "confidence": {"type": ["number", "null"]},
+    "created_at": {"type": "string"},
+    "updated_at": {"type": ["string", "null"]}
+  }
+}
