@@ -102,7 +102,8 @@ def cmd_score(args):
                 "updated_at": audit.now()})
     org["partner_tier"] = scoring.partner_tier(
         result["priority_band"], org.get("national_or_local"),
-        bool(org.get("chapter") or org.get("parent_organization")))
+        bool(org.get("chapter") or org.get("parent_organization")),
+        result["score_breakdown"])
     store.put("organizations", org)
     audit.record(action="score", agent="intelligence", organization=org["organization_id"],
                  output=result, decision=result["priority_band"])

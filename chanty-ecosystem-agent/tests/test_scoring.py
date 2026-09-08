@@ -73,3 +73,22 @@ class ScoringTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LeverageTierTest(unittest.TestCase):
+    """An organization that reaches other organizations is Tier A."""
+
+    def _breakdown(self, leverage):
+        return scoring.score({"strategic_value": {"multi_chapter_national_leverage": leverage}}
+                             )["score_breakdown"]
+
+    def test_high_multi_chapter_leverage_forces_tier_a(self):
+        self.assertEqual(
+            scoring.partner_tier("TIER_2", "regional", False, self._breakdown(5)), "A")
+
+    def test_low_leverage_leaves_the_band_to_decide(self):
+        self.assertEqual(
+            scoring.partner_tier("TIER_2", "regional", False, self._breakdown(1)), "C")
+
+    def test_breakdown_is_optional(self):
+        self.assertEqual(scoring.partner_tier("TIER_2", "local"), "C")

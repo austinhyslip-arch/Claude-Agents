@@ -86,9 +86,19 @@ def score(inputs, policy_path=None):
     }
 
 
-def partner_tier(band, national_or_local, multi_chapter=False):
-    """Partner tier is about leverage, not score alone."""
-    if band == "STRATEGIC" or multi_chapter or national_or_local == "national":
+def partner_tier(band, national_or_local, multi_chapter=False, breakdown=None):
+    """Partner tier is about leverage, not score alone.
+
+    Leverage also shows up in the strategic_value sub-scores. An organization
+    that reaches many other organizations is Tier A whatever its own geography
+    says, which is how a regional body that sits on top of affiliate chambers
+    gets treated as strategic rather than as one more local chamber.
+    """
+    leverage = 0
+    if breakdown:
+        leverage = (breakdown.get("strategic_value", {})
+                    .get("components", {}).get("multi_chapter_national_leverage") or 0)
+    if band == "STRATEGIC" or multi_chapter or national_or_local == "national" or leverage >= 4:
         return "A"
     if band == "TIER_1":
         return "B"
