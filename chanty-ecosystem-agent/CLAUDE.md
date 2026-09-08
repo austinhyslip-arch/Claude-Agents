@@ -26,7 +26,7 @@ attribution.
     schemas/     record shapes, enforced on every write
     workflows/   the operating procedures
     scripts/eco/ the deterministic core and its CLI
-    tests/       133 tests, run them before trusting anything
+    tests/       155 tests, run them before trusting anything
     data/        the working record store
     logs/        the audit log
     docs/        taxonomy, evidence model, integrations, what needs authorizing
