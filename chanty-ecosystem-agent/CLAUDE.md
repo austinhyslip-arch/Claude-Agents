@@ -66,10 +66,10 @@ to turn it on. Tier A and strategic organizations stay human-approved at every
 level, including after that.
 
 **Outreach goes out 08:00-17:00 on weekdays, in the recipient's local time.**
-Not ours. Every organization carries a resolved timezone; an unresolvable one
-blocks the send rather than being guessed at. Human approval does not override
-the window, because approving a message does not make 3am a reasonable time to
-receive it.
+Not ours. Every organization carries a resolved timezone. Where the zone cannot
+be resolved the window is noon Central, which is inside the working day in every
+US zone. Human approval does not override the window, because approving a
+message does not make 3am a reasonable time to receive it.
 
 **Live sessions are remote.** Workshop and event offers say so in the first
 message. We do not travel, and they should know that while deciding.

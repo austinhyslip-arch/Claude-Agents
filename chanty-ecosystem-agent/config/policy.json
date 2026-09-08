@@ -445,6 +445,15 @@
       4
     ],
     "narrow_hours_when_timezone_estimated": 1,
-    "unknown_timezone_blocks_send": true
+    "unknown_timezone_blocks_send": false,
+    "unknown_timezone_fallback": {
+      "enabled": true,
+      "timezone": "America/Chicago",
+      "start_hour_local": 12,
+      "end_hour_local": 13,
+      "_note": "When an organization's timezone cannot be resolved, send at noon Central. Noon Central is 10:00 Pacific, 11:00 Mountain and 13:00 Eastern, so it lands inside the working day in every US zone whichever one the organization turns out to be in.",
+      "applies_to_non_us": true,
+      "_non_us_caveat": "Noon Central is early evening in Europe. Discovery is US-only today so this does not bite, but set applies_to_non_us to false before working non-US organizations."
+    }
   }
 }

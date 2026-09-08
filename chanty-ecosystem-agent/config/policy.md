@@ -116,8 +116,15 @@ state when the record is created. Where the state spans two zones and the city
 is not in the override table, the zone is an ESTIMATE and the window narrows to
 09:00-16:00, so an hour of error cannot push a message outside their day.
 
-An organization with no resolvable timezone cannot be emailed. The gate blocks
-rather than picking something plausible.
+An organization with no resolvable timezone gets noon Central. That is 10:00
+Pacific, 11:00 Mountain and 13:00 Eastern, so it lands inside the working day
+whichever US zone the organization actually turns out to be in. The window in
+that case is the noon hour only, not the full day, because noon is the one hour
+that is safe everywhere.
+
+The fallback currently applies to non-US organizations too, which is fine while
+discovery is US-only. Noon Central is early evening in Europe, so set
+`applies_to_non_us` to false before working organizations outside the US.
 
 `eco send-window --drafts-only` lists every ready draft with its window, the
 recipient's current local time, and the next moment it may go out.

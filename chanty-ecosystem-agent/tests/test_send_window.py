@@ -78,10 +78,53 @@ class SendWindowTest(unittest.TestCase):
         self.assertFalse(gates.check_send_window(est, now=utc(2026, 9, 8, 12)).passed)
         self.assertTrue(gates.check_send_window(est, now=utc(2026, 9, 8, 14)).passed)
 
-    def test_an_unknown_timezone_blocks_rather_than_guessing(self):
-        unknown = dict(self.org, timezone=None, timezone_confidence="UNKNOWN",
-                       city="Somewhere", state_region="ZZ", country="US")
-        result = gates.check_send_window(unknown, now=utc(2026, 9, 8, 14))
+    def test_an_unknown_timezone_falls_back_to_noon_central(self):
+        window = gates.send_window(self._unknown())
+        self.assertEqual(window["timezone"], "America/Chicago")
+        self.assertEqual(window["confidence"], "UNKNOWN_FALLBACK")
+        self.assertEqual((window["start_hour"], window["end_hour"]), (12, 13))
+        self.assertTrue(window["is_fallback"])
+
+    def _unknown(self):
+        return dict(self.org, timezone=None, timezone_confidence="UNKNOWN",
+                    city="Somewhere", state_region="ZZ", country="US")
+
+    def test_the_fallback_only_opens_at_noon_central(self):
+        org = self._unknown()
+        self.assertFalse(gates.check_send_window(org, now=utc(2026, 9, 8, 16)).passed)  # 11:00
+        self.assertTrue(gates.check_send_window(org, now=utc(2026, 9, 8, 17)).passed)   # 12:00
+        self.assertFalse(gates.check_send_window(org, now=utc(2026, 9, 8, 18)).passed)  # 13:00
+
+    def test_noon_central_lands_inside_business_hours_in_every_us_zone(self):
+        """The reason noon Central is a safe guess for an unknown US zone."""
+        import datetime
+        from zoneinfo import ZoneInfo
+        noon_central = utc(2026, 9, 8, 17)
+        for zone in ("America/Los_Angeles", "America/Denver", "America/Chicago",
+                     "America/New_York", "America/Phoenix"):
+            hour = noon_central.astimezone(ZoneInfo(zone)).hour
+            self.assertTrue(8 <= hour < 17, "%s -> %02d:00" % (zone, hour))
+
+    def test_the_fallback_still_respects_weekends(self):
+        result = gates.check_send_window(self._unknown(), now=utc(2026, 9, 12, 17))
+        self.assertFalse(result.passed)
+        self.assertIn("is_a_weekday", [f["check"] for f in result.failures])
+
+    def test_next_send_time_for_an_unknown_zone_is_the_next_noon_central(self):
+        nxt = gates.next_send_time(self._unknown(), now=utc(2026, 9, 8, 3))
+        self.assertEqual(nxt.hour, 12)
+        self.assertEqual(str(nxt.tzinfo), "America/Chicago")
+
+    def test_the_fallback_can_be_switched_off_for_non_us(self):
+        import json, tempfile
+        from eco import policy
+        cfg = json.loads(json.dumps(policy.load()))
+        cfg["send_window"]["unknown_timezone_fallback"]["applies_to_non_us"] = False
+        path = tempfile.mkstemp(suffix=".json")[1]
+        with open(path, "w") as fh:
+            json.dump(cfg, fh)
+        foreign = dict(self._unknown(), country="FR")
+        result = gates.check_send_window(foreign, now=utc(2026, 9, 8, 17), policy_path=path)
         self.assertFalse(result.passed)
         self.assertIn("timezone_known", [f["check"] for f in result.failures])
 

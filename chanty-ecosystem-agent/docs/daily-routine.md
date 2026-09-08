@@ -44,6 +44,17 @@ Everything else in the run works without connectors: discovery, research,
 scoring, gating and the run log are all local. Only the final step of writing the
 draft into Gmail needs one.
 
+## Send windows in the daily report
+
+The run ends with `eco send-window --drafts-only`, which is the list Austin acts
+on. Three shapes of answer:
+
+- a resolved zone, so 08:00-17:00 in that zone
+- an estimated zone, so 09:00-16:00, narrowed because an hour of error should
+  not put a message outside someone's day
+- no zone, so the noon Central hour, which is inside business hours everywhere
+  in the US
+
 ## Changing it
 
     list_triggers                          find it again
