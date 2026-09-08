@@ -44,7 +44,7 @@ without a human.
     workflows/     discovery, qualification, outreach, activation, learning, daily
     commands/      what each command does (the files live in .claude/commands/)
     scripts/eco/   the deterministic core and CLI
-    tests/         133 tests
+    tests/         155 tests
     data/          the record store
     logs/          the audit log
     docs/          taxonomy, evidence, integrations, authorization, decisions

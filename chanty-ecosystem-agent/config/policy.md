@@ -63,15 +63,47 @@ complaints, and anything unusual.
 
 ## Autonomy
 
-Current level: **0** (research only). Default posture is draft, don't send.
+Current level: **2**. Research, contact discovery, and drafts written into
+Gmail. Nothing sends itself.
 
-Tier A organizations stay human-approved at every level.
+Level 3 turns on automated outreach, and it does not happen until Austin has
+read the first 20 drafts in Gmail and says to turn it on. The agent never raises
+its own level. `autonomous_send_enabled_categories` is empty and stays empty
+until he names the categories.
 
-## Email compliance
+Tier A and strategic organizations stay human-approved at every level, including
+after the promotion.
 
-Sending is blocked until a human fills in the physical address, names the sending
-infrastructure, and records that legal review happened. Those three fields are
-null in `policy.json` right now, and the send gate fails closed on them.
+## How mail actually goes out
+
+Sending mode is `manual_gmail_draft`. The agent writes a draft into Austin's
+Gmail. He reads it and sends it himself, one to one, from his own mailbox.
+
+That mode is why two bulk-mail requirements are switched off: there is no postal
+address block and no unsubscribe link. Both are requirements for bulk commercial
+mail and neither fits an individual message a person sends by hand. Legal
+reviewed this on 2026-09-08.
+
+What does not switch off: suppression. An opt-out arrives as a reply and is
+written to suppression the same day, and a suppressed contact can never reach a
+draft.
+
+If the sending mode ever changes to a bulk platform, set
+`physical_address_required` and `opt_out_link_required` back to true in
+`policy.json`. The gate reads those flags, so it tightens on its own, but the
+change deserves another legal look.
+
+## Email format
+
+Plain text. Gmail supplies the signature and the formatting, so the draft
+supplies neither.
+
+No sign-off. No "Best", no "Thanks", no name, no title, no links block. The
+message ends on its last real sentence.
+
+No markdown, no HTML, no bullets, no bold, no headings. The Gmail draft is
+created with `body` only and never `htmlBody`, so plain text is enforced at the
+API call rather than left to a reminder.
 
 ## State transitions
 

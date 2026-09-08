@@ -1,9 +1,8 @@
 {
   "policy_version": "1.0.0",
-  "last_updated": "2026-09-07",
+  "last_updated": "2026-09-08",
   "changed_by": "human_required",
   "_note": "This file is the machine-readable source of truth. config/policy.md is the human-readable mirror. Agents may read this file. Agents may NEVER write to it. Only a human edits it.",
-
   "chanty_pricing": {
     "price_per_seat_usd": 3.0,
     "currency": "USD",
@@ -17,7 +16,6 @@
     "approved_extended_trial_terms": [],
     "statement": "Chanty is $3 per seat. The agent states this figure and nothing else about price."
   },
-
   "contact_data_policy": {
     "public_sources_only": true,
     "enrichment_allowed": false,
@@ -29,11 +27,34 @@
     "purchase_of_contact_data_allowed": false,
     "silent_fallback_allowed": false,
     "blocked_providers": [
-      "apollo", "apollo.io", "zoominfo", "hunter", "hunter.io", "rocketreach",
-      "lusha", "clearbit", "seamless.ai", "people data labs", "pdl", "snov.io",
-      "findymail", "dropcontact", "prospeo", "anymailfinder", "voila norbert",
-      "leadiq", "cognism", "uplead", "signalhire", "contactout", "wiza",
-      "kaspr", "datagma", "skrapp", "getprospect", "clay contact enrichment"
+      "apollo",
+      "apollo.io",
+      "zoominfo",
+      "hunter",
+      "hunter.io",
+      "rocketreach",
+      "lusha",
+      "clearbit",
+      "seamless.ai",
+      "people data labs",
+      "pdl",
+      "snov.io",
+      "findymail",
+      "dropcontact",
+      "prospeo",
+      "anymailfinder",
+      "voila norbert",
+      "leadiq",
+      "cognism",
+      "uplead",
+      "signalhire",
+      "contactout",
+      "wiza",
+      "kaspr",
+      "datagma",
+      "skrapp",
+      "getprospect",
+      "clay contact enrichment"
     ],
     "blocked_tool_prefixes": [
       "mcp__Apollo_io__",
@@ -68,7 +89,6 @@
       "suppressed"
     ]
   },
-
   "clay_policy": {
     "allowed_for": [
       "organization_discovery",
@@ -83,19 +103,33 @@
     ],
     "note": "Clay being connected is not permission to enrich contacts."
   },
-
   "max_touches": 4,
   "outreach_sequence": [
-    {"touch": 1, "day": 0,  "purpose": "specific_opportunity"},
-    {"touch": 2, "day": 4,  "purpose": "useful_context"},
-    {"touch": 3, "day": 10, "purpose": "concrete_resource_or_example"},
-    {"touch": 4, "day": 21, "purpose": "graceful_close"}
+    {
+      "touch": 1,
+      "day": 0,
+      "purpose": "specific_opportunity"
+    },
+    {
+      "touch": 2,
+      "day": 4,
+      "purpose": "useful_context"
+    },
+    {
+      "touch": 3,
+      "day": 10,
+      "purpose": "concrete_resource_or_example"
+    },
+    {
+      "touch": 4,
+      "day": 21,
+      "purpose": "graceful_close"
+    }
   ],
   "post_sequence_state": "NURTURE",
   "restart_requires_new_qualifying_signal": true,
   "min_days_between_touches": 3,
   "min_days_before_resequence": 90,
-
   "approved_offers": [
     "educational_workshop",
     "member_resource",
@@ -105,7 +139,6 @@
     "event_participation",
     "discovery_conversation"
   ],
-
   "human_escalation_triggers": [
     "national_partnership",
     "major_association",
@@ -126,7 +159,6 @@
     "complaint",
     "unusual_request"
   ],
-
   "stop_automation_conditions": [
     "contact_replied",
     "contact_asked_question",
@@ -139,50 +171,129 @@
     "contact_complained",
     "contact_requested_no_further_contact"
   ],
-
   "autonomy": {
-    "current_level": 0,
+    "current_level": 2,
     "levels": {
       "0": "research only",
       "1": "research + scoring",
-      "2": "research + contact discovery + drafts",
+      "2": "research + contact discovery + drafts written into Gmail (current)",
       "3": "automated outreach for approved Tier 2 organizations",
       "4": "expanded autonomous operation"
     },
     "default_posture": "DRAFT_DONT_SEND",
     "autonomous_send_enabled_categories": [],
     "tier_a_always_human_approved": true,
-    "first_pilot_human_review_first_touch_count": 100
+    "first_pilot_human_review_first_touch_count": 20,
+    "promotion_condition": "Level 3 only after Austin has reviewed the first 20 drafts in Gmail and says to turn it on. The agent does not raise this level on its own."
   },
-
   "agent_permissions": {
-    "discovery":    {"may_write_states": ["DISCOVERED"], "may_send": false, "may_use_enrichment": false, "may_edit_policy": false},
-    "intelligence": {"may_write_states": ["RESEARCHING", "QUALIFIED", "DISQUALIFIED", "NURTURE"], "may_send": false, "may_use_enrichment": false, "may_edit_policy": false},
-    "opportunity":  {"may_write_states": [], "may_send": false, "may_use_enrichment": false, "may_edit_policy": false},
-    "contact":      {"may_write_states": ["CONTACT_IDENTIFIED", "EMAIL_NOT_PUBLIC"], "may_send": false, "may_use_enrichment": false, "may_edit_policy": false},
-    "signal":       {"may_write_states": [], "may_send": false, "may_use_enrichment": false, "may_edit_policy": false},
-    "outreach":     {"may_write_states": ["READY_FOR_OUTREACH", "OUTREACH_ACTIVE"], "may_send": false, "may_use_enrichment": false, "may_edit_policy": false},
-    "response":     {"may_write_states": ["RESPONSE_RECEIVED", "HUMAN_REVIEW", "SUPPRESSED", "NURTURE"], "may_send": false, "may_use_enrichment": false, "may_edit_policy": false},
-    "learning":     {"may_write_states": [], "may_send": false, "may_use_enrichment": false, "may_edit_policy": false,
-                     "may_recommend": ["targeting", "scoring_weights", "offer_prioritization", "sequencing", "research_depth", "lookalike_criteria"],
-                     "may_not_modify": ["pricing", "suppression_rules", "compliance_rules", "approved_claims", "commercial_terms"]},
-    "human":        {"may_write_states": ["*"], "may_send": true, "may_use_enrichment": true, "may_edit_policy": true}
+    "discovery": {
+      "may_write_states": [
+        "DISCOVERED"
+      ],
+      "may_send": false,
+      "may_use_enrichment": false,
+      "may_edit_policy": false
+    },
+    "intelligence": {
+      "may_write_states": [
+        "RESEARCHING",
+        "QUALIFIED",
+        "DISQUALIFIED",
+        "NURTURE"
+      ],
+      "may_send": false,
+      "may_use_enrichment": false,
+      "may_edit_policy": false
+    },
+    "opportunity": {
+      "may_write_states": [],
+      "may_send": false,
+      "may_use_enrichment": false,
+      "may_edit_policy": false
+    },
+    "contact": {
+      "may_write_states": [
+        "CONTACT_IDENTIFIED",
+        "EMAIL_NOT_PUBLIC"
+      ],
+      "may_send": false,
+      "may_use_enrichment": false,
+      "may_edit_policy": false
+    },
+    "signal": {
+      "may_write_states": [],
+      "may_send": false,
+      "may_use_enrichment": false,
+      "may_edit_policy": false
+    },
+    "outreach": {
+      "may_write_states": [
+        "READY_FOR_OUTREACH",
+        "OUTREACH_ACTIVE"
+      ],
+      "may_send": false,
+      "may_use_enrichment": false,
+      "may_edit_policy": false
+    },
+    "response": {
+      "may_write_states": [
+        "RESPONSE_RECEIVED",
+        "HUMAN_REVIEW",
+        "SUPPRESSED",
+        "NURTURE"
+      ],
+      "may_send": false,
+      "may_use_enrichment": false,
+      "may_edit_policy": false
+    },
+    "learning": {
+      "may_write_states": [],
+      "may_send": false,
+      "may_use_enrichment": false,
+      "may_edit_policy": false,
+      "may_recommend": [
+        "targeting",
+        "scoring_weights",
+        "offer_prioritization",
+        "sequencing",
+        "research_depth",
+        "lookalike_criteria"
+      ],
+      "may_not_modify": [
+        "pricing",
+        "suppression_rules",
+        "compliance_rules",
+        "approved_claims",
+        "commercial_terms"
+      ]
+    },
+    "human": {
+      "may_write_states": [
+        "*"
+      ],
+      "may_send": true,
+      "may_use_enrichment": true,
+      "may_edit_policy": true
+    }
   },
-
   "email_compliance": {
+    "sending_mode": "manual_gmail_draft",
+    "_sending_mode_note": "Drafts are written into Austin's Gmail. He reads each one and sends it himself, one to one, from his own mailbox. Nothing is bulk sent and nothing sends itself. The requirements below are set for that mode. If the sending mode ever changes to a bulk platform, physical_address_required and opt_out_link_required go back to true and this needs another legal look.",
     "sender_identity_must_be_truthful": true,
     "subject_must_be_non_deceptive": true,
-    "physical_address_required": true,
+    "physical_address_required": false,
     "physical_address": null,
-    "opt_out_required": true,
-    "opt_out_link_token": "{{unsubscribe_url}}",
-    "opt_out_processing_days_max": 10,
+    "opt_out_link_required": false,
+    "opt_out_link_token": null,
+    "opt_out_honored_on_reply": true,
+    "opt_out_processing_days_max": 1,
     "centralized_suppression_required": true,
-    "sending_infrastructure": null,
-    "legal_review_status": "not_reviewed",
-    "note": "physical_address, sending_infrastructure and legal_review_status must be filled by a human before any send is permitted."
+    "sending_infrastructure": "gmail_draft_manual_send",
+    "legal_review_status": "reviewed",
+    "legal_review_note": "Austin confirmed 2026-09-08 that legal has reviewed the approach.",
+    "legal_review_date": "2026-09-08"
   },
-
   "gates": {
     "hard_qualification_gates": [
       "organization_verified",
@@ -210,25 +321,58 @@
       "autonomy_level_permits"
     ]
   },
-
   "scoring": {
     "max_score": 100,
     "bands": [
-      {"name": "STRATEGIC", "min": 90, "max": 100},
-      {"name": "TIER_1",    "min": 80, "max": 89},
-      {"name": "TIER_2",    "min": 65, "max": 79},
-      {"name": "NURTURE",   "min": 50, "max": 64},
-      {"name": "ARCHIVE",   "min": 0,  "max": 49}
+      {
+        "name": "STRATEGIC",
+        "min": 90,
+        "max": 100
+      },
+      {
+        "name": "TIER_1",
+        "min": 80,
+        "max": 89
+      },
+      {
+        "name": "TIER_2",
+        "min": 65,
+        "max": 79
+      },
+      {
+        "name": "NURTURE",
+        "min": 50,
+        "max": 64
+      },
+      {
+        "name": "ARCHIVE",
+        "min": 0,
+        "max": 49
+      }
     ]
   },
-
   "signal_decay": [
-    {"band": "very_strong", "min_days": 0,  "max_days": 14},
-    {"band": "strong",      "min_days": 15, "max_days": 45},
-    {"band": "moderate",    "min_days": 46, "max_days": 90},
-    {"band": "historical",  "min_days": 91, "max_days": null}
+    {
+      "band": "very_strong",
+      "min_days": 0,
+      "max_days": 14
+    },
+    {
+      "band": "strong",
+      "min_days": 15,
+      "max_days": 45
+    },
+    {
+      "band": "moderate",
+      "min_days": 46,
+      "max_days": 90
+    },
+    {
+      "band": "historical",
+      "min_days": 91,
+      "max_days": null
+    }
   ],
-
   "partner_value_model_defaults": {
     "_note": "Assumptions until observed data replaces them. Learning Agent may propose changes; a human applies them.",
     "icp_fit": 0.35,
@@ -239,5 +383,33 @@
     "average_seats": 8,
     "source": "assumption",
     "observations_count": 0
+  },
+  "email_format": {
+    "plain_text_only": true,
+    "html_body_allowed": false,
+    "markdown_allowed": false,
+    "sign_off_allowed": false,
+    "_note": "Gmail supplies the signature and the formatting. The draft body is plain text, ends on the last real sentence, and carries no closer, no name, no title, no links block. Enforced by gates.check_format.",
+    "banned_sign_offs": [
+      "best",
+      "best regards",
+      "kind regards",
+      "warm regards",
+      "regards",
+      "thanks",
+      "thank you",
+      "thanks again",
+      "many thanks",
+      "cheers",
+      "sincerely",
+      "yours",
+      "talk soon",
+      "speak soon",
+      "looking forward",
+      "all the best",
+      "take care",
+      "respectfully",
+      "warmly"
+    ]
   }
 }

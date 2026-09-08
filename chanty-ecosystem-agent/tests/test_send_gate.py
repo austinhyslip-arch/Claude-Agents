@@ -24,19 +24,49 @@ class SendGateTest(unittest.TestCase):
         return gates.check_send(self.org, self.contact, self.draft, self.opp,
                                 root=self.root, **kw)
 
-    def test_blocked_by_compliance_config_out_of_the_box(self):
-        result = gates.check_send(self.org, self.contact, self.draft, self.opp,
-                                  root=self.root, human_approved=True)
-        self.assertFalse(result.passed)
-        self.assertIn("email_compliance", [f["check"] for f in result.failures])
-
-    def test_compliance_is_the_only_thing_blocking_a_clean_draft(self):
+    def test_a_clean_human_approved_draft_passes_every_gate(self):
         result = self._check()
-        self.assertEqual([f["check"] for f in result.failures], ["email_compliance"])
+        self.assertTrue(result.passed, [f["check"] for f in result.failures])
 
-    def test_missing_opt_out_token_blocks(self):
-        self.draft["body"] = self.draft["body"].replace("{{unsubscribe_url}}", "")
-        self.assertIn("opt_out_present", [f["check"] for f in self._check().failures])
+    def test_compliance_passes_in_manual_gmail_draft_mode(self):
+        result = gates.check_compliance_configured()
+        self.assertTrue(result.passed, [f["check"] for f in result.failures])
+
+    def test_no_postal_address_is_required_in_gmail_draft_mode(self):
+        checks = [c["check"] for c in gates.check_compliance_configured().checks]
+        self.assertNotIn("physical_address_set", checks)
+        self.assertIn("opt_out_honored_on_reply", checks)
+
+    def test_a_bulk_sending_mode_brings_the_requirements_back(self):
+        """The mode decides, not the gate. Flip it and the gate tightens."""
+        import json
+        import tempfile
+        from eco import policy
+        cfg = json.loads(json.dumps(policy.load()))
+        cfg["email_compliance"].update({
+            "sending_mode": "bulk_platform",
+            "physical_address_required": True,
+            "opt_out_link_required": True,
+            "opt_out_link_token": "{{unsubscribe_url}}",
+        })
+        path = tempfile.mkstemp(suffix=".json")[1]
+        with open(path, "w") as fh:
+            json.dump(cfg, fh)
+        result = gates.check_compliance_configured(policy_path=path)
+        self.assertFalse(result.passed)
+        self.assertIn("physical_address_set", [f["check"] for f in result.failures])
+
+        send = gates.check_send(self.org, self.contact, self.draft, self.opp,
+                                root=self.root, policy_path=path, human_approved=True)
+        self.assertIn("opt_out_present", [f["check"] for f in send.failures])
+
+    def test_a_sign_off_blocks(self):
+        self.draft["body"] = self.draft["body"] + "\n\nBest,\nAustin"
+        self.assertIn("format", [f["check"] for f in self._check().failures])
+
+    def test_markdown_blocks(self):
+        self.draft["body"] = self.draft["body"] + "\n\n- one\n- two"
+        self.assertIn("format", [f["check"] for f in self._check().failures])
 
     def test_unapproved_offer_blocks(self):
         self.draft["offer"] = "free_pilot_program"

@@ -60,8 +60,15 @@ block, set `requires_user_permission = true`, and ask.
 **Never state an estimate as a fact.** If they published "2,500 members", you may
 say 2,500. If we inferred it, the message says "your member community".
 
-**Never send.** The posture is draft, don't send. Autonomy is level 0. Tier A and
-strategic organizations stay human-approved at every level.
+**Never send.** Drafts go into Austin's Gmail and he sends them himself. Autonomy
+is level 2. Level 3 arrives only after he has read the first 20 drafts and says
+to turn it on. Tier A and strategic organizations stay human-approved at every
+level, including after that.
+
+**Emails are plain text with no sign-off.** Gmail supplies the signature and the
+formatting, so the draft supplies neither. No "Best", no name, no bold, no
+bullets, no markdown, no HTML. Drafts are created with the Gmail `body` field
+only, never `htmlBody`.
 
 ## Before any action, answer five questions
 
@@ -118,7 +125,13 @@ Anything unusual.
 
 Attio is the operational system of record. Claude Code is reasoning and
 orchestration. Clay is for organization discovery and company research only.
-Sending infrastructure is not configured, which is why the send gate fails.
+Gmail is where drafts land, in `manual_gmail_draft` mode: one to one, read and
+sent by a person.
+
+That mode is why there is no postal address block and no unsubscribe link in the
+messages. Both are bulk commercial mail requirements and neither fits an
+individual email. Legal reviewed this on 2026-09-08. Suppression is not affected
+and never is: an opt-out arrives as a reply and is honoured the same day.
 
 `docs/integrations.md` has the current state of each, and
 `docs/authorization-required.md` lists exactly what a human needs to do before

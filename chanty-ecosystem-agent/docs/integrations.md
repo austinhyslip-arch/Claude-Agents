@@ -53,12 +53,28 @@ a partial block invites a workaround.
 
 Same reasoning, same prefix block.
 
-## Gmail - connected, not wired in
+## Gmail - connected, this is where drafts go
 
-Sending is not configured. Even if it were, the send gate fails on
-`email_compliance` until a human sets the physical address, names the sending
-infrastructure and records legal review. Gmail is also not a compliant bulk
-sending path; that decision belongs to a human, not to this system.
+Sending mode is `manual_gmail_draft`. `scripts/eco/gmail.py` builds the
+`mcp__Gmail__create_draft` payload and the agent makes the call. Austin reads
+each draft in Gmail and sends it himself.
+
+Two details enforced in code rather than by reminder:
+
+- `htmlBody` is never set. The tool treats `body` as the plain-text field, so
+  passing only `body` makes plain text the only possible outcome.
+- `gates.check_format` rejects markdown, HTML, bullets, headings and sign-offs
+  before a payload is built at all. Gmail's native signature is the only
+  signature.
+
+Because messages go one to one from a personal mailbox rather than through a
+bulk platform, `physical_address_required` and `opt_out_link_required` are false
+in policy. Legal reviewed this on 2026-09-08. Flip `sending_mode` to a bulk
+platform and both flags go back to true; the gate reads the flags, so it
+tightens on its own.
+
+Nothing about suppression changes. An opt-out arrives as a reply, is written to
+suppression the same day, and a suppressed contact can never reach a draft.
 
 ## Google Drive and Calendar - connected, unused by this system
 

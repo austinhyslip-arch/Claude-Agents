@@ -134,7 +134,7 @@ DRAFT = {
     "body": ("Hi Jordan,\n\nI saw the chamber runs a monthly member luncheon and that the "
              "October slot is open.\n\nWe put together practical sessions on team "
              "communication for growing businesses. Happy to run one for your members, "
-             "no product pitch.\n\nWould that be useful?\n\n{{unsubscribe_url}}"),
+             "no product pitch.\n\nWould that be useful?"),
     "personalization_claims": [
         {"claim": "hosts a monthly member luncheon", "source_type": "A",
          "source_url": "https://example-valley-chamber.test/events",

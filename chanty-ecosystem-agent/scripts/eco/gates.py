@@ -274,6 +274,63 @@ def _states_estimate_as_fact(text, evidence_item):
     return False
 
 
+
+# --------------------------------------------------------------------------
+# 4b. Format: plain text, no sign-off
+# --------------------------------------------------------------------------
+
+_MARKDOWN_PATTERNS = [
+    (r"\*\*[^*]+\*\*", "bold markers"),
+    (r"(?m)^\s*#{1,6}\s", "markdown heading"),
+    (r"(?m)^\s*[-*+]\s+\S", "bullet list"),
+    (r"(?m)^\s*\d+[.)]\s+\S", "numbered list"),
+    (r"\[[^\]]+\]\([^)]+\)", "markdown link"),
+    (r"(?m)^\s*>\s", "blockquote"),
+    (r"`[^`]+`", "code ticks"),
+    (r"(?m)^\s*[-=_]{3,}\s*$", "horizontal rule"),
+    (r"<[a-zA-Z/][^>]*>", "html tag"),
+]
+
+
+def check_format(body, policy_path=None):
+    """Gmail supplies the signature and the formatting. The body supplies neither.
+
+    A draft ends on its last real sentence. No closer, no name, no title, no
+    links block, no markdown, no HTML.
+    """
+    g = GateResult("format")
+    fmt = policy.get("email_format", {}, path=policy_path)
+    text = body or ""
+
+    g.add("has_body", bool(text.strip()), "")
+
+    if fmt.get("markdown_allowed") is False:
+        found = [label for pattern, label in _MARKDOWN_PATTERNS if re.search(pattern, text)]
+        g.add("no_markdown_or_html", not found, ", ".join(found))
+
+    if fmt.get("sign_off_allowed") is False:
+        g.add("no_sign_off", not _has_sign_off(text, fmt.get("banned_sign_offs", [])),
+              "the last lines read as a closer; Gmail adds the signature")
+
+    g.add("no_unsubscribe_token", "{{unsubscribe" not in text and "{{opt_out" not in text,
+          "a one-to-one Gmail message carries no unsubscribe token")
+    return g
+
+
+def _has_sign_off(text, banned):
+    """Look only at the tail. "Thanks for the pointer" mid-message is fine."""
+    lines = [ln.strip() for ln in (text or "").strip().splitlines() if ln.strip()]
+    for line in lines[-3:]:
+        stripped = line.rstrip(",.!-\u2014 ").lower()
+        if stripped in banned:
+            return True
+        # "Best," followed by a name on the next line, or "Thanks, Austin".
+        for closer in banned:
+            if stripped.startswith(closer + ",") or stripped == closer:
+                return True
+    return False
+
+
 # --------------------------------------------------------------------------
 # 5. Send gate
 # --------------------------------------------------------------------------
@@ -314,15 +371,36 @@ def check_recent_outreach(contact, outreach_records=None, root=None, policy_path
 
 
 def check_compliance_configured(policy_path=None):
+    """Requirements depend on how the mail actually goes out.
+
+    In `manual_gmail_draft` mode a person reads each message and sends it
+    himself, one to one, from his own mailbox. A postal address block and an
+    unsubscribe link are requirements for bulk commercial mail and are not
+    required here. Suppression still is: an opt-out arrives as a reply and gets
+    honoured the same day.
+
+    Change `sending_mode` to a bulk platform and both requirements come back,
+    because the policy file, not this function, decides.
+    """
     g = GateResult("email_compliance")
     ec = policy.get("email_compliance", {}, path=policy_path)
-    g.add("physical_address_set", bool(ec.get("physical_address")),
-          "policy.email_compliance.physical_address is null")
+
     g.add("sending_infrastructure_set", bool(ec.get("sending_infrastructure")),
           "policy.email_compliance.sending_infrastructure is null")
     g.add("legal_review_done", ec.get("legal_review_status") == "reviewed",
           "legal_review_status=%r" % ec.get("legal_review_status"))
-    g.add("opt_out_required", bool(ec.get("opt_out_required")), "")
+    g.add("truthful_sender_identity", bool(ec.get("sender_identity_must_be_truthful")), "")
+    g.add("suppression_is_centralized", bool(ec.get("centralized_suppression_required")), "")
+
+    if ec.get("physical_address_required"):
+        g.add("physical_address_set", bool(ec.get("physical_address")),
+              "physical_address is required in %r mode and is null" % ec.get("sending_mode"))
+    if ec.get("opt_out_link_required"):
+        g.add("opt_out_configured", bool(ec.get("opt_out_link_token")),
+              "opt_out_link_token is required in %r mode and is null" % ec.get("sending_mode"))
+    else:
+        g.add("opt_out_honored_on_reply", bool(ec.get("opt_out_honored_on_reply")),
+              "a request to stop must be honoured even without an unsubscribe link")
     return g
 
 
@@ -344,6 +422,7 @@ def check_send(organization, contact, draft, opportunity=None, root=None,
         "recent_outreach": check_recent_outreach(contact, outreach_records, root=root,
                                                  policy_path=policy_path, now=now),
         "email_compliance": check_compliance_configured(policy_path=policy_path),
+        "format": check_format(draft.get("body"), policy_path=policy_path),
     }
     for name, result in sub.items():
         g.add(name, result.passed, ", ".join(c["check"] for c in result.failures))
@@ -355,9 +434,10 @@ def check_send(organization, contact, draft, opportunity=None, root=None,
     g.add("offer_approved", offer in policy.get("approved_offers", [], path=policy_path),
           "offer=%r" % offer)
 
-    g.add("opt_out_present",
-          policy.get("email_compliance.opt_out_link_token", "", path=policy_path) in (draft.get("body") or ""),
-          "the body must carry the opt-out token")
+    if policy.get("email_compliance.opt_out_link_required", False, path=policy_path):
+        token = policy.get("email_compliance.opt_out_link_token", "", path=policy_path)
+        g.add("opt_out_present", bool(token) and token in (draft.get("body") or ""),
+              "this sending mode requires the opt-out token in the body")
 
     escalation = bool(draft.get("escalation_required")) or bool(
         (opportunity or {}).get("escalation_required"))

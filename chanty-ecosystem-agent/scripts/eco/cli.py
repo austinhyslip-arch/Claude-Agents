@@ -13,8 +13,9 @@ import json
 import os
 import sys
 
-from . import (attio, attribution, audit, dedupe, gates, ids, learning, paths,
-               policy, report, response, scoring, state_machine, store, validate)
+from . import (attio, attribution, audit, dedupe, gates, gmail, ids, learning,
+               paths, policy, report, response, scoring, state_machine, store,
+               validate)
 
 
 def _load_json_arg(value):
@@ -246,10 +247,36 @@ def cmd_draft_check(args):
     body = "\n".join(filter(None, [draft.get("subject"), draft.get("body")]))
     claims = gates.check_claims(body)
     personal = gates.check_personalization(body, draft.get("personalization_claims"))
+    fmt = gates.check_format(draft.get("body"))
+    passed = claims.passed and personal.passed and fmt.passed
     _out({"claims": claims.to_dict(), "personalization": personal.to_dict(),
-          "passed": claims.passed and personal.passed})
-    if not (claims.passed and personal.passed):
+          "format": fmt.to_dict(), "passed": passed})
+    if not passed:
         sys.exit(2)
+
+
+def cmd_gmail_draft(args):
+    """Print the create_draft call for the agent to make. Creates nothing here."""
+    draft = _load_json_arg(args.json)
+    contact = store.get("contacts", draft["contact_id"])
+    org = store.get("organizations", draft.get("organization_id"))
+    if not contact:
+        sys.exit("no contact %s" % draft.get("contact_id"))
+    try:
+        payload = gmail.plan(draft, contact, org)
+    except gmail.DraftRejected as exc:
+        audit.record(action="gmail_draft_rejected", agent="outreach",
+                     organization=draft.get("organization_id"),
+                     contact=draft.get("contact_id"), error=str(exc),
+                     output=[r.to_dict() for r in exc.gate_results])
+        _out({"ok": False, "reason": str(exc),
+              "gates": [r.to_dict() for r in exc.gate_results]})
+        sys.exit(2)
+    audit.record(action="gmail_draft_planned", agent="outreach",
+                 organization=draft.get("organization_id"),
+                 contact=draft.get("contact_id"), output={"to": payload["args"]["to"]},
+                 decision="ready for review in Gmail")
+    _out(payload)
 
 
 def cmd_send_check(args):
@@ -417,6 +444,7 @@ def build_parser():
     sp = sub.add_parser("add-signal"); sp.add_argument("json"); sp.set_defaults(func=cmd_add_signal)
 
     sp = sub.add_parser("draft-check"); sp.add_argument("json"); sp.set_defaults(func=cmd_draft_check)
+    sp = sub.add_parser("gmail-draft"); sp.add_argument("json"); sp.set_defaults(func=cmd_gmail_draft)
     sp = sub.add_parser("send-check"); sp.add_argument("json")
     sp.add_argument("--human-approved", action="store_true"); sp.set_defaults(func=cmd_send_check)
 

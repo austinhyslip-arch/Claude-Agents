@@ -97,16 +97,24 @@ class PipelineTest(unittest.TestCase):
         draft = dict(helpers.DRAFT, organization_id=org_id, contact_id=contact_id)
         self.assertTrue(self.eco("draft-check", json.dumps(draft))["passed"])
 
-        # And here it stops: compliance is unconfigured and autonomy is level 0.
+        # The Gmail draft payload is built, and it is plain text with no closer.
+        payload = self.eco("gmail-draft", json.dumps(draft))
+        self.assertEqual(payload["tool"], "mcp__Gmail__create_draft")
+        self.assertEqual(payload["args"]["to"], [helpers.CONTACT["email"]])
+        self.assertNotIn("htmlBody", payload["args"])
+        self.assertNotIn("Best,", payload["args"]["body"])
+        self.assertNotIn("unsubscribe", payload["args"]["body"].lower())
+
+        # And here it stops. Compliance now passes, so the only thing left
+        # holding the send is that no human has approved it at level 2.
         blocked = self.eco("send-check", json.dumps(draft), expect=2)
         self.assertFalse(blocked["passed"])
-        self.assertIn("email_compliance", blocked["failures"])
-        self.assertIn("autonomy_or_human_approval", blocked["failures"])
+        self.assertEqual(blocked["failures"], ["autonomy_or_human_approval"])
 
         status = self.eco("status")
         self.assertEqual(status["outreach_sent"], 0)
         self.assertEqual(status["enrichment_used_count"], 0)
-        self.assertEqual(status["autonomy_level"], 0)
+        self.assertEqual(status["autonomy_level"], 2)
 
         self.assertTrue(self.eco("validate")["valid"])
 
@@ -129,6 +137,44 @@ class PipelineTest(unittest.TestCase):
         guessed.pop("contact_id")
         out = self.eco("add-contact", json.dumps(guessed), expect=2)
         self.assertFalse(out["created"])
+
+    def test_gmail_draft_refuses_a_sign_off_and_a_non_public_contact(self):
+        candidate = {k: v for k, v in helpers.ORG.items()
+                     if k not in ("organization_id", "state", "state_history", "priority_band",
+                                  "partner_tier", "trials", "paid_accounts", "seats", "mrr",
+                                  "arr", "assisted_revenue", "created_at")}
+        org_id = self.eco("add-org", json.dumps(candidate))["organization_id"]
+        contact = dict(helpers.CONTACT, organization_id=org_id)
+        contact.pop("contact_id")
+        contact_id = self.eco("add-contact", json.dumps(contact))["contact_id"]
+
+        signed = dict(helpers.DRAFT, organization_id=org_id, contact_id=contact_id,
+                      body=helpers.DRAFT["body"] + "\n\nThanks,\nAustin")
+        out = self.eco("gmail-draft", json.dumps(signed), expect=2)
+        self.assertFalse(out["ok"])
+        self.assertIn("no_sign_off", out["reason"])
+
+        formatted = dict(helpers.DRAFT, organization_id=org_id, contact_id=contact_id,
+                         body="Hi Jordan,\n\n**Three things** we could cover:\n\n- one\n- two")
+        out = self.eco("gmail-draft", json.dumps(formatted), expect=2)
+        self.assertIn("no_markdown_or_html", out["reason"])
+
+    def test_gmail_draft_refuses_a_contact_without_a_public_email(self):
+        candidate = {k: v for k, v in helpers.ORG.items()
+                     if k not in ("organization_id", "state", "state_history", "priority_band",
+                                  "partner_tier", "trials", "paid_accounts", "seats", "mrr",
+                                  "arr", "assisted_revenue", "created_at")}
+        org_id = self.eco("add-org", json.dumps(candidate))["organization_id"]
+        contact = dict(helpers.CONTACT, organization_id=org_id, email=None,
+                       email_status="not_publicly_found", email_source_url=None,
+                       email_source_type=None, email_date_checked=None,
+                       email_discovery_method=None, requires_user_permission=True)
+        contact.pop("contact_id")
+        contact_id = self.eco("add-contact", json.dumps(contact))["contact_id"]
+        draft = dict(helpers.DRAFT, organization_id=org_id, contact_id=contact_id)
+        out = self.eco("gmail-draft", json.dumps(draft), expect=2)
+        self.assertIn("contact_email_public", out["reason"])
+
 
     def test_blocked_tool_check_exits_nonzero(self):
         out = self.eco("check-tool", "mcp__Apollo_io__apollo_people_match", expect=3)

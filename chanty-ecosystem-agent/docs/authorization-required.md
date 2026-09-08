@@ -3,22 +3,38 @@
 Nothing below has been worked around, defaulted, or quietly assumed. Each item
 is a deliberate stop.
 
-## Required before any message can be sent
+## Settled on 2026-09-08
 
-1. **Physical mailing address** for the commercial email footer.
-   `config/policy.json` -> `email_compliance.physical_address` is null.
-2. **Sending infrastructure.** Which platform actually sends, with its own
-   suppression list wired to ours.
-   `email_compliance.sending_infrastructure` is null.
-3. **Legal review.** `email_compliance.legal_review_status` is `not_reviewed`.
-   The commercial email requirements this system implements are the baseline;
-   counsel should review the production architecture.
-4. **Autonomy level.** `autonomy.current_level` is 0, research only. Level 2
-   permits drafts. Level 3 permits automated outreach for named Tier 2
-   categories, which are listed in `autonomy.autonomous_send_enabled_categories`
-   and that list is empty.
+1. **Sending path.** Drafts go into Austin's Gmail. He reads each one and sends
+   it himself. `email_compliance.sending_mode` is `manual_gmail_draft`.
+2. **No postal address.** Not required for one-to-one mail from a personal
+   mailbox. `physical_address_required` is false.
+3. **No unsubscribe link.** Same reason. `opt_out_link_required` is false, and
+   `opt_out_honored_on_reply` is true, so a request to stop is written to
+   suppression the same day.
+4. **Legal review done.** `legal_review_status` is `reviewed`.
+5. **Autonomy level 2.** Research, contact discovery, and drafts into Gmail.
 
-Until all four are set, `eco send-check` fails. That is the intended state.
+`eco send-check` now passes everything except `autonomy_or_human_approval`,
+which is correct: at level 2 a human approves each one, and that human is Austin
+hitting send in Gmail.
+
+## The one thing still open on sending
+
+**Level 3, after the first 20.** Automated outreach turns on once Austin has read
+the first 20 drafts in Gmail and says to turn it on. Two fields change then, and
+only he changes them:
+
+- `autonomy.current_level` to 3
+- `autonomy.autonomous_send_enabled_categories` to the categories he names
+
+The agent never raises its own level. Tier A and strategic organizations stay
+human-approved regardless.
+
+Level 3 also needs a real sending path decided at that point. Gmail drafts do not
+automate, so automated outreach means either a scripted Gmail send or a proper
+platform. A bulk platform brings the postal address and unsubscribe requirements
+back, which is why those flags exist in policy rather than being deleted.
 
 ## Required for full Attio fidelity
 

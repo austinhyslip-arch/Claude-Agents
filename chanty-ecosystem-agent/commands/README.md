@@ -31,7 +31,8 @@ The deterministic half of each command is the `eco` CLI:
     contact-report  print the EMAIL_NOT_PUBLIC handoff block
     check-tool      is this tool permitted for contact data
     add-signal      record a signal and compute its decay band
-    draft-check     claims and personalization gates
+    draft-check     claims, personalization and format gates
+    gmail-draft     build the Gmail create_draft call, plain text, no sign-off
     send-check      the full send gate
     response        what a reply classification means
     attribution     create a partner tracking ID

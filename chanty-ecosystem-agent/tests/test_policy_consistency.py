@@ -34,8 +34,14 @@ class PolicyConsistencyTest(unittest.TestCase):
         self.assertIn("No enrichment", self.md)
 
     def test_autonomy_level_matches(self):
-        self.assertEqual(policy.autonomy_level(), 0)
-        self.assertIn("Current level: **0**", self.md)
+        self.assertEqual(policy.autonomy_level(), 2)
+        self.assertIn("Current level: **2**", self.md)
+
+    def test_level_three_needs_the_first_twenty_reviewed(self):
+        autonomy = policy.get("autonomy")
+        self.assertEqual(autonomy["first_pilot_human_review_first_touch_count"], 20)
+        self.assertEqual(autonomy["autonomous_send_enabled_categories"], [])
+        self.assertIn("reviewed the first 20", autonomy["promotion_condition"])
 
     def test_no_discounts_are_configured(self):
         pricing = policy.get("chanty_pricing")
@@ -44,11 +50,27 @@ class PolicyConsistencyTest(unittest.TestCase):
                     "approved_free_account_terms", "approved_extended_trial_terms"):
             self.assertEqual(pricing[key], [], key)
 
-    def test_compliance_fields_start_unset_so_sending_fails_closed(self):
+    def test_sending_mode_is_manual_gmail_drafts(self):
         ec = policy.get("email_compliance")
-        self.assertIsNone(ec["physical_address"])
-        self.assertIsNone(ec["sending_infrastructure"])
-        self.assertEqual(ec["legal_review_status"], "not_reviewed")
+        self.assertEqual(ec["sending_mode"], "manual_gmail_draft")
+        self.assertEqual(ec["sending_infrastructure"], "gmail_draft_manual_send")
+        self.assertEqual(ec["legal_review_status"], "reviewed")
+
+    def test_bulk_mail_requirements_are_off_but_suppression_is_not(self):
+        ec = policy.get("email_compliance")
+        self.assertFalse(ec["physical_address_required"])
+        self.assertFalse(ec["opt_out_link_required"])
+        self.assertTrue(ec["opt_out_honored_on_reply"])
+        self.assertTrue(ec["centralized_suppression_required"])
+        self.assertEqual(ec["opt_out_processing_days_max"], 1)
+
+    def test_email_format_is_plain_text_with_no_sign_off(self):
+        fmt = policy.get("email_format")
+        self.assertTrue(fmt["plain_text_only"])
+        self.assertFalse(fmt["html_body_allowed"])
+        self.assertFalse(fmt["markdown_allowed"])
+        self.assertFalse(fmt["sign_off_allowed"])
+        self.assertIn("Gmail", self.md)
 
     def test_scoring_bands_are_contiguous_and_cover_zero_to_hundred(self):
         bands = sorted(policy.get("scoring.bands"), key=lambda b: b["min"])

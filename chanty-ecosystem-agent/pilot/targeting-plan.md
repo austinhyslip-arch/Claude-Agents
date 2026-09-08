@@ -28,8 +28,9 @@ test matrix needs.
 
 ## The first-pilot rule
 
-Every one of the first 100 first-touch messages is read by a human before it goes
-anywhere. Audit each for:
+The first 20 first-touch drafts land in Austin's Gmail and he reads every one
+before anything is sent. Automated outreach stays off until he has done that and
+says to turn it on. Audit each for:
 
 - personalization that is actually grounded in evidence
 - correct organization classification
@@ -37,6 +38,7 @@ anywhere. Audit each for:
 - an offer that matches a mechanism the organization actually has
 - evidence at A or B level behind every specific claim
 - tone that sounds like a person
+- plain text, no sign-off, no formatting
 - any assumption that crept in and got stated as fact
 
 Do not scale until the quality holds. Scaling a broken message just distributes
