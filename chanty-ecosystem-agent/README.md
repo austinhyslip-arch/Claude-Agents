@@ -35,6 +35,11 @@ data, with Apollo, ZoomInfo and Clay's contact tools blocked even though they ar
 connected. Never guess an email. Never state an estimate as a fact. Never send
 without a human.
 
+## Daily routine
+
+Fires 07:12 Central, one category slice a day, drafts into Gmail, stops there.
+See `docs/daily-routine.md` for the trigger id and how to change it.
+
 ## Layout
 
     CLAUDE.md      the operating brief
