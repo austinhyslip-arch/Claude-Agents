@@ -93,6 +93,18 @@ If the sending mode ever changes to a bulk platform, set
 `policy.json`. The gate reads those flags, so it tightens on its own, but the
 change deserves another legal look.
 
+## Live sessions are remote
+
+We join workshops, panels and speaking slots by video. No travel.
+
+The first message says so. Not the follow-up, not the call after they say yes.
+An organization putting us on an agenda is agreeing to something specific and
+they should know what it is while they are deciding.
+
+Applies to the workshop and event participation offers. It does not apply to
+written resources or co-branded content, which have no delivery format to
+disclose.
+
 ## Email format
 
 Plain text. Gmail supplies the signature and the formatting, so the draft

@@ -3,9 +3,26 @@
 Every offer below is pre-approved as a *thing we can talk about*. None of them
 carry commercial terms beyond $3/seat.
 
+## Delivery constraint on live sessions
+
+We join live sessions remotely. There is no travel budget and nobody is getting
+on a plane.
+
+That belongs in the first message, not in the reply after someone says yes. An
+organization slotting us into a room expects a person in that room, and finding
+out later that it is a screen on a stand is how a booking falls apart. It costs
+one sentence to say and it is the kind of thing people appreciate hearing early.
+
+It applies to the workshop and event participation offers. Written resources,
+member benefit and co-branded content carry no such constraint, so the check
+does not apply to them.
+
+`gates.check_delivery_disclosure` enforces this. A workshop or event draft that
+does not say we join remotely will not build a Gmail payload.
+
 ## 1. Educational workshop
 For organizations that already run webinars, workshops, lunch-and-learns or
-member education.
+member education. We join remotely.
 
 Titles that have been approved for use:
 - How to Build a Communication System for a Growing Team

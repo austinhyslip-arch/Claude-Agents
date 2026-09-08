@@ -411,5 +411,25 @@
       "respectfully",
       "warmly"
     ]
+  },
+  "delivery_constraints": {
+    "live_sessions_are_remote_only": true,
+    "_note": "We join live sessions by video, not in person. That is a real constraint on what an organization is agreeing to, so it belongs in the first message rather than in the reply after they say yes. Enforced by gates.check_delivery_disclosure.",
+    "offers_requiring_disclosure": [
+      "educational_workshop",
+      "event_participation"
+    ],
+    "disclosure_phrases": [
+      "remotely",
+      "by video",
+      "over video",
+      "virtually",
+      "join by zoom",
+      "not in person",
+      "not in the room",
+      "not be in the room",
+      "join by video call"
+    ],
+    "travel_budget_exists": false
   }
 }

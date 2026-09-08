@@ -331,6 +331,39 @@ def _has_sign_off(text, banned):
     return False
 
 
+
+# --------------------------------------------------------------------------
+# 4c. Delivery constraints
+# --------------------------------------------------------------------------
+
+def check_delivery_disclosure(body, offer, policy_path=None):
+    """A live session offer has to say we join remotely.
+
+    We do not travel. An organization slotting us into a room expects a person
+    in that room, so leaving it out means the first message misrepresents what
+    they are agreeing to. Saying it up front costs a sentence. Saying it after
+    they say yes costs the booking.
+
+    Written resources and co-branded content carry no such constraint, so the
+    check only applies to the offers named in policy.
+    """
+    g = GateResult("delivery_disclosure")
+    dc = policy.get("delivery_constraints", {}, path=policy_path)
+
+    if not dc.get("live_sessions_are_remote_only"):
+        g.add("no_constraint_configured", True, "")
+        return g
+
+    if offer not in dc.get("offers_requiring_disclosure", []):
+        g.add("offer_needs_no_disclosure", True, "offer=%r" % offer)
+        return g
+
+    lowered = (body or "").lower()
+    phrases = dc.get("disclosure_phrases", [])
+    g.add("states_remote_delivery", any(p in lowered for p in phrases),
+          "a %r offer must say we join remotely" % offer)
+    return g
+
 # --------------------------------------------------------------------------
 # 5. Send gate
 # --------------------------------------------------------------------------
@@ -423,6 +456,8 @@ def check_send(organization, contact, draft, opportunity=None, root=None,
                                                  policy_path=policy_path, now=now),
         "email_compliance": check_compliance_configured(policy_path=policy_path),
         "format": check_format(draft.get("body"), policy_path=policy_path),
+        "delivery_disclosure": check_delivery_disclosure(draft.get("body"), draft.get("offer"),
+                                                         policy_path=policy_path),
     }
     for name, result in sub.items():
         g.add(name, result.passed, ", ".join(c["check"] for c in result.failures))

@@ -249,9 +249,11 @@ def cmd_draft_check(args):
     claims = gates.check_claims(body)
     personal = gates.check_personalization(body, draft.get("personalization_claims"))
     fmt = gates.check_format(draft.get("body"))
-    passed = claims.passed and personal.passed and fmt.passed
+    delivery = gates.check_delivery_disclosure(draft.get("body"), draft.get("offer"))
+    passed = claims.passed and personal.passed and fmt.passed and delivery.passed
     _out({"claims": claims.to_dict(), "personalization": personal.to_dict(),
-          "format": fmt.to_dict(), "passed": passed})
+          "format": fmt.to_dict(), "delivery_disclosure": delivery.to_dict(),
+          "passed": passed})
     if not passed:
         sys.exit(2)
 

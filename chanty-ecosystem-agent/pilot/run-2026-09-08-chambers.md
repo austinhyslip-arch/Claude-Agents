@@ -78,3 +78,25 @@ because an organization that cannot be verified on its own site does not get a
 record.
 
 score.org still returns 403 to automated fetches, same as on 09-07.
+
+## Revision, same day
+
+Austin's review of the six drafts: the writing is right, but the messages have to
+say we join learning sessions remotely.
+
+That is a standing constraint rather than a wording fix, so it went into policy
+rather than into six files. `delivery_constraints` in `config/policy.json` now
+records that live sessions are remote only and that there is no travel budget,
+and `gates.check_delivery_disclosure` blocks a workshop or event participation
+draft that does not say so. `gmail.build` refuses to produce a payload for one,
+so the constraint is enforced before a message can reach a mailbox rather than
+after.
+
+Five drafts were revised and updated in Gmail. Springfield was left alone: it
+offers a written resource, so there is no live delivery to disclose and the gate
+correctly does not apply.
+
+The Lincoln draft changed more than the others. The HIVE is a coffee meetup, and
+a remote speaker does not really work at a coffee meetup, so the message now says
+that plainly and points at the Face the Chamber slot instead. Better to name the
+mismatch than to let them discover it.

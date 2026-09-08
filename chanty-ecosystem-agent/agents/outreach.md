@@ -27,6 +27,21 @@ Write it like a person. Short sentences. No preamble about how impressed you are
 No "I hope this finds you well". No three-clause sentences stacked with commas.
 If a sentence would embarrass you to read out loud, cut it.
 
+## Say the remote thing up front
+
+We join live sessions by video. If the offer is a workshop or an event slot, the
+first message says so.
+
+Put it near the offer, not buried at the end, and say it plainly. "We would join
+remotely rather than be in the room" is enough. Where it genuinely rules a format
+out, say that too and name the format that would work instead: a coffee meetup
+does not survive a screen, and pretending otherwise wastes everyone's time.
+
+This does not apply to written resources or co-branded content. Nothing is being
+delivered live, so there is nothing to disclose.
+
+The gate blocks a workshop or event draft that leaves it out.
+
 ## Format
 
 Plain text, and nothing else. Gmail supplies the signature and the formatting,

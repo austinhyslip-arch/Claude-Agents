@@ -10,6 +10,8 @@ Read `chanty-ecosystem-agent/agents/outreach.md` and `chanty-ecosystem-agent/con
 
 Structure: relevance, observation, value, fit, CTA. Short. Human. No flattery, no invented urgency, no statistics we do not have. Every specific claim about the organization goes in `personalization_claims` with its source URL and type.
 
+If the offer is a workshop or an event slot, say in the first message that we would join remotely rather than in person. We do not travel, and they should know that while they are deciding rather than after. Written resources need no such line.
+
 Format rules, no exceptions:
 - Plain text only. No bold, no bullets, no numbered lists, no headings, no markdown, no HTML.
 - No sign-off. No "Best", no "Thanks", no name, no title, no links block. The message ends on its last real sentence. Gmail's native signature handles the rest.

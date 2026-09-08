@@ -37,6 +37,7 @@ def build(draft, contact, policy_path=None):
 
     checks = [
         gates.check_format(body, policy_path=policy_path),
+        gates.check_delivery_disclosure(body, draft.get("offer"), policy_path=policy_path),
         gates.check_claims("\n".join([subject, body]), policy_path=policy_path),
         gates.check_personalization("\n".join([subject, body]),
                                     draft.get("personalization_claims")),

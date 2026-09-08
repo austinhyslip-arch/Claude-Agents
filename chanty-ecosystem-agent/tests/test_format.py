@@ -9,6 +9,7 @@ from eco import gates, gmail
 CLEAN = ("Hi Jordan,\n\nI saw the chamber runs a monthly luncheon and the October "
          "slot is open.\n\nWe put together practical sessions on team communication "
          "for growing businesses. Happy to run one, no product pitch.\n\n"
+         "We would join remotely rather than be in the room.\n\n"
          "Would that be useful?")
 
 
@@ -102,3 +103,51 @@ class GmailPayloadTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DeliveryDisclosureTest(unittest.TestCase):
+    """Live session offers have to say we join remotely."""
+
+    SESSION = "Hi Amy,\n\nWe would run a session on team communication.\n\nWould that fit?"
+
+    def test_workshop_without_the_disclosure_is_blocked(self):
+        result = gates.check_delivery_disclosure(self.SESSION, "educational_workshop")
+        self.assertFalse(result.passed)
+        self.assertIn("states_remote_delivery", [f["check"] for f in result.failures])
+
+    def test_event_participation_without_the_disclosure_is_blocked(self):
+        self.assertFalse(
+            gates.check_delivery_disclosure(self.SESSION, "event_participation").passed)
+
+    def test_any_of_the_accepted_phrasings_passes(self):
+        for phrase in ("we would join remotely", "we would join by video",
+                       "we would present over video", "we would join virtually",
+                       "we are not in person for these", "we would not be in the room"):
+            body = self.SESSION + "\n\n" + phrase.capitalize() + "."
+            self.assertTrue(
+                gates.check_delivery_disclosure(body, "educational_workshop").passed, phrase)
+
+    def test_written_offers_need_no_disclosure(self):
+        for offer in ("member_resource", "co_branded_content", "member_benefit",
+                      "partner_referral_program", "discovery_conversation"):
+            self.assertTrue(gates.check_delivery_disclosure(self.SESSION, offer).passed, offer)
+
+    def test_gmail_refuses_a_workshop_draft_that_omits_it(self):
+        without = CLEAN.replace(
+            "We would join remotely rather than be in the room.\n\n", "")
+        draft = dict(helpers.DRAFT, offer="educational_workshop", body=without)
+        with self.assertRaises(gmail.DraftRejected) as ctx:
+            gmail.build(draft, dict(helpers.CONTACT))
+        self.assertIn("states_remote_delivery", str(ctx.exception))
+
+    def test_gmail_accepts_it_once_the_line_is_there(self):
+        draft = dict(helpers.DRAFT, offer="educational_workshop", body=CLEAN)
+        self.assertIn("remotely", gmail.build(draft, dict(helpers.CONTACT))["body"])
+
+    def test_the_constraint_is_configured_in_policy(self):
+        from eco import policy
+        dc = policy.get("delivery_constraints")
+        self.assertTrue(dc["live_sessions_are_remote_only"])
+        self.assertFalse(dc["travel_budget_exists"])
+        self.assertEqual(sorted(dc["offers_requiring_disclosure"]),
+                         ["educational_workshop", "event_participation"])
