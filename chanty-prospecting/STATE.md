@@ -1,32 +1,34 @@
 # Chanty prospecting pipeline - working state
 
-Last run: 2026-09-07
+Last run: 2026-09-08
 
 ## Done
 
-**105 contacts are now in Attio** as People, linked to Companies, and added to
-the Pipeline list with an `industry` value on each entry.
+**105 contacts are in Attio** as People, linked to Companies, and added to the
+Pipeline list with an `industry` value on each entry.
 
 - 19 from the earlier handoff. Those had been listed as "ready to push" but had
   never actually landed in Attio, checked by search before writing.
-- 86 enriched in this run, covering the 20-99 and 100-499 bands.
+- 86 enriched in the first run, covering the 20-99 and 100-499 bands.
 
 **86 ZoomInfo enrichments, 86 successes, no errors.** Every contact in the queue
 was flagged `hasEmail=Y` by the free search first, and every one came back with
 a real business email. That flag is reliable.
 
-**600 companies contact-searched across all three bands.** All free searches.
-Yield is 279 contacts in `pending-enrichment.tsv`, each with a ZoomInfo personId
-so they can be enriched later without paying to re-find them.
+**All three bands are now fully paginated.** 1,150 companies contact-searched,
+all on free searches. Yield is 760 contacts in `all-contacts.tsv`, each with a
+ZoomInfo personId so they can be enriched later without paying to re-find them.
 
-| Band | Companies in band | Searched | Contacts | Has email on file | Enriched |
-|------|------------------|----------|----------|-------------------|----------|
-| Sub-20 | ~539 | 400 | 181 | 120 (66%) | 0 |
-| 20-99 | ~353 | 100 | 41 | 30 (73%) | 30 |
-| 100-499 | ~323 | 100 | 57 | 56 (98%) | 56 |
+| Band | Companies searched | Contacts | Has email on file | Enriched |
+|------|-------------------|----------|-------------------|----------|
+| Sub-20 | 580 | 268 | 175 (65%) | 0 |
+| 20-99 | 353 | 202 | 158 (78%) | 30 |
+| 100-499 | 323 | 290 | 257 (89%) | 56 |
 
-Band totals drift between calls because ZoomInfo intent data shifts through the
-day. Re-pull rather than trusting these numbers exactly.
+The second run added 481 contacts on top of the original 279. Nothing
+duplicated: checked by personId and by name plus company, both came back clean.
+
+Per instruction, none of the sub-20 band was enriched in this run.
 
 ## Blocked
 
@@ -37,36 +39,41 @@ has gone through paid ZoomInfo enrichment instead.
 ## The email-coverage finding
 
 `hasEmail` from the free search tells us, before spending anything, whether
-ZoomInfo actually holds a business email for a contact. 206 of 279 do. Enriching
-the other 73 would burn a bulk credit each and return nothing, so they are split
-out into `no-email-on-file.tsv` and excluded from the enrich queue. That saved
-73 credits, about a quarter of the list.
+ZoomInfo actually holds a business email for a contact. Across all 760 contacts,
+590 do. Enriching the other 170 would burn a bulk credit each and return
+nothing, so they are excluded from the enrich queue. That saves 170 credits,
+about 22% of the list.
 
-Coverage climbs sharply with company size: 66% at sub-20, 73% at 20-99, 98% at
-100-499. Credits spent on the larger bands go much further, which is why those
-two bands were enriched first.
+Coverage climbs with company size: 65% at sub-20, 78% at 20-99, 89% at 100-499.
+Credits spent on the larger bands go further, which is why those two bands were
+enriched first.
 
 ## Open decisions
 
-- Whether to enrich the remaining 120 sub-20 contacts flagged `hasEmail=Y`.
-  That is 120 bulk credits for the weakest-coverage band.
+- **504 contacts are flagged `hasEmail=Y` and not yet enriched**, listed in
+  `remaining-has-email.tsv`: 201 at 100-499, 128 at 20-99, 175 at sub-20. Each
+  costs one ZoomInfo bulk credit. The 100-499 and 20-99 sets are the better
+  value; sub-20 was explicitly held back this run.
 - Whether to act on `pattern-derivable.tsv`, the 18 contacts whose company email
   format we already know for free. Worth doing, but verify before sending. Six
-  companies in this set use an email domain different from their website domain
+  companies in that set use an email domain different from their website domain
   (tas.com, tc-mro.com, hirequestllc.com, mobileonsite.com, dsarms.com,
   turbine-controls.com), so a guessed address can bounce.
 
 ## Not started
 
-- Sub-20 pages 5-6, 20-99 pages 2-4, 100-499 pages 2-4 (~615 companies)
-- Email sequence draft
+- The email sequence draft.
 
 ## Notes for the next run
 
-- Company 1334374792 (Allianz Commercial) is a large company miscategorised into
-  the sub-20 band and floods contact searches with dozens of "product owner"
-  titles. Excluded, as are Yale School of Management, LP Building Solutions,
-  Aquinas College, MapQuest and Kay Jewelers for the same reason.
+- Some companies are miscategorised into a small band and flood the contact
+  search. Excluded so far: Allianz Commercial (1334374792), Yale School of
+  Management, LP Building Solutions, Aquinas College, MapQuest, Kay Jewelers,
+  New Country Lexus (460884745, ~50 general managers), Spokane Public Schools
+  Foundation (55543959, 22 office managers across many schools, capped at 2
+  rather than dropped) and 5LINX (197050531). 5LINX is the worst of them: it is
+  a multi-level marketing company whose records are hundreds of "independent
+  business owners", none of whom buy software for a team. Dropped entirely.
 - Capped at 2 contacts per company. Some small businesses return 5-6 "owners"
   (Willow Creek III, Personal Travel, Shear Magic, HireQuest) and emailing all of
   them would read as spam.
@@ -92,7 +99,10 @@ two bands were enriched first.
 
 ## Files
 
-- `pending-enrichment.tsv` - all 279 contacts, with personId and hasEmail
+- `all-contacts.tsv` - all 760 contacts across both runs, with personId and hasEmail
+- `round2-contacts.tsv` - just the 481 found in the second run
+- `remaining-has-email.tsv` - the 504 flagged hasEmail=Y and not yet enriched
+- `pending-enrichment.tsv` - the original 279 from the first run
 - `enrich-queue-has-email.tsv` - the 206 worth spending a credit on
 - `no-email-on-file.tsv` - the 73 ZoomInfo has no business email for
 - `enrich-now.tsv` - the 86 that were enriched in this run
@@ -103,5 +113,5 @@ two bands were enriched first.
 - `pattern-derivable.tsv` - 18 contacts whose company email format we already know
 - `no-pattern-available.tsv` - the other 55 dark contacts
 - `public-sources-test.md` - what the public-source search actually returned
-- `companies-searched.txt` - the 499 company IDs already searched, so a resumed
-  run skips them
+- `companies-searched.txt` - the 1,150 company IDs already searched, so a
+  resumed run skips them
