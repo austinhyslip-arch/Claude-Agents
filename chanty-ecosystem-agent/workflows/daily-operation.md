@@ -1,8 +1,13 @@
 # Workflow: Daily Operation
 
-Morning
+Morning (the routine fires here, 07:12 Central)
 - Discover new organizations in one category slice.
 - Research the organizations that entered DISCOVERED yesterday.
+- Find public contacts, and stop at EMAIL_NOT_PUBLIC rather than guessing.
+- Write drafts into Gmail for anything that passes every gate.
+- Run `eco send-window --drafts-only` and report, per draft, whether it can go
+  out now and when its window opens. Austin sends; the window is his to respect
+  and the report is what makes that easy.
 - Review anything sitting in HUMAN_REVIEW, oldest first.
 
 Through the day

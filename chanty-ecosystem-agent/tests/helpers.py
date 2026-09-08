@@ -48,6 +48,8 @@ ORG = {
     "country": "US",
     "national_or_local": "local",
     "status": "active",
+    "timezone": "America/Chicago",
+    "timezone_confidence": "KNOWN_FACT",
     "audience_description": "Member businesses in the Example Valley area, mostly under 50 employees",
     "audience_size": 900,
     "audience_size_type": "members",

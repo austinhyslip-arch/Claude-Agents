@@ -15,7 +15,7 @@ import sys
 
 from . import (attio, attribution, audit, dedupe, gates, gmail, ids, learning,
                paths, policy, report, response, scoring, state_machine, store,
-               validate)
+               timezones, validate)
 
 
 def _load_json_arg(value):
@@ -289,7 +289,14 @@ def cmd_send_check(args):
     opp = store.get("opportunities", draft.get("opportunity_id")) if draft.get("opportunity_id") else None
     if not org or not contact:
         sys.exit("organization or contact not found")
-    result = gates.check_send(org, contact, draft, opp, human_approved=args.human_approved)
+    when = None
+    if getattr(args, "now", None):
+        import datetime
+        when = datetime.datetime.fromisoformat(args.now)
+        if when.tzinfo is None:
+            when = when.replace(tzinfo=datetime.timezone.utc)
+    result = gates.check_send(org, contact, draft, opp,
+                              human_approved=args.human_approved, now=when)
     payload = result.to_dict()
     payload["sub_results"] = getattr(result, "sub_results", {})
     audit.record(action="send_gate", agent="outreach", organization=org["organization_id"],
@@ -320,6 +327,49 @@ def cmd_attribution(args):
 def cmd_forecast(args):
     _out(attribution.expected_paid_seats(args.audience,
                                          _load_json_arg(args.overrides)))
+
+
+def cmd_backfill_timezones(args):
+    """Resolve and store the local timezone for every organization."""
+    changed = []
+    for org in store.all("organizations"):
+        name, conf = timezones.resolve(org.get("city"), org.get("state_region"),
+                                       org.get("country") or "US")
+        if org.get("timezone") == name and org.get("timezone_confidence") == conf:
+            continue
+        org["timezone"], org["timezone_confidence"] = name, conf
+        org["updated_at"] = audit.now()
+        store.put("organizations", org, log=False)
+        changed.append({"organization": org["organization_name"],
+                        "timezone": name, "confidence": conf})
+    _out({"updated": len(changed), "organizations": changed})
+
+
+def cmd_send_window(args):
+    """When may this organization be emailed, and is that now."""
+    rows = []
+    orgs = ([store.get("organizations", args.org_id)] if args.org_id
+            else store.all("organizations"))
+    for org in orgs:
+        if not org:
+            sys.exit("no such organization")
+        if args.drafts_only and org.get("state") != "READY_FOR_OUTREACH":
+            continue
+        gate = gates.check_send_window(org)
+        window = gates.send_window(org)
+        here = gates.local_now(org)
+        nxt = gates.next_send_time(org)
+        rows.append({
+            "organization": org["organization_name"],
+            "timezone": window["timezone"],
+            "confidence": window["confidence"],
+            "window_local": "%02d:00-%02d:00" % (window["start_hour"], window["end_hour"]),
+            "their_local_time": here.strftime("%a %H:%M") if here else None,
+            "sendable_now": gate.passed,
+            "blocked_by": [f["check"] for f in gate.failures],
+            "next_send_time_local": nxt.strftime("%a %d %b %H:%M %Z") if nxt else None,
+        })
+    _out(rows)
 
 
 def cmd_report(args):
@@ -449,7 +499,9 @@ def build_parser():
     sp = sub.add_parser("draft-check"); sp.add_argument("json"); sp.set_defaults(func=cmd_draft_check)
     sp = sub.add_parser("gmail-draft"); sp.add_argument("json"); sp.set_defaults(func=cmd_gmail_draft)
     sp = sub.add_parser("send-check"); sp.add_argument("json")
-    sp.add_argument("--human-approved", action="store_true"); sp.set_defaults(func=cmd_send_check)
+    sp.add_argument("--human-approved", action="store_true")
+    sp.add_argument("--now", help="ISO timestamp, to preview the gate at another moment")
+    sp.set_defaults(func=cmd_send_check)
 
     sp = sub.add_parser("response"); sp.add_argument("classification")
     sp.add_argument("--body"); sp.set_defaults(func=cmd_response)
@@ -468,6 +520,10 @@ def build_parser():
     sp.add_argument("value"); sp.add_argument("reason")
     sp.add_argument("--note"); sp.add_argument("--by", default="human")
     sp.set_defaults(func=cmd_suppress)
+
+    sub.add_parser("backfill-timezones").set_defaults(func=cmd_backfill_timezones)
+    sp = sub.add_parser("send-window"); sp.add_argument("org_id", nargs="?")
+    sp.add_argument("--drafts-only", action="store_true"); sp.set_defaults(func=cmd_send_window)
 
     sub.add_parser("validate").set_defaults(func=cmd_validate)
     sp = sub.add_parser("audit"); sp.add_argument("--limit", type=int, default=20)

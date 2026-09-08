@@ -1,6 +1,7 @@
 """The send gate. Nothing leaves unless every sub-gate passes."""
 
 import copy
+import datetime
 import unittest
 
 import helpers
@@ -19,8 +20,13 @@ class SendGateTest(unittest.TestCase):
                           ("opportunities", self.opp)):
             store.put(coll, rec, root=self.root, log=False)
 
+    # A Tuesday at 10:00 in America/Chicago, so the send window is open and the
+    # tests do not depend on what time it happens to be when they run.
+    NOW = datetime.datetime(2026, 9, 8, 15, 0, tzinfo=datetime.timezone.utc)
+
     def _check(self, **kw):
         kw.setdefault("human_approved", True)
+        kw.setdefault("now", self.NOW)
         return gates.check_send(self.org, self.contact, self.draft, self.opp,
                                 root=self.root, **kw)
 
@@ -57,7 +63,8 @@ class SendGateTest(unittest.TestCase):
         self.assertIn("physical_address_set", [f["check"] for f in result.failures])
 
         send = gates.check_send(self.org, self.contact, self.draft, self.opp,
-                                root=self.root, policy_path=path, human_approved=True)
+                                root=self.root, policy_path=path, human_approved=True,
+                                now=self.NOW)
         self.assertIn("opt_out_present", [f["check"] for f in send.failures])
 
     def test_a_sign_off_blocks(self):
@@ -80,7 +87,7 @@ class SendGateTest(unittest.TestCase):
 
     def test_no_human_approval_at_level_zero_blocks(self):
         result = gates.check_send(self.org, self.contact, self.draft, self.opp,
-                                  root=self.root, human_approved=False)
+                                  root=self.root, human_approved=False, now=self.NOW)
         self.assertIn("autonomy_or_human_approval", [f["check"] for f in result.failures])
 
     def test_a_reply_already_received_blocks_further_touches(self):

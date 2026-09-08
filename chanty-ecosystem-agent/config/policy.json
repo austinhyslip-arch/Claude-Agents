@@ -431,5 +431,20 @@
       "join by video call"
     ],
     "travel_budget_exists": false
+  },
+  "send_window": {
+    "_note": "Outreach lands inside the recipient's working day, in their local time, not ours. A message arriving at 5am reads as automated even when a person pressed send. Enforced by gates.check_send_window.",
+    "start_hour_local": 8,
+    "end_hour_local": 17,
+    "weekdays_only": true,
+    "weekdays": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "narrow_hours_when_timezone_estimated": 1,
+    "unknown_timezone_blocks_send": true
   }
 }

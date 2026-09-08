@@ -107,7 +107,8 @@ class PipelineTest(unittest.TestCase):
 
         # And here it stops. Compliance now passes, so the only thing left
         # holding the send is that no human has approved it at level 2.
-        blocked = self.eco("send-check", json.dumps(draft), expect=2)
+        blocked = self.eco("send-check", json.dumps(draft),
+                           "--now", "2026-09-08T15:00:00+00:00", expect=2)
         self.assertFalse(blocked["passed"])
         self.assertEqual(blocked["failures"], ["autonomy_or_human_approval"])
 

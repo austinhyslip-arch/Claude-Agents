@@ -27,6 +27,16 @@ Write it like a person. Short sentences. No preamble about how impressed you are
 No "I hope this finds you well". No three-clause sentences stacked with commas.
 If a sentence would embarrass you to read out loud, cut it.
 
+## Timing
+
+Outreach lands between 08:00 and 17:00 on a weekday in the recipient's local
+time. Check with `eco send-window` before telling anyone a draft is ready to go,
+and say in the handoff when the window opens.
+
+The daily run happens in Austin's morning, which is Central. A chamber in Salem
+is two hours behind that, so a draft written at 8am Central is not sendable to
+Oregon for another two hours. Say so rather than leaving him to work it out.
+
 ## Say the remote thing up front
 
 We join live sessions by video. If the offer is a workshop or an event slot, the

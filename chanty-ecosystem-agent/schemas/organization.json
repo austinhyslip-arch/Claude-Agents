@@ -2,117 +2,548 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Organization",
   "type": "object",
-  "required": ["organization_id", "organization_name", "organization_type", "website", "status", "state", "created_at"],
+  "required": [
+    "organization_id",
+    "organization_name",
+    "organization_type",
+    "website",
+    "status",
+    "state",
+    "created_at"
+  ],
   "additionalProperties": false,
   "properties": {
-    "organization_id": {"type": "string", "pattern": "^ORG-[0-9A-Z]{8}$"},
-    "organization_name": {"type": "string", "minLength": 2},
-    "organization_type": {"type": "string"},
-    "taxonomy_group": {"type": ["string", "null"], "enum": ["smb_ecosystem", "professional_vertical", "technology", "influence", "scaled", null]},
-    "parent_organization": {"type": ["string", "null"]},
-    "chapter": {"type": ["string", "null"]},
-    "website": {"type": ["string", "null"]},
-    "domain": {"type": ["string", "null"]},
-    "linkedin": {"type": ["string", "null"]},
-    "city": {"type": ["string", "null"]},
-    "state_region": {"type": ["string", "null"]},
-    "country": {"type": ["string", "null"]},
-    "national_or_local": {"type": ["string", "null"], "enum": ["national", "state", "regional", "local", "international", null]},
-    "status": {"type": "string", "enum": ["active", "inactive", "defunct", "unverified"]},
-
-    "audience_description": {"type": ["string", "null"]},
-    "audience_size": {"type": ["number", "null"]},
-    "audience_size_type": {"type": ["string", "null"], "enum": ["members", "businesses", "subscribers", "clients", "attendees", "followers", null]},
-    "audience_confidence": {"type": ["string", "null"], "enum": ["KNOWN_FACT", "ESTIMATE", "UNKNOWN", null]},
-    "typical_company_size": {"type": ["string", "null"]},
-    "industries": {"type": "array", "items": {"type": "string"}},
-    "geography": {"type": ["string", "null"]},
-    "smb_fit": {"type": ["string", "null"], "enum": ["high", "medium", "low", "unknown", null]},
-    "communication_intensity": {"type": ["string", "null"], "enum": ["high", "medium", "low", "unknown", null]},
-
+    "organization_id": {
+      "type": "string",
+      "pattern": "^ORG-[0-9A-Z]{8}$"
+    },
+    "organization_name": {
+      "type": "string",
+      "minLength": 2
+    },
+    "organization_type": {
+      "type": "string"
+    },
+    "taxonomy_group": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "smb_ecosystem",
+        "professional_vertical",
+        "technology",
+        "influence",
+        "scaled",
+        null
+      ]
+    },
+    "parent_organization": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "chapter": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "website": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "domain": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "linkedin": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "city": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "state_region": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "country": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "national_or_local": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "national",
+        "state",
+        "regional",
+        "local",
+        "international",
+        null
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "defunct",
+        "unverified"
+      ]
+    },
+    "audience_description": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "audience_size": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "audience_size_type": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "members",
+        "businesses",
+        "subscribers",
+        "clients",
+        "attendees",
+        "followers",
+        null
+      ]
+    },
+    "audience_confidence": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "KNOWN_FACT",
+        "ESTIMATE",
+        "UNKNOWN",
+        null
+      ]
+    },
+    "typical_company_size": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "industries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "geography": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "smb_fit": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "unknown",
+        null
+      ]
+    },
+    "communication_intensity": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "unknown",
+        null
+      ]
+    },
     "distribution": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "newsletter": {"$ref": "#/definitions/mechanism"},
-        "email": {"$ref": "#/definitions/mechanism"},
-        "webinars": {"$ref": "#/definitions/mechanism"},
-        "workshops": {"$ref": "#/definitions/mechanism"},
-        "events": {"$ref": "#/definitions/mechanism"},
-        "community": {"$ref": "#/definitions/mechanism"},
-        "directory": {"$ref": "#/definitions/mechanism"},
-        "member_portal": {"$ref": "#/definitions/mechanism"},
-        "social": {"$ref": "#/definitions/mechanism"},
-        "sponsorships": {"$ref": "#/definitions/mechanism"},
-        "member_benefits": {"$ref": "#/definitions/mechanism"},
-        "referral_program": {"$ref": "#/definitions/mechanism"},
-        "technology_partnerships": {"$ref": "#/definitions/mechanism"}
+        "newsletter": {
+          "$ref": "#/definitions/mechanism"
+        },
+        "email": {
+          "$ref": "#/definitions/mechanism"
+        },
+        "webinars": {
+          "$ref": "#/definitions/mechanism"
+        },
+        "workshops": {
+          "$ref": "#/definitions/mechanism"
+        },
+        "events": {
+          "$ref": "#/definitions/mechanism"
+        },
+        "community": {
+          "$ref": "#/definitions/mechanism"
+        },
+        "directory": {
+          "$ref": "#/definitions/mechanism"
+        },
+        "member_portal": {
+          "$ref": "#/definitions/mechanism"
+        },
+        "social": {
+          "$ref": "#/definitions/mechanism"
+        },
+        "sponsorships": {
+          "$ref": "#/definitions/mechanism"
+        },
+        "member_benefits": {
+          "$ref": "#/definitions/mechanism"
+        },
+        "referral_program": {
+          "$ref": "#/definitions/mechanism"
+        },
+        "technology_partnerships": {
+          "$ref": "#/definitions/mechanism"
+        }
       }
     },
-
-    "organization_score": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
-    "score_breakdown": {"type": ["object", "null"]},
-    "priority_band": {"type": ["string", "null"], "enum": ["STRATEGIC", "TIER_1", "TIER_2", "NURTURE", "ARCHIVE", null]},
-    "recent_trigger": {"type": ["string", "null"]},
-    "trigger_date": {"type": ["string", "null"]},
-    "trigger_source": {"type": ["string", "null"]},
-    "recommended_offer": {"type": ["string", "null"]},
-    "research_confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
-    "evidence": {"type": "array", "items": {"$ref": "#/definitions/evidence"}},
-    "last_researched": {"type": ["string", "null"]},
-    "next_research": {"type": ["string", "null"]},
-
-    "primary_contact": {"type": ["string", "null"]},
-    "secondary_contact": {"type": ["string", "null"]},
-    "contact_status": {"type": ["string", "null"]},
-    "outreach_status": {"type": ["string", "null"]},
-    "partnership_stage": {"type": ["string", "null"]},
-    "partner_tier": {"type": ["string", "null"], "enum": ["A", "B", "C", "D", null]},
-    "owner": {"type": ["string", "null"]},
-    "last_interaction": {"type": ["string", "null"]},
-    "next_action": {"type": ["string", "null"]},
-
-    "attribution_id": {"type": ["string", "null"]},
-    "trials": {"type": "number"},
-    "paid_accounts": {"type": "number"},
-    "seats": {"type": "number"},
-    "mrr": {"type": "number"},
-    "arr": {"type": "number"},
-    "assisted_revenue": {"type": "number"},
-
-    "state": {"type": "string"},
-    "state_history": {"type": "array", "items": {"type": "object"}},
-    "qualification": {"type": ["object", "null"]},
-    "contradictions": {"type": "array", "items": {"type": "string"}},
-    "attio_record_id": {"type": ["string", "null"]},
-    "created_at": {"type": "string"},
-    "updated_at": {"type": ["string", "null"]},
-    "source": {"type": ["string", "null"]},
-    "notes": {"type": ["string", "null"]}
+    "organization_score": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "score_breakdown": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "priority_band": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "STRATEGIC",
+        "TIER_1",
+        "TIER_2",
+        "NURTURE",
+        "ARCHIVE",
+        null
+      ]
+    },
+    "recent_trigger": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "trigger_date": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "trigger_source": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "recommended_offer": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "research_confidence": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/evidence"
+      }
+    },
+    "last_researched": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "next_research": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "primary_contact": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "secondary_contact": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "contact_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "outreach_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "partnership_stage": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "partner_tier": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D",
+        null
+      ]
+    },
+    "owner": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "last_interaction": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "next_action": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "attribution_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "trials": {
+      "type": "number"
+    },
+    "paid_accounts": {
+      "type": "number"
+    },
+    "seats": {
+      "type": "number"
+    },
+    "mrr": {
+      "type": "number"
+    },
+    "arr": {
+      "type": "number"
+    },
+    "assisted_revenue": {
+      "type": "number"
+    },
+    "state": {
+      "type": "string"
+    },
+    "state_history": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "qualification": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "contradictions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "attio_record_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "timezone": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "IANA name, e.g. America/Chicago"
+    },
+    "timezone_confidence": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "KNOWN_FACT",
+        "ESTIMATE",
+        "UNKNOWN",
+        null
+      ]
+    }
   },
   "definitions": {
     "mechanism": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["present"],
+      "required": [
+        "present"
+      ],
       "properties": {
-        "present": {"type": "boolean"},
-        "confidence": {"type": "string", "enum": ["KNOWN_FACT", "ESTIMATE", "UNKNOWN"]},
-        "detail": {"type": ["string", "null"]},
-        "source_url": {"type": ["string", "null"]}
+        "present": {
+          "type": "boolean"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "KNOWN_FACT",
+            "ESTIMATE",
+            "UNKNOWN"
+          ]
+        },
+        "detail": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       }
     },
     "evidence": {
       "type": "object",
-      "required": ["claim", "source_type", "source_url", "date_checked", "confidence"],
+      "required": [
+        "claim",
+        "source_type",
+        "source_url",
+        "date_checked",
+        "confidence"
+      ],
       "additionalProperties": false,
       "properties": {
-        "claim": {"type": "string"},
-        "source": {"type": ["string", "null"]},
-        "source_type": {"type": "string", "enum": ["A", "B", "C", "D"]},
-        "source_url": {"type": "string"},
-        "date_checked": {"type": "string"},
-        "confidence": {"type": "string", "enum": ["KNOWN_FACT", "ESTIMATE", "UNKNOWN"]}
+        "claim": {
+          "type": "string"
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ]
+        },
+        "source_url": {
+          "type": "string"
+        },
+        "date_checked": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "KNOWN_FACT",
+            "ESTIMATE",
+            "UNKNOWN"
+          ]
+        }
       }
     }
   }

@@ -105,6 +105,23 @@ Applies to the workshop and event participation offers. It does not apply to
 written resources or co-branded content, which have no delivery format to
 disclose.
 
+## When outreach may be sent
+
+Between 08:00 and 17:00 on a weekday, **in the recipient's local time**, not
+ours. A message landing at 5am reads as automated even when a person pressed
+send, and it is a discourteous way to introduce yourself.
+
+Every organization record carries an IANA timezone, resolved from its city and
+state when the record is created. Where the state spans two zones and the city
+is not in the override table, the zone is an ESTIMATE and the window narrows to
+09:00-16:00, so an hour of error cannot push a message outside their day.
+
+An organization with no resolvable timezone cannot be emailed. The gate blocks
+rather than picking something plausible.
+
+`eco send-window --drafts-only` lists every ready draft with its window, the
+recipient's current local time, and the next moment it may go out.
+
 ## Email format
 
 Plain text. Gmail supplies the signature and the formatting, so the draft

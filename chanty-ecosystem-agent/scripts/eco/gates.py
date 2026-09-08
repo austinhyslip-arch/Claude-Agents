@@ -12,8 +12,9 @@ no check errored. Absence of evidence is a failure, not a pass.
 
 import datetime
 import re
+from zoneinfo import ZoneInfo
 
-from . import policy, store
+from . import policy, store, timezones
 
 # Patterns that indicate a constructed rather than discovered address. These
 # catch the common mechanical forms; the real defence is that a contact record
@@ -364,6 +365,101 @@ def check_delivery_disclosure(body, offer, policy_path=None):
           "a %r offer must say we join remotely" % offer)
     return g
 
+
+# --------------------------------------------------------------------------
+# 4d. Send window
+# --------------------------------------------------------------------------
+
+def organization_timezone(organization):
+    """The organization's zone, from the record if stored, resolved if not."""
+    name = organization.get("timezone")
+    if name:
+        return name, organization.get("timezone_confidence") or "KNOWN_FACT"
+    return timezones.resolve(organization.get("city"), organization.get("state_region"),
+                             organization.get("country") or "US")
+
+
+def send_window(organization, policy_path=None):
+    """The hours this organization may be emailed, in their local time.
+
+    An estimated timezone narrows the window on both sides, so an hour of error
+    in the zone cannot put a message outside the recipient's day.
+    """
+    cfg = policy.get("send_window", {}, path=policy_path)
+    name, confidence = organization_timezone(organization)
+    start = cfg.get("start_hour_local", 8)
+    end = cfg.get("end_hour_local", 17)
+    if confidence == "ESTIMATE":
+        pad = cfg.get("narrow_hours_when_timezone_estimated", 1)
+        start, end = start + pad, end - pad
+    return {"timezone": name, "confidence": confidence,
+            "start_hour": start, "end_hour": end,
+            "weekdays_only": cfg.get("weekdays_only", True)}
+
+
+def local_now(organization, now=None):
+    name, _ = organization_timezone(organization)
+    if not name:
+        return None
+    now = now or datetime.datetime.now(datetime.timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=datetime.timezone.utc)
+    try:
+        return now.astimezone(ZoneInfo(name))
+    except Exception:
+        return None
+
+
+def check_send_window(organization, now=None, policy_path=None):
+    """Block a send that would land outside the recipient's working day."""
+    g = GateResult("send_window")
+    cfg = policy.get("send_window", {}, path=policy_path)
+    window = send_window(organization, policy_path=policy_path)
+
+    if not window["timezone"]:
+        g.add("timezone_known", not cfg.get("unknown_timezone_blocks_send", True),
+              "no timezone for %s, %s; cannot tell when their working day is"
+              % (organization.get("city"), organization.get("state_region")))
+        return g
+    g.add("timezone_known", True, "%s (%s)" % (window["timezone"], window["confidence"]))
+
+    here = local_now(organization, now)
+    if here is None:
+        g.add("local_time_resolvable", False, window["timezone"])
+        return g
+
+    if window["weekdays_only"]:
+        g.add("is_a_weekday", here.weekday() in cfg.get("weekdays", [0, 1, 2, 3, 4]),
+              "local day is %s" % here.strftime("%A"))
+
+    g.add("within_business_hours",
+          window["start_hour"] <= here.hour < window["end_hour"],
+          "local time is %s, window is %02d:00-%02d:00"
+          % (here.strftime("%H:%M"), window["start_hour"], window["end_hour"]))
+    return g
+
+
+def next_send_time(organization, now=None, policy_path=None):
+    """The next moment this organization may be emailed, in their local time."""
+    window = send_window(organization, policy_path=policy_path)
+    if not window["timezone"]:
+        return None
+    here = local_now(organization, now)
+    if here is None:
+        return None
+    cfg = policy.get("send_window", {}, path=policy_path)
+    days = cfg.get("weekdays", [0, 1, 2, 3, 4])
+    candidate = here
+    for _ in range(14):
+        ok_day = (not window["weekdays_only"]) or candidate.weekday() in days
+        if ok_day and candidate.hour < window["start_hour"]:
+            return candidate.replace(hour=window["start_hour"], minute=0, second=0, microsecond=0)
+        if ok_day and window["start_hour"] <= candidate.hour < window["end_hour"]:
+            return candidate
+        candidate = (candidate + datetime.timedelta(days=1)).replace(
+            hour=0, minute=0, second=0, microsecond=0)
+    return None
+
 # --------------------------------------------------------------------------
 # 5. Send gate
 # --------------------------------------------------------------------------
@@ -458,6 +554,7 @@ def check_send(organization, contact, draft, opportunity=None, root=None,
         "format": check_format(draft.get("body"), policy_path=policy_path),
         "delivery_disclosure": check_delivery_disclosure(draft.get("body"), draft.get("offer"),
                                                          policy_path=policy_path),
+        "send_window": check_send_window(organization, now=now, policy_path=policy_path),
     }
     for name, result in sub.items():
         g.add(name, result.passed, ", ".join(c["check"] for c in result.failures))

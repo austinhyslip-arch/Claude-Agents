@@ -43,3 +43,9 @@ The deterministic half of each command is the `eco` CLI:
     suppress        write a suppression record
     validate        revalidate every record against its schema
     audit           tail the audit log
+
+Two commands added after the first pilot run:
+
+    backfill-timezones  resolve and store each organization's local timezone
+    send-window         when may an organization be emailed, and is that now
+                        (--drafts-only for the ready queue)
