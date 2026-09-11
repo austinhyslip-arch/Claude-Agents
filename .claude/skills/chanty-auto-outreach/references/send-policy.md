@@ -20,10 +20,15 @@ An unknown time zone is held, never guessed from an area code.
 
 Sixty evenly spaced sends is a machine signature. Both blocks go out in **batches**.
 
-| Block | Batches | Per batch | Gap between batches |
+One batch per hourly wake, since the scheduler fires hourly and the agent works out which
+accounts are inside a window from their own time zone.
+
+| Block | Local wakes | Batches | Per batch at full ramp |
 |---|---|---|---|
-| Morning, 240 min | 6 | 5 | 30 to 50 min, randomized |
-| Afternoon, 180 min | 6 | 5 | 20 to 40 min, randomized |
+| Morning, 08:00 to 12:00 | 08, 09, 10, 11 | 4 | 7 to 8 |
+| Afternoon, 13:00 to 16:00 | 13, 14, 15 | 3 | 10 |
+
+Within a wake, spread the batch across the hour rather than firing it on arrival.
 
 Rules that keep it from reading as automated:
 
