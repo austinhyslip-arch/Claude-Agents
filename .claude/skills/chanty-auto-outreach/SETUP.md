@@ -28,24 +28,35 @@ have to shift with it.
 stop at 3pm. Not a disaster, but it is an hour outside the window Austin set, so the run
 summary should flag the drift rather than quietly running early.
 
-## The connector problem, and it is a blocker
+## The Routines, and what Austin has to do to them
 
-**Routines created from inside a Claude Code session cannot carry connectors on this
-account.** Passing a `connectors` list is rejected outright, and creating one without it
-produces a Routine whose fired sessions have no Attio, no Apollo, no Gmail. It would wake up
-every hour, be unable to read the CRM or send anything, and email nothing useful.
+Both exist, both carry the right cron and prompt, and **both are disabled**. They are
+disabled because a Routine created from inside a Claude Code session cannot be given
+connectors on this account. Passing a `connectors` list is refused outright, and one created
+without it fires sessions with no Attio, no Apollo and no Gmail. It would wake up, be unable
+to read the CRM or send anything, and email noise.
 
-A sourcing Routine was created this way on 2026-09-11 to test it, confirmed the problem, and
-was **disabled rather than left to fire broken**:
+| Routine | Trigger id | Cron (UTC, CDT) |
+|---|---|---|
+| Chanty Auto-Outreach: send and sweep | `trig_01XMfzADU5cE6hvjfVvWDzpf` | `0 14-16,18-20 * * 1-5` |
+| Chanty Auto-Outreach: weekly sourcing | `trig_019udqANGyH3fhh3Aq86RNEZ` | `0 13 * * 1` |
 
-- `trig_019udqANGyH3fhh3Aq86RNEZ`, "Chanty Auto-Outreach: weekly sourcing (DISABLED, no connectors)"
+**Austin's three steps, in the claude.ai Routines UI:**
 
-**Both Routines have to be created in the claude.ai Routines UI instead**, where connectors
-can be attached. Attach Attio, Apollo, Gmail and Google Calendar, and Clay if the credit
-waterfall is ever wanted. The prompts below are the ones to paste in.
+1. Open each Routine and attach the connectors: **Attio, Apollo, Gmail, Google Calendar**,
+   and Clay if the paid waterfall is ever wanted.
+2. Enable both.
+3. Delete the leftover test Routine, `trig_013ngKiZ3Ggg7kMEopVyjVqG`, "TEST self-bind
+   connector check (DISABLED, delete me)". It was a check on whether a Routine firing back
+   into a live session inherits that session's connectors. The answer was not clear, so it
+   was disabled rather than relied on. Deleting it from here was blocked by a permission
+   rule.
 
-Delete or re-enable the disabled Routine once the UI versions exist. Leaving both enabled
-would double-source every Monday.
+Nothing sends until step 2. The queue is empty as well, so the first real sends come after
+the first sourcing run.
+
+The prompts stored on both Routines are below, for reference and for rebuilding them by hand
+if they are ever lost.
 
 ### Prompt, send and sweep
 
