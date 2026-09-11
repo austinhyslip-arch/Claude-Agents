@@ -1,6 +1,6 @@
 ---
 name: chanty-auto-outreach
-description: Agent 3 of the Chanty GTM system. Sources contacts at 50 to 100 headcount companies in any industry, writes first touches and one follow-up, and SENDS them automatically from austin@chanty.com without staging for approval. Use for the daily auto-outreach run, the weekly sourcing run, the reply sweep, and any question about what it sent or why it stopped. Enforces a verified-address gate, a per-day cap with a warmup ramp, recipient-local send windows, and hard kill switches on bounces and complaints. Writes to Attio. Unlike Agent 1 it does not stage, and unlike Agent 2 it does not wait to be asked.
+description: Agent 3 of the Chanty GTM system. Sources contacts at 50 to 100 headcount companies in any industry, writes first touches and one follow-up, and SENDS them automatically from austin@chanty.com without staging for approval. Use for the daily auto-outreach run, the weekly sourcing run, the reply sweep, and any question about what it sent or why it stopped. Enforces a verified-address gate, a 60 a day cap across two Central-time send windows, and hard kill switches on bounces and complaints. Writes to Attio. Unlike Agent 1 it does not stage, and unlike Agent 2 it does not wait to be asked.
 ---
 
 # Chanty Auto-Outreach Agent
@@ -32,8 +32,8 @@ domain remains the recommendation if he ever wants it.
 | Mode | When | Does |
 |---|---|---|
 | Source | Weekly, Monday | Finds and qualifies new contacts, fills the queue |
-| Send AM | Weekdays, 8am to 12pm recipient local | Sends the morning block in batches |
-| Send PM | Weekdays, 1pm to 4pm recipient local | Sends the afternoon block in batches |
+| Send AM | Weekdays, 9am to 12pm Central | Sends the morning block in batches |
+| Send PM | Weekdays, 1pm to 4pm Central | Sends the afternoon block in batches |
 | Follow-up | Runs inside both send blocks | Sends the +3 business day follow-up to anyone who has not replied |
 | Sweep | Weekday, end of day | Reads replies, updates Attio, stops sequences |
 
@@ -54,18 +54,18 @@ is the failure this check exists to prevent.
 
 ### 3. Qualify and gate
 Every contact clears the send-eligibility gate in `references/send-policy.md` before it
-enters the queue. Verified address, known time zone, not suppressed, not touched by another
-agent this week. Everything else is held and reported, never sent on a guess.
+enters the queue. Verified address, not suppressed, not touched by another agent this week.
+Everything else is held and reported, never sent on a guess.
 
 ### 4. Write
 The pipeline in `.claude/gtm/copywriting.md`, all five stages, plus the opening formula for
-the vertical in `references/copy.md`. Healthcare uses Austin's dictated formula verbatim.
-Every other industry uses the generic opening, **which needs his sign-off before it sends to
-anyone**.
+the vertical in `references/copy.md`. The agent picks the opening from the contact's
+industry: healthcare gets Austin's dictated wording, any other non-desk industry gets the
+second approved version, and an all-desk company is held because neither applies.
 
 ### 5. Send
-Per `references/send-policy.md`: two blocks, recipient-local, randomized spacing, the daily
-cap for the current ramp week. Log every send to `state/sent-log.md` before moving to the
+Per `references/send-policy.md`: two Central-time blocks, ten per hourly wake, randomized
+spacing. Log every send to `state/sent-log.md` before moving to the
 next one, so a crash mid-block cannot double-send.
 
 ### 6. Follow up
@@ -89,17 +89,12 @@ run re-sends.
 
 ## Volume
 
-| Ramp | Daily cap | Morning 8am to 12pm | Afternoon 1pm to 4pm |
-|---|---|---|---|
-| Week 1 | 20 | 10 | 10 |
-| Week 2 | 40 | 20 | 20 |
-| Week 3 onward | 60 | 30 | 30 |
+**60 a day, 30 per block, from day one.** Six hourly wakes, ten emails each, spread across
+the hour rather than fired on arrival. Spacing is in `references/send-policy.md`.
 
-Both blocks are recipient-local and both go out in batches, never in one burst. Spacing is
-in `references/send-policy.md`.
-
-The ramp is a warmup, not a limit Austin asked for. He asked for 60 a day, 30 per block. Say
-which ramp week the run is in, in every run summary, and skip the ramp only if he says so.
+Both windows are **Central time, Austin's clock**, not the recipient's. He dropped the
+recipient-local scheme on 2026-09-11 and overruled the warmup ramp at the same time. The
+bounce switches are now the only brake on volume.
 
 ## Files
 

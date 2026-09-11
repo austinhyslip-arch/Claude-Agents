@@ -2,32 +2,31 @@
 
 ## Scheduling
 
-"Start at 8am in the recipient's local time zone" cannot be encoded in cron, because cron is
-UTC and 8am local is four different UTC hours that both shift at daylight saving. Writing one
-Routine per zone means eight Routines that all break twice a year.
-
-So the schedule is deliberately dumb and the agent is smart. **One hourly Routine.** At each
-firing the agent reads each queued contact's time zone, works out the local hour, and sends
-the batch for any contact currently sitting at 08:00 to 12:00 or 13:00 to 16:00 local. A
-contact whose local time is outside both windows is simply not sent to on that wake.
-
-That makes daylight saving a non-event. Nothing in the cron encodes a local time, so nothing
-needs changing in March or November.
+Austin set the windows to **his own clock** on 2026-09-11: 9am to 12pm and 1pm to 4pm
+Central, weekdays, regardless of where the recipient is. Six hourly wakes, ten emails each,
+60 a day.
 
 ### The two Routines
 
-| Routine | Cron (UTC) | Covers |
+| Routine | Cron (UTC), while Central is on CDT | Covers |
 |---|---|---|
-| Send and sweep | `0 12-23 * * 1-5` | 08:00 ET through 16:00 PT while the US is on daylight time |
-| Weekly sourcing | `0 11 * * 1` | Monday, before the first send window opens |
+| Send and sweep | `0 14-16,18-20 * * 1-5` | 09, 10, 11 and 13, 14, 15 Central |
+| Weekly sourcing | `0 13 * * 1` | Monday 8am Central, an hour before the first send |
 
-The send window runs 12:00 to 23:00 UTC because 08:00 Eastern is 12:00 UTC and 16:00 Pacific
-is 23:00 UTC during daylight time. On standard time everything shifts an hour later, so the
-last Pacific batch lands at 15:00 local instead of 16:00. Still inside the window, so it is
-left alone rather than papered over with a second cron crossing midnight.
+### Daylight saving needs a diary note
 
-Sourcing runs at 11:00 UTC Monday, one hour before the first send wake, so the queue is full
-before anything goes out.
+Dropping the recipient-local scheme made the agent simpler and the cron fragile, because now
+the cron is the only thing that knows what time it is. Central shifts and these expressions
+have to shift with it.
+
+| Period | Central | Send cron | Sourcing cron |
+|---|---|---|---|
+| CDT, to Nov 1 2026 | UTC-5 | `0 14-16,18-20 * * 1-5` | `0 13 * * 1` |
+| CST, Nov 1 2026 to Mar 14 2027 | UTC-6 | `0 15-17,19-21 * * 1-5` | `0 14 * * 1` |
+
+**Next switch: Nov 1, 2026.** Left alone, the agent would start sending at 8am Central and
+stop at 3pm. Not a disaster, but it is an hour outside the window Austin set, so the run
+summary should flag the drift rather than quietly running early.
 
 ## The connector problem, and it is a blocker
 
@@ -61,9 +60,9 @@ file where they overlap.
 Check the kill switches in references/send-policy.md before anything else. If one is
 tripped, send nothing, email Austin at austin@chanty.com, and stop.
 
-Work out the local hour for each queued contact from their time zone. Send only to
-contacts currently inside 08:00 to 12:00 or 13:00 to 16:00 local, on a weekday. Send one
-batch, sized for the current ramp week, spread across the hour rather than all at once.
+Send during 09:00 to 12:00 and 13:00 to 16:00 Central, weekdays only. The recipient's own
+time zone does not gate sending; it is used only to put a labelled time in the meeting ask. Send one batch
+of ten, spread across the hour rather than all at once.
 Every email clears the full send-eligibility gate first. Log each send to
 state/sent-log.md before moving to the next recipient.
 
@@ -87,8 +86,9 @@ ask before spending a credit.
 ## Before the first real send
 
 1. **Create both Routines in the UI** with connectors attached.
-2. **Confirm the ramp.** Week one is 20 a day, not 60. Austin asked for 60 from day one and
-   can overrule this, but the mailbox has never sent cold volume from this agent.
+2. **Know that there is no ramp.** Austin overruled it on 2026-09-11 after being told what
+   it was for. 60 a day from the first day, on his working mailbox. The bounce switches are
+   the only brake left.
 3. **Check the warmup service is still running.** It is what is keeping the domain warm
    alongside this, and the reply filter depends on recognising its traffic.
 4. **Watch the first three days.** The 2% early trip exists because a manual batch of about

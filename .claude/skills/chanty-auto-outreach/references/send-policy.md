@@ -6,29 +6,38 @@ past a gate.
 
 ## Windows
 
-Both blocks are in the **recipient's local time zone**, weekdays only, never on a US federal
-holiday.
+Set by Austin on 2026-09-11, replacing the recipient-local scheme. **One clock, his.**
+America/Chicago, weekdays only, never on a US federal holiday.
 
-| Block | Window | Volume at full ramp |
+| Block | Window, Central | Volume |
 |---|---|---|
-| Morning | 08:00 to 12:00 | 30 |
+| Morning | 09:00 to 12:00 | 30 |
 | Afternoon | 13:00 to 16:00 | 30 |
 
-An unknown time zone is held, never guessed from an area code.
+The recipient's time zone no longer gates sending, and an unknown time zone no longer holds
+a contact.
+
+It still matters for one thing: the meeting ask names a specific time, and that time should
+be in the reader's zone where it is known. Where it is not known, name the time in Central
+and say so, "10am Central". Never state a time with no zone attached and never guess a zone
+from an area code.
+
+Worth knowing what this trades away. A 9am Central send lands at 7am on the West Coast and
+10am on the East, so some of the volume arrives before the reader's day starts. That is
+Austin's call and it buys a much simpler schedule.
 
 ## Batching and spacing
 
 Sixty evenly spaced sends is a machine signature. Both blocks go out in **batches**.
 
-One batch per hourly wake, since the scheduler fires hourly and the agent works out which
-accounts are inside a window from their own time zone.
+One batch per hourly wake. Six wakes a day, six batches, ten emails each.
 
-| Block | Local wakes | Batches | Per batch at full ramp |
+| Block | Wakes, Central | Batches | Per batch |
 |---|---|---|---|
-| Morning, 08:00 to 12:00 | 08, 09, 10, 11 | 4 | 7 to 8 |
+| Morning, 09:00 to 12:00 | 09, 10, 11 | 3 | 10 |
 | Afternoon, 13:00 to 16:00 | 13, 14, 15 | 3 | 10 |
 
-Within a wake, spread the batch across the hour rather than firing it on arrival.
+Within a wake, spread the ten across the hour rather than firing them on arrival.
 
 Rules that keep it from reading as automated:
 
@@ -42,16 +51,16 @@ Rules that keep it from reading as automated:
   a tell.
 - Never start the first batch at the top of the window. Start 3 to 20 minutes in.
 
-## Ramp
+## Volume
 
-| Week | Daily cap | Per block |
-|---|---|---|
-| 1 | 20 | 10 |
-| 2 | 40 | 20 |
-| 3 onward | 60 | 30 |
+**60 a day from day one, 30 per block.** Austin overruled the warmup ramp on 2026-09-11,
+having been told what it was for. There is no ramp.
 
-Austin asked for 60 a day from day one. The ramp is a warmup on a mailbox that has never
-sent cold volume, and it protects the address he actually works from. He can overrule it.
+The reason it was proposed still stands and is now a risk rather than a safeguard: this is
+his working mailbox, the domain carries his real business mail, and 60 cold sends a day from
+a standing start is a lot for an address with no cold-send history of its own. The warmup
+service running alongside helps. The bounce switches below are now the only brake, so they
+matter more, not less.
 
 ## Send-eligibility gate
 
@@ -62,12 +71,13 @@ Every box, every email, every time.
       finding one, per `.claude/gtm/sourcing-and-credits.md`.
 - [ ] Recipient is not in `state/suppression.md`
 - [ ] Recipient has never bounced
-- [ ] Time zone known, and the slot falls inside a window on a weekday
+- [ ] The send falls inside a window on a weekday, Central
 - [ ] Nobody else at this company has been emailed by any agent in the last 7 days
 - [ ] This person has not been emailed by any agent in the last 14 days
 - [ ] Draft cleared all five copywriting stages and the vertical's opening formula
 - [ ] Subject line 10 words or fewer
-- [ ] CTA is a direct meeting ask with a specific time in the recipient's local time
+- [ ] CTA is a direct meeting ask with a specific time, carrying a time zone. The reader's
+      zone where it is known, Central and labelled where it is not
 - [ ] No named competitor anywhere in the body
 - [ ] The opening matches the contact's industry, per `copy.md`. An all-desk company fits
       neither approved reason and is held rather than sent
@@ -132,8 +142,9 @@ So verification is not a formality here:
 - Nothing sends to an address that has not cleared the gate below. `extrapolated`, `guessed`
   and catch-all all fail, whatever a provider says.
 - Prefer a published address over a provider-supplied one, every time.
-- On the first three days at any ramp level, stop and report if the bounce rate on the
-  agent's own sends exceeds 2%, rather than waiting for the 3% switch.
+- On the first three days of sending, stop and report if the bounce rate on the agent's own
+  sends exceeds 2%, rather than waiting for the 3% switch. With no ramp, these three days
+  are the only early warning there is.
 - A bounce is logged against the source that supplied the address, so a provider producing
   bad addresses becomes visible rather than being averaged away.
 
@@ -145,7 +156,7 @@ sending, not just the offending contact, and stays tripped until Austin clears i
 | Trip | Threshold | Action |
 |---|---|---|
 | Bounce rate | over 3% of the trailing 100 of **this agent's own** sends | Halt everything, report |
-| Bounce rate, first 3 days at a new ramp level | over 2% | Stop and report before the 3% switch |
+| Bounce rate, first 3 days of sending | over 2% | Stop and report before the 3% switch |
 | Hard bounce | any single one | Suppress that address permanently, keep sending |
 | Spam complaint | any, ever | Halt everything, report immediately |
 | Opt-out request | any, however worded | Suppress permanently, pull colleagues from the queue, flag the company |
