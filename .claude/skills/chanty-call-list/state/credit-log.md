@@ -7,4 +7,4 @@ Company-level Apollo lookups only. This agent never enriches a person.
 
 _No credits spent._
 
-Cap is 10 company lookups per run. A run needing more delivers a shorter list instead.
+Cap is 20 company lookups per run. A run needing more delivers a shorter list instead.

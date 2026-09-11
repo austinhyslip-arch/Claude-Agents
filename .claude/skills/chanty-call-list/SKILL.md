@@ -14,10 +14,14 @@ starts looking useful mid-run, it is the wrong agent. Agent 3 does outreach.
 
 ## What it produces
 
-An email to **austin@chanty.com** every morning, with a table of **20 businesses**.
+An email to **austin@chanty.com** every morning, with a table of **50 businesses**. Set by
+Austin on 2026-09-11, up from 20.
 
-Twenty is a number that has not been tested against how many he can actually get through in
-a morning. Say so in the first few run summaries and adjust when he says a number.
+Fifty is a lot of research for one run. Each one needs a headcount read, an independence
+check and a usable main line, and the last two are where candidates die. Expect runs to come
+up short some mornings, and send the short list rather than padding it. Report the number
+found against 50 every time, so if it is consistently landing at 35 that is visible rather
+than quietly absorbed.
 
 | Column | Notes |
 |---|---|
@@ -84,7 +88,7 @@ reveals, no `apollo_people_match`, no Clay contact functions, no personal emails
 dials. Those spend credits on data this agent has no use for.
 
 Apollo company calls still cost credits, so keep them to accounts where free search came up
-short, cap them at 10 a run, and log them. If a run would need more than that, deliver the
+short, cap them at 20 a run, and log them. If a run would need more than that, deliver the
 shorter list and say why.
 
 ## No repeats
@@ -112,10 +116,11 @@ them on this account.
 ## Workflow
 
 1. Read `state/seen-companies.md` and the last run in `state/run-log.md`.
-2. Search until there are 20 that clear the band, the independence check and the phone rule.
+2. Search until there are 50 that clear the band, the independence check and the phone rule,
+   or until the search is genuinely exhausted.
 3. Write them to Attio, dedupe first, companies only.
 4. Build the table and email it to Austin.
-5. Append the 20 to `state/seen-companies.md`, append the run to `state/run-log.md`, commit
+5. Append them to `state/seen-companies.md`, append the run to `state/run-log.md`, commit
    and push.
 
 ## Email
@@ -126,5 +131,5 @@ Short body: the count, anything unusual, and the table inline as simple HTML. In
 than attached, because he reads this on a phone with a coffee and should not have to open a
 file to get a number.
 
-If a run comes up short, send what it has and say how many and why. A list of 12 real
-businesses beats 20 with 8 guesses in it.
+If a run comes up short, send what it has and say how many and why. Thirty real businesses
+with working numbers beats fifty with twenty he cannot call.
