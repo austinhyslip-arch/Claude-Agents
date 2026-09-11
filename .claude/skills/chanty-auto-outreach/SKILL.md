@@ -74,9 +74,14 @@ replied and are not suppressed. One follow-up per contact, ever. No third touch 
 defines one.
 
 ### 7. Sweep and sync
-Classify replies with `handle-reply`. Update Attio per `.claude/gtm/crm-sync.md`, both the
-person and the company, `who_contacted` set to `Agent 3 (auto-send)`. Any reply stops that
-contact's sequence immediately.
+**Filter the warmup traffic out first.** The mailbox runs a warmup service that sends hourly
+and receives templated replies within minutes. A reply counts only when the sender is in this
+agent's own `state/sent-log.md`, per `references/send-policy.md`. Treating a warmup seed as a
+real reply would put fake contacts into the pipeline.
+
+Then classify real replies with `handle-reply`. Update Attio per `.claude/gtm/crm-sync.md`,
+both the person and the company, `who_contacted` set to `Agent 3 (auto-send)`. Any reply
+stops that contact's sequence immediately.
 
 ### 8. Log
 Append the run to `state/run-log.md`. Commit state. An uncommitted sent-log means the next

@@ -76,6 +76,61 @@ defines one, and the agent does not invent one.
 
 Follow-ups come out of the same daily cap. They are not extra.
 
+## The mailbox is not this agent's alone
+
+`austin@chanty.com` carries three streams of outbound, and two of them are not this agent's.
+
+1. **A warmup service.** Runs roughly hourly, subjects ending in `- wbx xxx`, labeled
+   `Label_1`, to seed domains like stashflowpartners.com, xcelltiming.com, advently.net,
+   sprayshoes.com and nichefully.org. Templated replies come back within minutes, often
+   signed with a name that has nothing to do with the recipient.
+2. **Austin's own manual batches**, sent from the same address.
+3. This agent.
+
+Two consequences, both handled below.
+
+### Never read warmup traffic as a reply
+
+A reply counts only when the sender address appears in this agent's own
+`state/sent-log.md`. That whitelist is the rule. Everything below is a second layer in case
+the log is incomplete:
+
+- Ignore anything labeled `Label_1`.
+- Ignore any subject matching `- wbx ` followed by three letters.
+- Ignore anything from a known warmup seed domain.
+- Treat a reply arriving under 10 minutes after the send as suspect and check it by hand.
+
+Marking a warmup seed as `Replied` in Attio would put fake contacts into the pipeline and
+stop a real sequence. Check the whitelist before writing any stage change.
+
+### Count only this agent's own sends
+
+The daily cap, the batch counts and the trailing bounce rate are all computed from
+`state/sent-log.md`, never from the mailbox. Warmup traffic would otherwise inflate the
+volume and dilute the bounce rate into meaninglessness.
+
+The reverse also matters: the cap counts this agent's sends, but total mailbox reputation is
+shared. If Austin runs a manual batch the same day, the real volume on that address is his
+plus the agent's plus the warmup. Report the agent's number and say it is not the whole
+picture.
+
+## List quality comes before volume
+
+A manual batch of about 20 on 2026-09-09 produced at least three hard bounces: an unknown
+recipient at agroliquid.com, an address not found at dsainc.com, and a permanent failure at
+therigy.com. That is over 10% against a 3% kill switch, so a list of that quality halts this
+agent on its first run.
+
+So verification is not a formality here:
+
+- Nothing sends to an address that has not cleared the gate below. `extrapolated`, `guessed`
+  and catch-all all fail, whatever a provider says.
+- Prefer a published address over a provider-supplied one, every time.
+- On the first three days at any ramp level, stop and report if the bounce rate on the
+  agent's own sends exceeds 2%, rather than waiting for the 3% switch.
+- A bounce is logged against the source that supplied the address, so a provider producing
+  bad addresses becomes visible rather than being averaged away.
+
 ## Kill switches
 
 Checked at the start of every run, before anything is sent. A tripped switch halts **all**
@@ -83,7 +138,8 @@ sending, not just the offending contact, and stays tripped until Austin clears i
 
 | Trip | Threshold | Action |
 |---|---|---|
-| Bounce rate | over 3% of the trailing 100 sends | Halt everything, report |
+| Bounce rate | over 3% of the trailing 100 of **this agent's own** sends | Halt everything, report |
+| Bounce rate, first 3 days at a new ramp level | over 2% | Stop and report before the 3% switch |
 | Hard bounce | any single one | Suppress that address permanently, keep sending |
 | Spam complaint | any, ever | Halt everything, report immediately |
 | Opt-out request | any, however worded | Suppress permanently, pull colleagues from the queue, flag the company |
