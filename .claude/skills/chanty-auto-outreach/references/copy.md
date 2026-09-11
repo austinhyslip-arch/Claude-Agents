@@ -3,6 +3,67 @@
 The pipeline and every rule in `.claude/gtm/copywriting.md` applies in full. This file only
 covers what is specific to sending without a human reading it first.
 
+## Subject lines
+
+Set by Austin on 2026-09-11, replacing the lowercase problem-fragment style that produced
+"five sites, one thread". That style is retired.
+
+**Sentence case, plain, no brand.** No "Chanty", no "Chanty.com", no URL. Two to six words,
+ten the hard ceiling. No emoji, no brackets except the parenthetical form below, no fake
+"Re:", no question mark on a statement.
+
+**Named person gets the product category.** It says what the email is, so the reader
+self-selects in a second. At this volume a fast delete from someone who does not care is a
+good outcome.
+
+- Internal team chat
+- Internal team chat for shift teams
+- Team chat that works on a phone
+- Internal comms for non-desk staff
+- HIPAA team chat (healthcare only)
+
+**Role inbox gets a plain question**, because there the agent genuinely is asking to be
+routed and the question is honest rather than a device.
+
+- Who runs internal comms there?
+- Who handles team chat for you?
+- Right person for internal comms?
+
+**Never** the problem-fragment style, which is the one Austin rejected: "five sites, one
+thread", "four offices, one thread", "eight clinics, one manager". Same template with
+different nouns, and it reads like one.
+
+**Never** name a competitor in a subject line or a first touch. The value-prop file marks
+the Slack and Teams comparisons as safe from the reply onward, not before.
+
+**No two emails in the same batch carry the same subject line.** Rotate through the bank.
+
+## The price test
+
+Austin's instruction: try the price in the subject, judge it on reply rate, keep it if it
+works, and **always state the price in the body either way**.
+
+Run it as a straight split, half and half, every day:
+
+| Variant | Subject shape | Example |
+|---|---|---|
+| A, control | category only | Internal team chat |
+| B, price | category plus price | Internal team chat at $3/user |
+
+Rules that keep the result readable:
+
+- Assign the variant randomly per contact, not per batch, per day or per industry.
+  Anything else confounds the result with timing or vertical.
+- Record the variant on the Attio person record and in `state/sent-log.md`. A test nobody
+  can reconstruct later is not a test.
+- **Reply rate is the only metric.** There is no tracking pixel and there never will be, so
+  opens cannot be measured. Do not report open rates, and do not add a pixel to get them.
+- Do not call a winner early. Report the running split in every weekly summary, and say
+  plainly that it means nothing yet until each variant has at least 100 sends. At 200 each
+  the difference is worth acting on, and even then only if it is large.
+- If one variant bounces or draws complaints at a higher rate, that ends the test
+  immediately regardless of replies.
+
 ## No formatting
 
 Plain text. No markdown, no bold, no bullets, no HTML, no signature block, no images and no

@@ -78,7 +78,12 @@ Thursday at 10 your time?" is the shape. Soft asks lose. Banned: "worth a reply?
 learning more?", "is this a priority for you?", "let me know if you'd like info", and any
 CTA that asks the reader to define the next step themselves.
 
-**Subject line.** Three to six words. Ten is the hard ceiling and hitting it means the line
+**Subject line.** Austin confirmed the competitor ban holds in subject lines and first
+touches on 2026-09-11. Agent 3 carries the fuller subject rules in its own `copy.md`:
+sentence case, plain, no brand, product category for a named person and a plain question for
+a role inbox. The problem-fragment style is retired everywhere.
+
+Three to six words. Ten is the hard ceiling and hitting it means the line
 needs another edit. Lowercase or sentence case, not title case. No brackets, no emoji, no
 "Re:" that is not a real reply, no question mark trying to look like a thread.
 
