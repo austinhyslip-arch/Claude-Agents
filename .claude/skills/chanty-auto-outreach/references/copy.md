@@ -72,24 +72,23 @@ as bulk mail.
 
 ## Openings by vertical
 
-**Healthcare** uses Austin's dictated formula word for word, in `.claude/gtm/copywriting.md`.
-It is not paraphrased and not shortened.
+Both versions are approved and live as of 2026-09-11. The full wording is in
+`.claude/gtm/copywriting.md` and it is not paraphrased or shortened here.
 
-**Everything else** uses the generic version below. It follows the same five beats, with the
-compliance claims dropped since HIPAA and a signed BAA mean nothing outside healthcare.
+**The agent picks the opening from the industry.** That is the only choice it makes.
 
-1. "I'm Austin, the co-founder of Chanty."
-2. The reason: "We built it because the big internal communications platforms aren't built
-   for companies whose people are spread across sites and mostly aren't at a desk, and who
-   want something simple and affordable."
-3. One sentence about this specific account, hedged per the rule below.
-4. The value line: "Chanty is team chat and tasks that runs on a phone. Our base plan: no
-   complex builds, no weeks-long integration, and affordable."
-5. The direct meeting ask with a specific time in the recipient's local time zone.
+| Industry | Line 2, the reason | Line 4, the value line |
+|---|---|---|
+| Healthcare | Austin's healthcare wording | five parts, ends BAA signed, HIPAA compliant, and affordable at $3 a user |
+| Plumbing, trucking, distribution, field services, retail, hospitality, anything with a non-desk workforce | the non-desk wording | three parts, ends and affordable at $3 a user |
+| Everyone at a desk all day | neither applies | **hold the contact**, do not invent a third version |
 
-**The generic opening needs Austin's sign-off before it sends to anyone.** He dictated the
-healthcare wording himself. This one was adapted, not dictated, so it is unapproved until
-he says otherwise. Until then the agent sends to healthcare only, or holds.
+The third row matters. An all-desk professional services firm qualifies on headcount and
+fits neither reason, and `icp.md` already calls it a weak fit. Holding it is correct, and
+writing it a reason that is not true about them is not.
+
+The price goes in the body of every email regardless of which subject variant it carries.
+$3 a user is the annual figure. It is $4 billed monthly, so never quote $3 as monthly.
 
 ## Hedging, which matters more here
 

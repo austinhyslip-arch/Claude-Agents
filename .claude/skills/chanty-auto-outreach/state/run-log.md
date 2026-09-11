@@ -22,8 +22,10 @@ Newest first. Every run of every mode, including runs that sent nothing.
 - Austin set: send from austin@chanty.com, 8am to 12pm and 1pm to 4pm recipient local,
   30 per block, batched, one follow-up at three business days, ICP 50 to 100 headcount
   in any industry.
-- Flagged and not resolved: cold volume on his primary domain, the unapproved generic
-  opening for non-healthcare, and no Routines scheduled yet.
+- Flagged and not resolved: cold volume on his primary domain, and no Routines scheduled yet.
+- Resolved 2026-09-11: both openings approved, picked by industry. Subject line pattern set,
+  sentence case and no brand, with a price split test running. Warmup traffic excluded from
+  the reply sweep and from the bounce maths.
 - A sample was sourced by hand to check the copy: Best Brands Inc, Nashville beverage
   distributor, five Tennessee sites. Only a published role inbox available, so it would
   get the routing-note version rather than the full email.

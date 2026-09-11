@@ -51,27 +51,47 @@ listen to him. One specific, sourced sentence still has to answer why her and wh
 email carrying the founder line and nothing specific about the reader is a template, and
 `personalization-playbooks` still decides how much personalization the category earns.
 
-**The healthcare opening, word for word.** Set by Austin on 2026-09-02 as the standing
-formula for this vertical, not just for one draft. Every healthcare first touch opens:
+**The opening, word for word.** Set by Austin on 2026-09-02 and extended on 2026-09-11 to
+cover every vertical. Five beats, and **the agent picks line 2 from the industry**.
 
 1. "I'm Austin, the co-founder of Chanty."
-2. The reason, close to verbatim: "We built it because the big internal communications
-   platforms aren't built for healthcare clinics who need a simple, easy to use platform
-   that's affordable."
+2. The reason. Two approved versions, chosen by industry:
+   - **Healthcare**, close to verbatim: "We built it because the big internal communications
+     platforms aren't built for healthcare clinics who need a simple, easy to use platform
+     that's affordable."
+   - **Every other industry with a non-desk workforce**, plumbing, trucking, distribution,
+     field services, retail, hospitality and the rest: "We built it because the big internal
+     communications platforms aren't built for companies whose people are spread across
+     sites and mostly aren't at a desk, and who want something simple and affordable."
+
+   There is no third version. An account where everyone works at a desk all day fits neither
+   line, and per `icp.md` it is a weak fit anyway, so hold the contact rather than inventing
+   a reason that does not apply to them.
 3. One sentence that reformats to the specific account: their scale, their structure,
    their own signal, whatever `personalization-playbooks` picked for this contact. This is
    the only sourced, personal sentence in the email, and it still has to earn its place.
    It exists to connect the general reason above to this reader, not to repeat either.
-4. The value line, in this order and close to this wording: **no price point stated, say
-   "base plan"**, then no complex builds, no weeks-long integration, a signed BAA, HIPAA
-   compliant, and affordable. Pillar 5 in `value-prop.md` is what backs every claim in it.
+4. The value line, in this order and close to this wording. It says "base plan" rather than
+   naming a tier, and it **ends with the price**, set by Austin on 2026-09-11:
+   - **Healthcare**: "Our base plan: no complex builds, no weeks-long integration, BAA
+     signed, HIPAA compliant, and affordable at $3 a user."
+   - **Every other industry**: "Chanty is team chat and tasks that runs on a phone. Our base
+     plan: no complex builds, no weeks-long integration, and affordable at $3 a user."
+
+   BAA and HIPAA are dropped outside healthcare because they mean nothing there, which is
+   why the non-healthcare line is three parts rather than five. Pillar 5 in `value-prop.md`
+   backs the compliance claims, Pillar 1 backs the price.
 5. The direct meeting ask, per the CTA rule below.
 
-**Deliberate exception to the comma-list rule.** Item 4 is a five-part comma list, which is
-exactly the pattern the pipeline otherwise cuts. Austin dictated this wording specifically,
-so it stands as written for this one claim block and nowhere else. Do not generalize it
-into permission for comma lists elsewhere in the email, and do not soften or shorten
-Austin's own phrasing here without him saying so again.
+**Deliberate exception to the comma-list rule.** Item 4 is a comma list, which is exactly
+the pattern the pipeline otherwise cuts. Austin dictated this wording specifically, so it
+stands as written for this one claim block and nowhere else. Do not generalize it into
+permission for comma lists elsewhere in the email, and do not soften or shorten Austin's own
+phrasing here without him saying so again.
+
+**On the price.** It appears in the body of every email, in this line, whatever the subject
+line test is doing. $3 a user is the annual billing figure from the pricing page, and it is
+$4 paid monthly. Never quote $3 as the monthly price.
 
 **CTA.** Direct meeting ask with a specific time suggested. "Do you have 15 minutes
 Thursday at 10 your time?" is the shape. Soft asks lose. Banned: "worth a reply?", "open to

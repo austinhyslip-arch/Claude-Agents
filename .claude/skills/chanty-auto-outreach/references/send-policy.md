@@ -64,7 +64,8 @@ Every box, every email, every time.
 - [ ] Subject line 10 words or fewer
 - [ ] CTA is a direct meeting ask with a specific time in the recipient's local time
 - [ ] No named competitor anywhere in the body
-- [ ] For a non-healthcare vertical, the generic opening has Austin's sign-off
+- [ ] The opening matches the contact's industry, per `copy.md`. An all-desk company fits
+      neither approved reason and is held rather than sent
 
 ## Follow-up
 
