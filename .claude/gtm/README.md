@@ -10,10 +10,15 @@ version of how credits are spent, how email is written, or how Attio is updated.
 |---|---|---|
 | 1. Outbound GTM Agent | `.claude/skills/chanty-outbound-gtm/` | Built. Healthcare ready to run, other industries blocked on win data. |
 | 2. On-Demand Outreach Drafting | `.claude/skills/outreach-drafting/` | Built. In this repo, and it writes the same Attio people records Agent 1 does. |
+| 3. Auto-Outreach | `.claude/skills/chanty-auto-outreach/` | Built 2026-09-11, not yet running. Sources 50 to 100 headcount in any industry and **sends on its own** from austin@chanty.com. |
 
-The two agents are not independent. Agent 1 sources and stages on its own cadence. Agent 2
-drafts on demand for targets Austin hands it, and he sends those by hand. Same records,
-different method, and `who_contacted` is what tells them apart. Both follow every contract
+The three agents are not independent. Agent 1 sources and stages on its own cadence. Agent 2
+drafts on demand for targets Austin hands it, and he sends those by hand. Agent 3 sources its own band and sends without
+staging. Same records, different methods, and `who_contacted` is what tells them apart:
+`Agent 1 (automated)`, `Austin (manual)`, `Agent 3 (auto-send)`.
+
+**Agent 3 is the one exception to the no-auto-send rule**, granted by Austin on 2026-09-11
+for that agent only. Agents 1 and 2 still never send. Both follow every contract
 below, so where Agent 2's own references and these files disagree, these files win.
 
 `shared/` carries run output between them. Attio is the real handoff since both agents read
