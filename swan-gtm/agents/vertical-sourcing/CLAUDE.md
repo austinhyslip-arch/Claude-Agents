@@ -232,3 +232,49 @@ Write a run log per execution with timestamp, records found per source, records 
 - Under 5 percent duplicate rate against Attio after the first month.
 - Main phone number present on at least 90 percent of pushed records.
 - Zero paid credits consumed.
+
+---
+
+## Routines
+
+Two routines run this agent. Both fire a fresh session and both take cron in UTC only,
+so the Central time they land on shifts with daylight saving.
+
+| Routine | ID | Cron (UTC) | Central (CDT) | Central (CST) |
+|---|---|---|---|---|
+| Vertical sourcing agent, daily run | `trig_01J4LgidixoibrhpvXgrgQtu` | `0 11 * * 1-5` | 6:00am | 5:00am |
+| Vertical sourcing failure alarm, 8:45am | `trig_01BJsetgG9RY7TNtMZ6u1pMR` | `45 13 * * 1-5` | 8:45am | 7:45am |
+
+Both drift an hour earlier under CST, which is the safe direction for the 9:00am
+deadline. To hold them at 6:00am and 8:45am Central through the winter, set
+`0 12 * * 1-5` and `45 14 * * 1-5` on the first Sunday of November, and set them back
+on the second Sunday of March.
+
+### Connectors
+
+Both routines need connectors attached in the claude.ai Routines UI. They cannot be
+set from the scheduling tool on this org.
+
+- Daily run: Gmail, Attio, Apollo.
+- Failure alarm: Gmail only.
+
+Without Gmail the daily run sources accounts and then has nowhere to send the digest,
+and the alarm cannot report the failure.
+
+### What is not scheduled
+
+The 7:00am retry window in the timeline above has no routine behind it. A crashed
+6:00am run is currently caught by the 8:45am alarm and reported, not retried.
+
+### State lives in the repo
+
+The run container is rebuilt on every firing, so nothing written to local disk
+survives to the next morning. `state/seen-entities.md` carries the dedupe memory,
+`state/held-for-review.md` the records the review gate held back, and
+`state/run-log.md` the run history and heartbeat. Every run appends to these and
+pushes them, or the next run starts blind.
+
+The registry caches are the known gap. ASPEP, Census population data and the CISA
+CSV cannot persist between runs as things stand, so they are re-fetched each morning
+rather than refreshed monthly. They are direct downloads and do not touch the Google
+Custom Search quota, so this costs time rather than budget.
