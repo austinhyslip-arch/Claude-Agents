@@ -11,7 +11,7 @@ Central, weekdays, regardless of where the recipient is. Six hourly wakes, ten e
 | Routine | Cron (UTC), while Central is on CDT | Covers |
 |---|---|---|
 | Send and sweep | `0 14-16,18-20 * * 1-5` | 09, 10, 11 and 13, 14, 15 Central |
-| Weekly sourcing | `0 13 * * 1` | Monday 8am Central, an hour before the first send |
+| Weekly sourcing | `0 9 * * 1` | Monday 4am Central, five hours clear of the first send |
 
 ### Daylight saving needs a diary note
 
@@ -21,8 +21,8 @@ have to shift with it.
 
 | Period | Central | Send cron | Sourcing cron |
 |---|---|---|---|
-| CDT, to Nov 1 2026 | UTC-5 | `0 14-16,18-20 * * 1-5` | `0 13 * * 1` |
-| CST, Nov 1 2026 to Mar 14 2027 | UTC-6 | `0 15-17,19-21 * * 1-5` | `0 14 * * 1` |
+| CDT, to Nov 1 2026 | UTC-5 | `0 14-16,18-20 * * 1-5` | `0 9 * * 1` |
+| CST, Nov 1 2026 to Mar 14 2027 | UTC-6 | `0 15-17,19-21 * * 1-5` | `0 10 * * 1` |
 
 **Next switch: Nov 1, 2026.** Left alone, the agent would start sending at 8am Central and
 stop at 3pm. Not a disaster, but it is an hour outside the window Austin set, so the run
@@ -43,16 +43,29 @@ one.
 | Routine | Trigger id | Cron (UTC, CDT) | State |
 |---|---|---|---|
 | Chanty Auto-Outreach: send and sweep | `trig_01XMfzADU5cE6hvjfVvWDzpf` | `0 14-16,18-20 * * 1-5` | live |
-| Chanty Auto-Outreach: weekly sourcing | `trig_019udqANGyH3fhh3Aq86RNEZ` | `0 13 * * 1` | live |
+| Chanty Auto-Outreach: weekly sourcing | `trig_019udqANGyH3fhh3Aq86RNEZ` | `0 9 * * 1` | live |
 | Chanty Call List: daily 7am | `trig_01VhJzyCMDR4qyXA66JXYdQs` | `0 12 * * 1-5` | live |
 
 Connectors attached: Attio, Apollo, Gmail, and Google Calendar on the two auto-outreach
 Routines. Clay is not attached anywhere, so the paid waterfall would need adding first.
 
+### Sourcing runs early on purpose
+
+Moved to **4am Central** on 2026-09-12, from 8am. Sourcing is the long job: 50 to 100
+headcount across any industry, an ownership check on every candidate, and the full free
+source ladder before anything gets called a gap. Runs like that take hours, not minutes.
+
+Sending is the job with a deadline. It has six fixed hourly wakes and it cannot make up a
+missed one, so a sourcing run still grinding away at 9am is the thing most likely to cost a
+send block. Five hours of clear air is the fix.
+
+If sourcing ever runs past 9am anyway, it should say so in its summary. That is the signal
+the window needs moving earlier again or the weekly target needs cutting.
+
 **What happens first.** The queue is empty, so Monday's send wakes at 9, 10 and 11 Central
 will find nothing to send and should say so rather than reaching for unqualified contacts.
-Sourcing runs Monday 8am and fills it. The first real sends land Monday afternoon at the
-earliest, more likely Tuesday.
+Sourcing runs Monday at 4am and fills it, so the first real sends land Monday morning if it
+finishes in time, Monday afternoon otherwise.
 
 The prompts stored on both Routines are below, for reference and for rebuilding them by hand
 if they are ever lost.
