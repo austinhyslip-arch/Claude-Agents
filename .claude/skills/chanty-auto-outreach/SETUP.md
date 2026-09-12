@@ -30,30 +30,29 @@ summary should flag the drift rather than quietly running early.
 
 ## The Routines, and what Austin has to do to them
 
-Both exist, both carry the right cron and prompt, and **both are disabled**. They are
-disabled because a Routine created from inside a Claude Code session cannot be given
-connectors on this account. Passing a `connectors` list is refused outright, and one created
-without it fires sessions with no Attio, no Apollo and no Gmail. It would wake up, be unable
-to read the CRM or send anything, and email noise.
+**Both are live as of 2026-09-12.** Austin attached the connectors by hand in the claude.ai
+Routines UI and they were enabled from here.
 
-| Routine | Trigger id | Cron (UTC, CDT) |
-|---|---|---|
-| Chanty Auto-Outreach: send and sweep | `trig_01XMfzADU5cE6hvjfVvWDzpf` | `0 14-16,18-20 * * 1-5` |
-| Chanty Auto-Outreach: weekly sourcing | `trig_019udqANGyH3fhh3Aq86RNEZ` | `0 13 * * 1` |
+They could not be armed at creation because a Routine created from inside a Claude Code
+session cannot be given connectors on this account: passing a `connectors` list is refused
+outright, and one created without it fires sessions with no Attio, no Apollo and no Gmail.
+The split that worked was this session creating the Routine with the right cron and prompt,
+and Austin attaching the connectors in the UI afterwards. Worth remembering for the next
+one.
 
-**Austin's three steps, in the claude.ai Routines UI:**
+| Routine | Trigger id | Cron (UTC, CDT) | State |
+|---|---|---|---|
+| Chanty Auto-Outreach: send and sweep | `trig_01XMfzADU5cE6hvjfVvWDzpf` | `0 14-16,18-20 * * 1-5` | live |
+| Chanty Auto-Outreach: weekly sourcing | `trig_019udqANGyH3fhh3Aq86RNEZ` | `0 13 * * 1` | live |
+| Chanty Call List: daily 7am | `trig_01VhJzyCMDR4qyXA66JXYdQs` | `0 12 * * 1-5` | live |
 
-1. Open each Routine and attach the connectors: **Attio, Apollo, Gmail, Google Calendar**,
-   and Clay if the paid waterfall is ever wanted.
-2. Enable both.
-3. Delete the leftover test Routine, `trig_013ngKiZ3Ggg7kMEopVyjVqG`, "TEST self-bind
-   connector check (DISABLED, delete me)". It was a check on whether a Routine firing back
-   into a live session inherits that session's connectors. The answer was not clear, so it
-   was disabled rather than relied on. Deleting it from here was blocked by a permission
-   rule.
+Connectors attached: Attio, Apollo, Gmail, and Google Calendar on the two auto-outreach
+Routines. Clay is not attached anywhere, so the paid waterfall would need adding first.
 
-Nothing sends until step 2. The queue is empty as well, so the first real sends come after
-the first sourcing run.
+**What happens first.** The queue is empty, so Monday's send wakes at 9, 10 and 11 Central
+will find nothing to send and should say so rather than reaching for unqualified contacts.
+Sourcing runs Monday 8am and fills it. The first real sends land Monday afternoon at the
+earliest, more likely Tuesday.
 
 The prompts stored on both Routines are below, for reference and for rebuilding them by hand
 if they are ever lost.

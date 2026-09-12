@@ -102,16 +102,16 @@ anything Austin converts is already in the CRM.
 
 ## Schedule
 
-`0 12 * * *`, which is 07:00 Central while the US is on daylight time. Every morning
-including weekends, because Austin asked for every single morning.
+`0 12 * * 1-5`, which is 07:00 Central while the US is on daylight time. **Weekdays only.**
+The original build ran seven days a week; Austin narrowed it to Monday through Friday on
+2026-09-12, since a call list is no use on a Saturday.
 
 The cron is the only thing that knows what time it is, so it shifts with daylight saving:
-`0 13 * * *` from Nov 1 2026, back to `0 12 * * *` from Mar 14 2027. Flag the drift in the
-run summary rather than quietly arriving an hour late.
+`0 13 * * 1-5` from Nov 1 2026, back to `0 12 * * 1-5` from Mar 14 2027. Flag the drift in
+the run summary rather than quietly arriving an hour late.
 
-Trigger id `trig_01VhJzyCMDR4qyXA66JXYdQs`. **Disabled** until Austin attaches connectors in
-the claude.ai Routines UI, since Routines created from a Claude Code session cannot carry
-them on this account.
+Trigger id `trig_01VhJzyCMDR4qyXA66JXYdQs`. **Live since 2026-09-12**, with Attio, Apollo
+and Gmail attached. First run Monday 2026-09-14.
 
 ## Workflow
 
